@@ -26,6 +26,7 @@ import com.immediasemi.blink.models.Command;
 import com.immediasemi.blink.models.DeviceStatus;
 import com.immediasemi.blink.utils.ImageLoader;
 import com.immediasemi.blink.utils.OnClick;
+import java.util.HashMap;
 
 public class AddCamera_6_TakeSnapshotFragment
   extends BaseFragment
@@ -52,7 +53,12 @@ public class AddCamera_6_TakeSnapshotFragment
         while (AddCamera_6_TakeSnapshotFragment.this.getActivity() == null) {
           return;
         }
-        new AlertDialog.Builder(AddCamera_6_TakeSnapshotFragment.this.getActivity()).setTitle("Error").setMessage("Could not update thumbnail").setPositiveButton(2131099886, null).create().show();
+        if (paramAnonymousBlinkError.response != null) {}
+        for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = paramAnonymousBlinkError.getErrorMessage())
+        {
+          new AlertDialog.Builder(AddCamera_6_TakeSnapshotFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, null).create().show();
+          return;
+        }
       }
       
       public void onResult(BlinkData paramAnonymousBlinkData)
@@ -66,7 +72,7 @@ public class AddCamera_6_TakeSnapshotFragment
           new ImageLoader(paramAnonymousBlinkData.getThumbnail(), AddCamera_6_TakeSnapshotFragment.this.mThumbnailImageView, true, 2);
           AddCamera_6_TakeSnapshotFragment.this.mThumbnailImageView.invalidate();
           AddCamera_6_TakeSnapshotFragment.this.mView.findViewById(2131558538).setVisibility(4);
-          AddCamera_6_TakeSnapshotFragment.this.mView.findViewById(2131558547).setVisibility(0);
+          AddCamera_6_TakeSnapshotFragment.this.mView.findViewById(2131558551).setVisibility(0);
           return;
         }
         paramAnonymousBlinkData = AddCamera_6_TakeSnapshotFragment.handler.obtainMessage(1, AddCamera_6_TakeSnapshotFragment.this);
@@ -111,8 +117,8 @@ public class AddCamera_6_TakeSnapshotFragment
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
     this.mView = paramLayoutInflater.inflate(2130903091, paramViewGroup, false);
-    this.mTakeSnapImage = ((ImageView)this.mView.findViewById(2131558586));
-    this.mThumbnailImageView = ((ImageView)this.mView.findViewById(2131558584));
+    this.mTakeSnapImage = ((ImageView)this.mView.findViewById(2131558590));
+    this.mThumbnailImageView = ((ImageView)this.mView.findViewById(2131558588));
     this.mTakeSnapImage.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -127,7 +133,15 @@ public class AddCamera_6_TakeSnapshotFragment
           {
             AddCamera_6_TakeSnapshotFragment.this.mView.findViewById(2131558538).setVisibility(4);
             if (AddCamera_6_TakeSnapshotFragment.this.getActivity() != null) {
-              new AlertDialog.Builder(AddCamera_6_TakeSnapshotFragment.this.getActivity()).setTitle(AddCamera_6_TakeSnapshotFragment.this.getString(2131099811)).setMessage("Could not update thumbnail").setPositiveButton(2131099886, null).create().show();
+              if (paramAnonymous2BlinkError.response == null) {
+                break label86;
+              }
+            }
+            label86:
+            for (paramAnonymous2BlinkError = (String)paramAnonymous2BlinkError.response.get("message");; paramAnonymous2BlinkError = paramAnonymous2BlinkError.getErrorMessage())
+            {
+              new AlertDialog.Builder(AddCamera_6_TakeSnapshotFragment.this.getActivity()).setMessage(paramAnonymous2BlinkError).setPositiveButton(2131099890, null).create().show();
+              return;
             }
           }
           
@@ -141,7 +155,7 @@ public class AddCamera_6_TakeSnapshotFragment
         }, false);
       }
     });
-    ((Button)this.mView.findViewById(2131558547)).setOnClickListener(new View.OnClickListener()
+    ((Button)this.mView.findViewById(2131558551)).setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
@@ -175,7 +189,7 @@ public class AddCamera_6_TakeSnapshotFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/AddCamera_6_TakeSnapshotFragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/AddCamera_6_TakeSnapshotFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

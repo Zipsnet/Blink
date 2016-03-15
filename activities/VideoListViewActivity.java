@@ -30,19 +30,19 @@ public class VideoListViewActivity
     {
       localTextView1.setVisibility(0);
       localTextView2.setVisibility(0);
-      localTextView3.setText(getString(2131099984));
+      localTextView3.setText(getString(2131099988));
       return;
     }
     localTextView1.setVisibility(4);
     localTextView2.setVisibility(4);
-    localTextView3.setText(getString(2131099985));
+    localTextView3.setText(getString(2131099989));
   }
   
   public void onBackPressed()
   {
     super.onBackPressed();
-    getSupportActionBar().setTitle(2131099985);
-    setFragmentTitle(getString(2131099985));
+    getSupportActionBar().setTitle(2131099989);
+    setFragmentTitle(getString(2131099989));
   }
   
   public void onCancelClicked(View paramView)
@@ -96,7 +96,7 @@ public class VideoListViewActivity
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/activities/VideoListViewActivity.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/VideoListViewActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

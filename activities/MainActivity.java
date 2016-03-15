@@ -51,6 +51,7 @@ import com.immediasemi.blink.utils.ChooseDialog;
 import com.immediasemi.blink.utils.ChooseDialog.NoticeDialogListener;
 import com.immediasemi.blink.utils.DiskLruCache;
 import com.immediasemi.blink.utils.OnClick;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity
@@ -120,13 +121,7 @@ public class MainActivity
     {
       public void onError(BlinkError paramAnonymousBlinkError)
       {
-        new AlertDialog.Builder(MainActivity.this).setTitle(MainActivity.this.getString(2131099829)).setPositiveButton(2131099886, new DialogInterface.OnClickListener()
-        {
-          public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
-          {
-            MainActivity.this.logMeOut();
-          }
-        }).create().show();
+        MainActivity.this.logMeOut();
       }
       
       public void onResult(BlinkData paramAnonymousBlinkData)
@@ -134,67 +129,6 @@ public class MainActivity
         MainActivity.this.logMeOut();
       }
     }, false);
-  }
-  
-  private void refreshScreen()
-  {
-    Object localObject = BlinkApp.getApp().getUserName();
-    String str = BlinkApp.getApp().getPassword();
-    if ((localObject == null) || (((String)localObject).isEmpty()) || (str == null) || (str.isEmpty()))
-    {
-      logMeOut();
-      return;
-    }
-    LoginRequest localLoginRequest;
-    int i;
-    if ((BlinkApp.getApp().getLoginAuthToken().isEmpty()) || (BlinkApp.getApp().hasLoginExpired()))
-    {
-      Log.i("MainActivity", "Auto logging in, login expired=" + BlinkApp.getApp().hasLoginExpired());
-      localLoginRequest = new LoginRequest();
-      localLoginRequest.setEmail((String)localObject);
-      localLoginRequest.setPassword(str);
-      str = "?";
-      i = 0;
-      localObject = str;
-    }
-    try
-    {
-      PackageInfo localPackageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-      localObject = str;
-      str = localPackageInfo.versionName;
-      localObject = str;
-      int j = localPackageInfo.versionCode;
-      localObject = str;
-      i = j;
-    }
-    catch (Exception localException)
-    {
-      for (;;) {}
-    }
-    localLoginRequest.setClient_specifier(Build.MANUFACTURER + " " + Build.MODEL + " | " + String.valueOf(Build.VERSION.SDK_INT) + " | " + (String)localObject + " | " + i);
-    localLoginRequest.setClient_version((String)localObject);
-    localLoginRequest.setClient_type("android");
-    localLoginRequest.setClient_name(Build.MANUFACTURER + " " + Build.MODEL);
-    if ((BlinkApp.getApp().getDeviceToken() != null) && (BlinkApp.getApp().getDeviceToken().length() > 0)) {
-      localLoginRequest.setNotification_key(BlinkApp.getApp().getDeviceToken());
-    }
-    BlinkAPI.BlinkAPIRequest(null, null, localLoginRequest, new BlinkAPI.BlinkAPICallback()
-    {
-      public void onError(BlinkError paramAnonymousBlinkError)
-      {
-        BlinkApp.getApp().setLoginAuthToken("");
-        MainActivity.this.mNavigationDrawerFragment.updateListView();
-        MainActivity.this.finish();
-      }
-      
-      public void onResult(BlinkData paramAnonymousBlinkData)
-      {
-        BlinkApp.getApp().setLoginAuthToken(((AuthToken)paramAnonymousBlinkData).getAuthtoken().getAuthtoken());
-        MainActivity.this.refreshAllFragments();
-      }
-    }, false);
-    return;
-    refreshAllFragments();
   }
   
   private void sendFeedback()
@@ -237,7 +171,7 @@ public class MainActivity
       }
     }
     localObject1 = "Android " + Build.VERSION.RELEASE + " - API " + String.valueOf(Build.VERSION.SDK_INT);
-    str2 = getString(2131099927).replace("$1", BlinkApp.getApp().getUserName()).replace("$2", (CharSequence)localObject2).replace("$3", (CharSequence)localObject1);
+    str2 = getString(2131099931).replace("$1", BlinkApp.getApp().getUserName()).replace("$2", (CharSequence)localObject2).replace("$3", (CharSequence)localObject1);
     localObject2 = "";
     str1 = "";
     localObject1 = localObject2;
@@ -290,10 +224,10 @@ public class MainActivity
   protected void manageAccount()
   {
     Bundle localBundle = new Bundle();
-    localBundle.putString("Title", getString(2131099910));
+    localBundle.putString("Title", getString(2131099914));
     localBundle.putStringArray("List", null);
     localBundle.putInt("Layout_id_key", 2130903140);
-    localBundle.putString("Ok_Button_Label", getResources().getString(2131099938));
+    localBundle.putString("Ok_Button_Label", getResources().getString(2131099942));
     localBundle.putBoolean("Has_extra_button_key", true);
     ChooseDialog localChooseDialog = new ChooseDialog();
     localChooseDialog.setArguments(localBundle);
@@ -318,7 +252,7 @@ public class MainActivity
         return;
       }
       this.mNavigationDrawerFragment.updateListView();
-      getSupportFragmentManager().beginTransaction().replace(2131558637, HomeScreenFragment.newInstance(-1, this.mBooting)).commit();
+      getSupportFragmentManager().beginTransaction().replace(2131558641, HomeScreenFragment.newInstance(-1, this.mBooting)).commit();
       this.mBooting = false;
       return;
     }
@@ -330,7 +264,7 @@ public class MainActivity
       return;
     }
     this.mNavigationDrawerFragment.updateListView();
-    getSupportFragmentManager().beginTransaction().replace(2131558637, HomeScreenFragment.newInstance(-1, this.mBooting)).commit();
+    getSupportFragmentManager().beginTransaction().replace(2131558641, HomeScreenFragment.newInstance(-1, this.mBooting)).commit();
     this.mBooting = false;
   }
   
@@ -367,7 +301,7 @@ public class MainActivity
     if (paramBundle != null) {
       this.mBooting = paramBundle.getBoolean("arg_app_is_bootin", false);
     }
-    this.mNavigationDrawerFragment = ((NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(2131558685));
+    this.mNavigationDrawerFragment = ((NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(2131558689));
     this.mTitle = getTitle();
     pickActionBar(0);
     refreshScreen();
@@ -391,12 +325,23 @@ public class MainActivity
     paramDialogFragment.setEmail(BlinkApp.getApp().getUserName());
     BlinkAPI.BlinkAPIRequest(null, null, paramDialogFragment, new BlinkAPI.BlinkAPICallback()
     {
-      public void onError(BlinkError paramAnonymousBlinkError) {}
+      public void onError(BlinkError paramAnonymousBlinkError)
+      {
+        if (paramAnonymousBlinkError.response != null) {}
+        for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = "Reset failed")
+        {
+          new AlertDialog.Builder(MainActivity.this).setTitle("Password Reset").setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
+          {
+            public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
+          }).create().show();
+          return;
+        }
+      }
       
       public void onResult(BlinkData paramAnonymousBlinkData)
       {
         paramAnonymousBlinkData = ((MessageResponse)paramAnonymousBlinkData).getMessage();
-        new AlertDialog.Builder(MainActivity.this).setTitle("Password Reset").setMessage(paramAnonymousBlinkData).setPositiveButton(2131099886, new DialogInterface.OnClickListener()
+        new AlertDialog.Builder(MainActivity.this).setTitle("Password Reset").setMessage(paramAnonymousBlinkData).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
         {
           public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
           {
@@ -413,7 +358,7 @@ public class MainActivity
   
   public void onDialogPositiveClick(DialogFragment paramDialogFragment)
   {
-    paramDialogFragment = (TextView)((ChooseDialog)paramDialogFragment).getCustomView().findViewById(2131558743);
+    paramDialogFragment = (TextView)((ChooseDialog)paramDialogFragment).getCustomView().findViewById(2131558747);
     final String str2 = BlinkApp.getApp().getUserName();
     final String str3 = paramDialogFragment.getText().toString();
     LoginRequest localLoginRequest;
@@ -453,7 +398,12 @@ public class MainActivity
     {
       public void onError(BlinkError paramAnonymousBlinkError)
       {
-        new AlertDialog.Builder(MainActivity.this).setTitle("Error").setMessage(paramAnonymousBlinkError.getErrorMessage()).setPositiveButton(2131099886, null).create().show();
+        if (paramAnonymousBlinkError.response != null) {}
+        for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = "Login error")
+        {
+          new AlertDialog.Builder(MainActivity.this).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, null).create().show();
+          return;
+        }
       }
       
       public void onResult(BlinkData paramAnonymousBlinkData)
@@ -469,7 +419,7 @@ public class MainActivity
       }
     }, false);
     return;
-    new AlertDialog.Builder(this).setTitle(getString(2131099856)).setMessage(getString(2131100002)).setPositiveButton(2131099886, null).create().show();
+    new AlertDialog.Builder(this).setTitle(getString(2131099860)).setMessage(getString(2131100006)).setPositiveButton(2131099890, null).create().show();
   }
   
   public void onDoneClicked(View paramView)
@@ -499,7 +449,7 @@ public class MainActivity
       return;
     }
     this.mNavigationDrawerFragment.updateListView();
-    getSupportFragmentManager().beginTransaction().replace(2131558637, HomeScreenFragment.newInstance(-1, this.mBooting)).commit();
+    getSupportFragmentManager().beginTransaction().replace(2131558641, HomeScreenFragment.newInstance(-1, this.mBooting)).commit();
     this.mBooting = false;
   }
   
@@ -531,7 +481,7 @@ public class MainActivity
       {
       default: 
         if (!this.mBooting) {
-          ((FragmentManager)localObject).beginTransaction().replace(2131558637, HomeScreenFragment.newInstance(-1, this.mBooting), "home_screen_tag").commit();
+          ((FragmentManager)localObject).beginTransaction().replace(2131558641, HomeScreenFragment.newInstance(-1, this.mBooting), "home_screen_tag").commit();
         }
         break;
       }
@@ -549,17 +499,17 @@ public class MainActivity
         return;
         sendFeedback();
         return;
-        localObject = new Intent("android.intent.action.VIEW", Uri.parse(getString(2131100010)));
+        localObject = new Intent("android.intent.action.VIEW", Uri.parse(getString(2131100014)));
       } while (((Intent)localObject).resolveActivity(getPackageManager()) == null);
       startActivity((Intent)localObject);
       return;
-      new AlertDialog.Builder(this).setTitle(getString(2131099870)).setMessage(getString(2131099742)).setPositiveButton(2131099886, new DialogInterface.OnClickListener()
+      new AlertDialog.Builder(this).setTitle(getString(2131099874)).setMessage(getString(2131099746)).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
       {
         public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt)
         {
           MainActivity.this.logout();
         }
-      }).setNegativeButton(2131099774, null).create().show();
+      }).setNegativeButton(2131099778, null).create().show();
       return;
       startActivityForResult(new Intent(this, APITestActivity.class), 114);
       return;
@@ -580,7 +530,7 @@ public class MainActivity
         sendFeedback();
         return;
       case 5: 
-        localObject = new Intent("android.intent.action.VIEW", Uri.parse(getString(2131100010)));
+        localObject = new Intent("android.intent.action.VIEW", Uri.parse(getString(2131100014)));
       }
     } while (((Intent)localObject).resolveActivity(getPackageManager()) == null);
     startActivity((Intent)localObject);
@@ -673,11 +623,11 @@ public class MainActivity
         }
       }
       this.mActionBarView = null;
-      this.mNavigationDrawerFragment.setUp(2131558685, (DrawerLayout)findViewById(2131558684));
+      this.mNavigationDrawerFragment.setUp(2131558689, (DrawerLayout)findViewById(2131558688));
       restoreActionBar();
       if (this.mMenu != null)
       {
-        localObject = this.mMenu.findItem(2131558752);
+        localObject = this.mMenu.findItem(2131558756);
         if (localObject != null) {
           ((MenuItem)localObject).setVisible(true);
         }
@@ -702,9 +652,6 @@ public class MainActivity
         {
           public void onClick(View paramAnonymousView)
           {
-            if (!OnClick.ok()) {
-              return;
-            }
             MainActivity.this.onCancelClicked(paramAnonymousView);
           }
         });
@@ -723,9 +670,9 @@ public class MainActivity
         TextView localTextView2 = (TextView)this.mActionBarView.findViewById(2131558488);
         ((TextView)localObject).setVisibility(0);
         localTextView1.setVisibility(0);
-        localTextView2.setText(getString(2131099991));
+        localTextView2.setText(getString(2131099995));
       } while (this.mMenu == null);
-      localObject = this.mMenu.findItem(2131558752);
+      localObject = this.mMenu.findItem(2131558756);
     } while (localObject == null);
     ((MenuItem)localObject).setVisible(false);
   }
@@ -756,9 +703,70 @@ public class MainActivity
     }
     if (j == 0)
     {
-      localFragmentManager.beginTransaction().replace(2131558637, HomeScreenFragment.newInstance(-1, this.mBooting), "home_screen_tag").commit();
+      localFragmentManager.beginTransaction().replace(2131558641, HomeScreenFragment.newInstance(-1, this.mBooting), "home_screen_tag").commit();
       this.mBooting = false;
     }
+  }
+  
+  public void refreshScreen()
+  {
+    Object localObject = BlinkApp.getApp().getUserName();
+    String str = BlinkApp.getApp().getPassword();
+    if ((localObject == null) || (((String)localObject).isEmpty()) || (str == null) || (str.isEmpty()))
+    {
+      logMeOut();
+      return;
+    }
+    LoginRequest localLoginRequest;
+    int i;
+    if ((BlinkApp.getApp().getLoginAuthToken().isEmpty()) || (BlinkApp.getApp().hasLoginExpired()))
+    {
+      Log.i("MainActivity", "Auto logging in, login expired=" + BlinkApp.getApp().hasLoginExpired());
+      localLoginRequest = new LoginRequest();
+      localLoginRequest.setEmail((String)localObject);
+      localLoginRequest.setPassword(str);
+      str = "?";
+      i = 0;
+      localObject = str;
+    }
+    try
+    {
+      PackageInfo localPackageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+      localObject = str;
+      str = localPackageInfo.versionName;
+      localObject = str;
+      int j = localPackageInfo.versionCode;
+      localObject = str;
+      i = j;
+    }
+    catch (Exception localException)
+    {
+      for (;;) {}
+    }
+    localLoginRequest.setClient_specifier(Build.MANUFACTURER + " " + Build.MODEL + " | " + String.valueOf(Build.VERSION.SDK_INT) + " | " + (String)localObject + " | " + i);
+    localLoginRequest.setClient_version((String)localObject);
+    localLoginRequest.setClient_type("android");
+    localLoginRequest.setClient_name(Build.MANUFACTURER + " " + Build.MODEL);
+    if ((BlinkApp.getApp().getDeviceToken() != null) && (BlinkApp.getApp().getDeviceToken().length() > 0)) {
+      localLoginRequest.setNotification_key(BlinkApp.getApp().getDeviceToken());
+    }
+    BlinkAPI.BlinkAPIRequest(null, null, localLoginRequest, new BlinkAPI.BlinkAPICallback()
+    {
+      public void onError(BlinkError paramAnonymousBlinkError)
+      {
+        BlinkApp.getApp().setLoginAuthToken("");
+        MainActivity.this.mNavigationDrawerFragment.updateListView();
+        MainActivity.this.finish();
+      }
+      
+      public void onResult(BlinkData paramAnonymousBlinkData)
+      {
+        BlinkApp.getApp().setLoginAuthToken(((AuthToken)paramAnonymousBlinkData).getAuthtoken().getAuthtoken());
+        MainActivity.this.refreshAllFragments();
+      }
+    }, false);
+    return;
+    refreshAllFragments();
   }
   
   public void restoreActionBar()
@@ -767,7 +775,7 @@ public class MainActivity
     localActionBar.setNavigationMode(0);
     localActionBar.setDisplayShowTitleEnabled(false);
     localActionBar.setCustomView(2130903068);
-    localActionBar.setHomeAsUpIndicator(2130837783);
+    localActionBar.setHomeAsUpIndicator(2130837785);
     setActionBarTitle("");
   }
   
@@ -775,7 +783,7 @@ public class MainActivity
   {
     if (this.mMenu != null)
     {
-      MenuItem localMenuItem = this.mMenu.findItem(2131558752);
+      MenuItem localMenuItem = this.mMenu.findItem(2131558756);
       if (localMenuItem != null) {
         localMenuItem.setIcon(paramInt);
       }
@@ -784,13 +792,13 @@ public class MainActivity
   
   public void startCameraSettings(int paramInt)
   {
-    getSupportFragmentManager().beginTransaction().addToBackStack("camera_settings_tag").add(2131558637, CameraSettingsFragment.newInstance(-1, paramInt), "camera_settings_tag").commit();
+    getSupportFragmentManager().beginTransaction().addToBackStack("camera_settings_tag").add(2131558641, CameraSettingsFragment.newInstance(-1, paramInt), "camera_settings_tag").commit();
     pickActionBar(1);
   }
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/activities/MainActivity.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/MainActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

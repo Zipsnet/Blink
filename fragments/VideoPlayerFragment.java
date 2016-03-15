@@ -88,13 +88,13 @@ public class VideoPlayerFragment
           return;
         }
         VideoPlayerFragment.this.mProgress.setVisibility(4);
-        new AlertDialog.Builder(VideoPlayerFragment.this.getActivity()).setTitle("Error").setMessage(paramAnonymousString).setPositiveButton(2131100000, new DialogInterface.OnClickListener()
+        new AlertDialog.Builder(VideoPlayerFragment.this.getActivity()).setTitle("Error").setMessage(paramAnonymousString).setPositiveButton(2131100004, new DialogInterface.OnClickListener()
         {
           public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
           {
             VideoPlayerFragment.this.playVideo();
           }
-        }).setNegativeButton(2131099774, new DialogInterface.OnClickListener()
+        }).setNegativeButton(2131099778, new DialogInterface.OnClickListener()
         {
           public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
           {
@@ -190,40 +190,6 @@ public class VideoPlayerFragment
     downloadAndPlayVideo();
   }
   
-  private void setMediaPrevNextButtons(boolean paramBoolean1, boolean paramBoolean2)
-  {
-    View.OnClickListener local8 = null;
-    if (paramBoolean1) {}
-    for (View.OnClickListener local7 = new View.OnClickListener()
-        {
-          public void onClick(View paramAnonymousView)
-          {
-            if (VideoPlayerFragment.this.getActivity() == null) {}
-            while (!OnClick.ok()) {
-              return;
-            }
-            VideoPlayerFragment.this.playPrevious();
-          }
-        };; local7 = null)
-    {
-      if (paramBoolean2) {
-        local8 = new View.OnClickListener()
-        {
-          public void onClick(View paramAnonymousView)
-          {
-            if (VideoPlayerFragment.this.getActivity() == null) {}
-            while (!OnClick.ok()) {
-              return;
-            }
-            VideoPlayerFragment.this.playNext();
-          }
-        };
-      }
-      this.mMediaController.setPrevNextListeners(local7, local8);
-      return;
-    }
-  }
-  
   private void shareTheClip()
   {
     Object localObject2 = new File(this.mVideoClip);
@@ -250,17 +216,17 @@ public class VideoPlayerFragment
     }
     catch (Exception localException)
     {
-      new AlertDialog.Builder(getActivity()).setTitle(2131099811).setMessage(2131099775).setPositiveButton(2131099886, null).create().show();
+      new AlertDialog.Builder(getActivity()).setTitle(2131099815).setMessage(2131099779).setPositiveButton(2131099890, null).create().show();
       return;
     }
     localFileOutputStream.close();
     localObject2 = new Intent("android.intent.action.SEND");
-    ((Intent)localObject2).putExtra("android.intent.extra.SUBJECT", getString(2131099933));
-    ((Intent)localObject2).putExtra("android.intent.extra.TEXT", getString(2131099931));
-    ((Intent)localObject2).putExtra("android.intent.extra.HTML_TEXT", "<b>" + getString(2131099931) + "/b>");
+    ((Intent)localObject2).putExtra("android.intent.extra.SUBJECT", getString(2131099937));
+    ((Intent)localObject2).putExtra("android.intent.extra.TEXT", getString(2131099935));
+    ((Intent)localObject2).putExtra("android.intent.extra.HTML_TEXT", "<b>" + getString(2131099935) + "/b>");
     ((Intent)localObject2).putExtra("android.intent.extra.STREAM", Uri.fromFile(localException));
     ((Intent)localObject2).setType("message/rfc822");
-    startActivity(Intent.createChooser((Intent)localObject2, getString(2131099932)));
+    startActivity(Intent.createChooser((Intent)localObject2, getString(2131099936)));
   }
   
   public void initData(String paramString, String[] paramArrayOfString, Video paramVideo)
@@ -281,7 +247,7 @@ public class VideoPlayerFragment
   public void onConfigurationChanged(Configuration paramConfiguration)
   {
     super.onConfigurationChanged(paramConfiguration);
-    View localView = this.mMainView.findViewById(2131558637);
+    View localView = this.mMainView.findViewById(2131558641);
     if (paramConfiguration.orientation == 2)
     {
       this.mTimeStampTextView.setVisibility(4);
@@ -315,8 +281,8 @@ public class VideoPlayerFragment
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
     this.mMainView = paramLayoutInflater.inflate(2130903114, paramViewGroup, false);
-    this.mControlsContainer = this.mMainView.findViewById(2131558675);
-    this.mShareButton = ((ImageButton)this.mMainView.findViewById(2131558682));
+    this.mControlsContainer = this.mMainView.findViewById(2131558679);
+    this.mShareButton = ((ImageButton)this.mMainView.findViewById(2131558686));
     this.mShareButton.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -326,19 +292,19 @@ public class VideoPlayerFragment
         }
         if (VideoPlayerFragment.this.mVideoClip == null)
         {
-          new AlertDialog.Builder(VideoPlayerFragment.this.getActivity()).setTitle(2131099811).setMessage(2131099911).setPositiveButton(2131099886, null).create().show();
+          new AlertDialog.Builder(VideoPlayerFragment.this.getActivity()).setTitle(2131099815).setMessage(2131099915).setPositiveButton(2131099890, null).create().show();
           return;
         }
         if (Build.VERSION.SDK_INT < 23) {}
         while (1 == 0)
         {
-          new AlertDialog.Builder(VideoPlayerFragment.this.getActivity()).setTitle(2131099948).setMessage(2131099775).setPositiveButton(2131099886, null).create().show();
+          new AlertDialog.Builder(VideoPlayerFragment.this.getActivity()).setTitle(2131099952).setMessage(2131099779).setPositiveButton(2131099890, null).create().show();
           return;
           if (!BlinkApp.getApp().getPermissionsGranted()) {
             if (VideoPlayerFragment.this.getActivity().checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") != 0)
             {
               if (VideoPlayerFragment.this.shouldShowRequestPermissionRationale("android.permission.WRITE_EXTERNAL_STORAGE")) {
-                new AlertDialog.Builder(VideoPlayerFragment.this.getActivity()).setTitle(2131099880).setMessage(2131099826).setPositiveButton(2131099886, null).create().show();
+                new AlertDialog.Builder(VideoPlayerFragment.this.getActivity()).setTitle(2131099884).setMessage(2131099830).setPositiveButton(2131099890, null).create().show();
               }
               VideoPlayerFragment.this.requestPermissions(new String[] { "android.permission.WRITE_EXTERNAL_STORAGE" }, 111);
               return;
@@ -348,7 +314,7 @@ public class VideoPlayerFragment
         VideoPlayerFragment.this.shareTheClip();
       }
     });
-    this.mLiveViewButton = ((ImageButton)this.mMainView.findViewById(2131558681));
+    this.mLiveViewButton = ((ImageButton)this.mMainView.findViewById(2131558685));
     this.mLiveViewButton.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -365,7 +331,7 @@ public class VideoPlayerFragment
         VideoPlayerFragment.this.startActivityForResult(paramAnonymousView, 109);
       }
     });
-    this.mDeleteButton = ((ImageButton)this.mMainView.findViewById(2131558665));
+    this.mDeleteButton = ((ImageButton)this.mMainView.findViewById(2131558669));
     this.mDeleteButton.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -374,13 +340,15 @@ public class VideoPlayerFragment
         do
         {
           return;
-          BlinkApp.getApp().setLastVideoId(String.valueOf(VideoPlayerFragment.this.mVideo.getId()));
+          if (VideoPlayerFragment.this.mVideo.getId() > 0) {
+            BlinkApp.getApp().setLastVideoId(String.valueOf(VideoPlayerFragment.this.mVideo.getId()));
+          }
         } while (VideoPlayerFragment.this.mListener == null);
         VideoPlayerFragment.this.mListener.onFragmentInteraction(VideoPlayerFragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.DELETE_CLIP, null);
       }
     });
-    this.mPlayerView = ((VideoView)this.mMainView.findViewById(2131558676));
-    this.mTimeStampTextView = ((TextView)this.mMainView.findViewById(2131558677));
+    this.mPlayerView = ((VideoView)this.mMainView.findViewById(2131558680));
+    this.mTimeStampTextView = ((TextView)this.mMainView.findViewById(2131558681));
     this.mTimeStampTextView.setText(this.mVideoDay + " " + this.mVideoDate);
     this.mProgress = this.mMainView.findViewById(2131558538);
     this.mProgress.setVisibility(0);
@@ -416,7 +384,7 @@ public class VideoPlayerFragment
       return;
     }
     BlinkApp.getApp().setPermissionsGranted(false);
-    new AlertDialog.Builder(getActivity()).setTitle(2131099948).setMessage(2131099775).setPositiveButton(2131099886, null).create().show();
+    new AlertDialog.Builder(getActivity()).setTitle(2131099952).setMessage(2131099779).setPositiveButton(2131099890, null).create().show();
   }
   
   public void onResume()
@@ -435,6 +403,8 @@ public class VideoPlayerFragment
     new Bundle().putInt("arg_section_number", paramInt);
     this.mSectionNumber = getArguments().getInt("arg_section_number");
     initData(paramString, paramArrayOfString, paramVideo);
+    this.mTimeStampTextView.setText(this.mVideoDay + " " + this.mVideoDate);
+    ((VideoPlayerActivity)getActivity()).initActionBar(this.mMainView);
     this.mProgress.setVisibility(0);
     paramVideo = this.handler.obtainMessage(1, this);
     this.handler.sendMessageDelayed(paramVideo, 100L);
@@ -470,6 +440,40 @@ public class VideoPlayerFragment
     }
     this.mMediaController.show(3000);
     this.mMediaController.setVisibility(0);
+  }
+  
+  public void setMediaPrevNextButtons(boolean paramBoolean1, boolean paramBoolean2)
+  {
+    View.OnClickListener local8 = null;
+    if (paramBoolean1) {}
+    for (View.OnClickListener local7 = new View.OnClickListener()
+        {
+          public void onClick(View paramAnonymousView)
+          {
+            if (VideoPlayerFragment.this.getActivity() == null) {}
+            while (!OnClick.ok()) {
+              return;
+            }
+            VideoPlayerFragment.this.playPrevious();
+          }
+        };; local7 = null)
+    {
+      if (paramBoolean2) {
+        local8 = new View.OnClickListener()
+        {
+          public void onClick(View paramAnonymousView)
+          {
+            if (VideoPlayerFragment.this.getActivity() == null) {}
+            while (!OnClick.ok()) {
+              return;
+            }
+            VideoPlayerFragment.this.playNext();
+          }
+        };
+      }
+      this.mMediaController.setPrevNextListeners(local7, local8);
+      return;
+    }
   }
   
   void toggleStatusBar() {}
@@ -547,7 +551,7 @@ public class VideoPlayerFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/VideoPlayerFragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/VideoPlayerFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

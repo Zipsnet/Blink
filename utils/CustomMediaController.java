@@ -68,7 +68,6 @@ public class CustomMediaController
   
   public void show(int paramInt)
   {
-    findButtons(this);
     int i = paramInt;
     if (paramInt < 0)
     {
@@ -80,7 +79,7 @@ public class CustomMediaController
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/utils/CustomMediaController.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/utils/CustomMediaController.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

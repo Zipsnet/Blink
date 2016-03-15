@@ -24,7 +24,7 @@ public class AdvancedSettingsActivity
     TextView localTextView3 = (TextView)this.mActionBarView.findViewById(2131558488);
     localTextView1.setVisibility(0);
     localTextView2.setVisibility(0);
-    localTextView3.setText(getString(2131099990));
+    localTextView3.setText(getString(2131099994));
   }
   
   public void onCancelAdvSettingsClicked(View paramView)
@@ -73,7 +73,7 @@ public class AdvancedSettingsActivity
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/activities/AdvancedSettingsActivity.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/AdvancedSettingsActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

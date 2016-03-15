@@ -1,10 +1,17 @@
 package com.immediasemi.blink.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings.Global;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,8 +31,17 @@ public class Onboard_2_Wait_For_Blue_Light_Fragment
 {
   public static final int ONBOARD_INDEX = 2;
   private static final int SYNC_POLLING_INTERVAL = 5000;
+  private static final String WIFI_WATCHDOG_POOR_NETWORK_TEST_ENABLED = "wifi_watchdog_poor_network_test_enabled";
+  private static final String mWatchdogEnabled = "1";
+  private boolean mAdvancedWifiSettingsDisplayed = false;
   private int mSectionNumber;
   private View mView;
+  
+  private boolean needsWifiWatchdogDisabled()
+  {
+    String str = Settings.Global.getString(getContext().getContentResolver(), "wifi_watchdog_poor_network_test_enabled");
+    return (str != null) && (str.equals("1"));
+  }
   
   public static Onboard_2_Wait_For_Blue_Light_Fragment newInstance(int paramInt)
   {
@@ -36,10 +52,28 @@ public class Onboard_2_Wait_For_Blue_Light_Fragment
     return localOnboard_2_Wait_For_Blue_Light_Fragment;
   }
   
+  private void showWifiWatchdogDialog()
+  {
+    if (!this.mAdvancedWifiSettingsDisplayed) {}
+    for (String str = getString(2131100018);; str = getString(2131100019))
+    {
+      new AlertDialog.Builder(getContext()).setMessage(str).setPositiveButton("Go to Settings", new DialogInterface.OnClickListener()
+      {
+        public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt)
+        {
+          Onboard_2_Wait_For_Blue_Light_Fragment.access$102(Onboard_2_Wait_For_Blue_Light_Fragment.this, true);
+          paramAnonymousDialogInterface = new Intent("android.settings.WIFI_IP_SETTINGS");
+          Onboard_2_Wait_For_Blue_Light_Fragment.this.startActivity(paramAnonymousDialogInterface);
+        }
+      }).create().show();
+      return;
+    }
+  }
+  
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099983));
+    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099987));
   }
   
   public void onCreate(Bundle paramBundle)
@@ -81,10 +115,18 @@ public class Onboard_2_Wait_For_Blue_Light_Fragment
     }
     return this.mView;
   }
+  
+  public void onResume()
+  {
+    super.onResume();
+    if (needsWifiWatchdogDisabled()) {
+      showWifiWatchdogDialog();
+    }
+  }
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/Onboard_2_Wait_For_Blue_Light_Fragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/Onboard_2_Wait_For_Blue_Light_Fragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

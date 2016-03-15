@@ -90,7 +90,7 @@ public class BaseActivity
           public void run()
           {
             String str = "Motion alert from " + this.val$videoDict.getString("camera_name") + " camera";
-            new AlertDialog.Builder(BaseActivity.this).setMessage(str).setPositiveButton(2131100008, new DialogInterface.OnClickListener()
+            new AlertDialog.Builder(BaseActivity.this).setMessage(str).setPositiveButton(2131100012, new DialogInterface.OnClickListener()
             {
               public void onClick(DialogInterface paramAnonymous3DialogInterface, int paramAnonymous3Int)
               {
@@ -100,7 +100,7 @@ public class BaseActivity
                 BaseActivity.this.startActivity(paramAnonymous3DialogInterface);
                 BaseActivity.this.mBlockListener = false;
               }
-            }).setNegativeButton(2131099804, null).create().show();
+            }).setNegativeButton(2131099808, null).create().show();
           }
         };
         BaseActivity.this.runOnUiThread(paramAnonymousContext);
@@ -146,7 +146,7 @@ public class BaseActivity
   protected void onPause()
   {
     LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(this.mNotificationListener);
-    OnClick.blockAllClicks(false);
+    OnClick.enableClicks(true);
     super.onPause();
   }
   
@@ -181,7 +181,7 @@ public class BaseActivity
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/activities/BaseActivity.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/BaseActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

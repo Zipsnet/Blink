@@ -48,7 +48,7 @@ public class ClearEditText
   {
     this.xD = getCompoundDrawables()[2];
     if (this.xD == null) {
-      this.xD = getResources().getDrawable(2130837684);
+      this.xD = getResources().getDrawable(2130837686);
     }
     this.xD.setBounds(0, 0, this.xD.getIntrinsicWidth(), this.xD.getIntrinsicHeight());
     setClearIconVisible(false);
@@ -170,7 +170,7 @@ public class ClearEditText
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/utils/ClearEditText.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/utils/ClearEditText.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

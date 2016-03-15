@@ -73,7 +73,7 @@ public class HeaderListView
     this.mHeader.setLayoutParams(paramAttributeSet);
     this.mHeader.setGravity(80);
     addView(this.mHeader);
-    paramAttributeSet = getResources().getDrawable(2130837792);
+    paramAttributeSet = getResources().getDrawable(2130837794);
     this.mScrollView = new FrameLayout(getContext());
     RelativeLayout.LayoutParams localLayoutParams = new RelativeLayout.LayoutParams(paramAttributeSet.getIntrinsicWidth(), -1);
     localLayoutParams.addRule(11);
@@ -497,7 +497,7 @@ public class HeaderListView
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/utils/HeaderListView.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/utils/HeaderListView.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

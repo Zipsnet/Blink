@@ -59,8 +59,14 @@ public class SetSSIDRequest
   
   public static class SSId
   {
+    protected String encryption;
     protected String password;
     protected String ssid;
+    
+    public String getEncryption()
+    {
+      return this.encryption;
+    }
     
     public String getPassword()
     {
@@ -70,6 +76,11 @@ public class SetSSIDRequest
     public String getSsid()
     {
       return this.ssid;
+    }
+    
+    public void setEncryption(String paramString)
+    {
+      this.encryption = paramString;
     }
     
     public void setPassword(String paramString)
@@ -85,7 +96,7 @@ public class SetSSIDRequest
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/api/requests/Onboarding/SetSSIDRequest.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/api/requests/Onboarding/SetSSIDRequest.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

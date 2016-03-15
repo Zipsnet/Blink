@@ -50,7 +50,7 @@ public class VisitBlinkFragment
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
     paramLayoutInflater = paramLayoutInflater.inflate(2130903115, paramViewGroup, false);
-    this.mVisitBlinkView = ((WebView)paramLayoutInflater.findViewById(2131558683));
+    this.mVisitBlinkView = ((WebView)paramLayoutInflater.findViewById(2131558687));
     this.mVisitBlinkView.setWebViewClient(new WebViewClient());
     this.mVisitBlinkView.loadUrl(this.mUrl);
     if (getActivity() != null) {
@@ -61,7 +61,7 @@ public class VisitBlinkFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/VisitBlinkFragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/VisitBlinkFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

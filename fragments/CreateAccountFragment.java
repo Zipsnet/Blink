@@ -48,6 +48,7 @@ import com.immediasemi.blink.utils.LiveViewWhiteList;
 import com.immediasemi.blink.utils.OnClick;
 import com.immediasemi.blink.utils.Validation;
 import java.util.Date;
+import java.util.HashMap;
 
 public class CreateAccountFragment
   extends BaseFragment
@@ -73,13 +74,21 @@ public class CreateAccountFragment
       public void onError(BlinkError paramAnonymousBlinkError)
       {
         if (CreateAccountFragment.this.getActivity() != null) {
-          new AlertDialog.Builder(CreateAccountFragment.this.getActivity()).setTitle("Error adding network").setMessage(paramAnonymousBlinkError.getErrorMessage()).setPositiveButton(2131099886, new DialogInterface.OnClickListener()
+          if (paramAnonymousBlinkError.response == null) {
+            break label68;
+          }
+        }
+        label68:
+        for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = paramAnonymousBlinkError.getErrorMessage())
+        {
+          new AlertDialog.Builder(CreateAccountFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
           {
             public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
             {
               CreateAccountFragment.this.getActivity().finish();
             }
           }).create().show();
+          return;
         }
       }
       
@@ -107,17 +116,17 @@ public class CreateAccountFragment
   {
     if (!Validation.validateEmail(this.mUserName.getText().toString()))
     {
-      this.mErrorString = getString(2131099855);
+      this.mErrorString = getString(2131099859);
       return false;
     }
     if (this.mPassword.getText().length() < 6)
     {
-      this.mErrorString = getString(2131099857);
+      this.mErrorString = getString(2131099861);
       return false;
     }
     if (this.mPassword.getText().length() > 128)
     {
-      this.mErrorString = getString(2131099857);
+      this.mErrorString = getString(2131099861);
       return false;
     }
     return true;
@@ -126,7 +135,7 @@ public class CreateAccountFragment
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099976));
+    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099980));
   }
   
   public void onCreate(Bundle paramBundle)
@@ -144,7 +153,7 @@ public class CreateAccountFragment
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
     this.mView = paramLayoutInflater.inflate(2130903103, paramViewGroup, false);
-    this.mUserName = ((EditText)this.mView.findViewById(2131558645));
+    this.mUserName = ((EditText)this.mView.findViewById(2131558649));
     this.mUserName.setOnFocusChangeListener(new View.OnFocusChangeListener()
     {
       public void onFocusChange(View paramAnonymousView, boolean paramAnonymousBoolean)
@@ -156,11 +165,11 @@ public class CreateAccountFragment
         }
       }
     });
-    this.mPassword = ((EditText)this.mView.findViewById(2131558647));
-    this.mForgotPassword = ((TextView)this.mView.findViewById(2131558648));
+    this.mPassword = ((EditText)this.mView.findViewById(2131558651));
+    this.mForgotPassword = ((TextView)this.mView.findViewById(2131558652));
     this.mForgotPassword.setText("Password must be at least 6 characters");
     this.mForgotPassword.setTextColor(-16777216);
-    this.mShowPWSwitch = ((CustomSwitch)this.mView.findViewById(2131558650));
+    this.mShowPWSwitch = ((CustomSwitch)this.mView.findViewById(2131558654));
     this.mShowPWSwitch.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -176,7 +185,7 @@ public class CreateAccountFragment
         CreateAccountFragment.this.mPassword.setTransformationMethod(null);
       }
     });
-    this.mTermsAndConditions = ((TextView)this.mView.findViewById(2131558652));
+    this.mTermsAndConditions = ((TextView)this.mView.findViewById(2131558656));
     this.mTermsAndConditions.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -185,13 +194,13 @@ public class CreateAccountFragment
           return;
         }
         paramAnonymousView = new Intent(CreateAccountFragment.this.getActivity(), VisitBlinkActivity.class);
-        paramAnonymousView.putExtra(VisitBlinkFragment.URL_STRING, CreateAccountFragment.this.getString(2131099959));
-        paramAnonymousView.putExtra(VisitBlinkFragment.TITLE_STRING, CreateAccountFragment.this.getString(2131099714));
+        paramAnonymousView.putExtra(VisitBlinkFragment.URL_STRING, CreateAccountFragment.this.getString(2131099963));
+        paramAnonymousView.putExtra(VisitBlinkFragment.TITLE_STRING, CreateAccountFragment.this.getString(2131099718));
         CreateAccountFragment.this.startActivity(paramAnonymousView);
       }
     });
-    this.mCreateAccountButton = ((Button)this.mView.findViewById(2131558651));
-    this.mCreateAccountButton.setText(2131099790);
+    this.mCreateAccountButton = ((Button)this.mView.findViewById(2131558655));
+    this.mCreateAccountButton.setText(2131099794);
     this.mCreateAccountButton.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -239,13 +248,21 @@ public class CreateAccountFragment
             public void onError(BlinkError paramAnonymous2BlinkError)
             {
               if (CreateAccountFragment.this.getActivity() != null) {
-                new AlertDialog.Builder(CreateAccountFragment.this.getActivity()).setTitle("Error").setMessage("Could not create account").setPositiveButton(2131099886, new DialogInterface.OnClickListener()
+                if (paramAnonymous2BlinkError.response == null) {
+                  break label74;
+                }
+              }
+              label74:
+              for (paramAnonymous2BlinkError = (String)paramAnonymous2BlinkError.response.get("message");; paramAnonymous2BlinkError = paramAnonymous2BlinkError.getErrorMessage())
+              {
+                new AlertDialog.Builder(CreateAccountFragment.this.getActivity()).setMessage(paramAnonymous2BlinkError).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
                 {
                   public void onClick(DialogInterface paramAnonymous3DialogInterface, int paramAnonymous3Int)
                   {
                     CreateAccountFragment.this.getActivity().finish();
                   }
                 }).create().show();
+                return;
               }
             }
             
@@ -263,9 +280,9 @@ public class CreateAccountFragment
           return;
         } while (CreateAccountFragment.this.getActivity() == null);
         if (CreateAccountFragment.this.mErrorString == null) {
-          CreateAccountFragment.access$402(CreateAccountFragment.this, CreateAccountFragment.this.getString(2131099856));
+          CreateAccountFragment.access$402(CreateAccountFragment.this, CreateAccountFragment.this.getString(2131099860));
         }
-        new AlertDialog.Builder(CreateAccountFragment.this.getActivity()).setTitle(CreateAccountFragment.this.mErrorString).setMessage(CreateAccountFragment.this.getString(2131100002)).setPositiveButton(2131099886, new DialogInterface.OnClickListener()
+        new AlertDialog.Builder(CreateAccountFragment.this.getActivity()).setTitle(CreateAccountFragment.this.mErrorString).setMessage(CreateAccountFragment.this.getString(2131100006)).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
         {
           public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
         }).create().show();
@@ -288,7 +305,7 @@ public class CreateAccountFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/CreateAccountFragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/CreateAccountFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

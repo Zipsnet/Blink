@@ -38,7 +38,7 @@ public class APITestFragment
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099974));
+    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099978));
   }
   
   public void onCreate(Bundle paramBundle)
@@ -147,7 +147,7 @@ public class APITestFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/APITestFragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/APITestFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

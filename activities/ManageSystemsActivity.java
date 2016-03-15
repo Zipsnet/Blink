@@ -23,8 +23,8 @@ public class ManageSystemsActivity
 {
   private void setTempSwitch(boolean paramBoolean)
   {
-    RadioButton localRadioButton1 = (RadioButton)findViewById(2131558700);
-    RadioButton localRadioButton2 = (RadioButton)findViewById(2131558701);
+    RadioButton localRadioButton1 = (RadioButton)findViewById(2131558704);
+    RadioButton localRadioButton2 = (RadioButton)findViewById(2131558705);
     int i = getResources().getColor(2131492875);
     int j = getResources().getColor(2131492970);
     if (paramBoolean)
@@ -58,7 +58,7 @@ public class ManageSystemsActivity
   {
     super.onCreate(paramBundle);
     setContentView(2130903119);
-    paramBundle = (RadioGroup)findViewById(2131558699);
+    paramBundle = (RadioGroup)findViewById(2131558703);
     if (BlinkApp.getApp().isTempUnits()) {
       setTempSwitch(true);
     }
@@ -68,7 +68,7 @@ public class ManageSystemsActivity
       {
         public void onCheckedChanged(RadioGroup paramAnonymousRadioGroup, int paramAnonymousInt)
         {
-          if (paramAnonymousInt == 2131558700) {}
+          if (paramAnonymousInt == 2131558704) {}
           for (boolean bool = true;; bool = false)
           {
             BlinkApp.getApp().setTempUnits(bool);
@@ -77,7 +77,7 @@ public class ManageSystemsActivity
           }
         }
       });
-      findViewById(2131558702).setOnClickListener(new View.OnClickListener()
+      findViewById(2131558706).setOnClickListener(new View.OnClickListener()
       {
         public void onClick(View paramAnonymousView)
         {
@@ -89,14 +89,14 @@ public class ManageSystemsActivity
         }
       });
       PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext()).edit().remove("onboard_sequence").apply();
-      findViewById(2131558704).setOnClickListener(new View.OnClickListener()
+      findViewById(2131558708).setOnClickListener(new View.OnClickListener()
       {
         public void onClick(View paramAnonymousView)
         {
           if (!OnClick.ok()) {
             return;
           }
-          new AlertDialog.Builder(ManageSystemsActivity.this).setTitle(ManageSystemsActivity.this.getString(2131099918)).setMessage(2131099742).setPositiveButton(2131100015, new DialogInterface.OnClickListener()
+          new AlertDialog.Builder(ManageSystemsActivity.this).setTitle(ManageSystemsActivity.this.getString(2131099922)).setMessage(2131099746).setPositiveButton(2131100021, new DialogInterface.OnClickListener()
           {
             public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
             {
@@ -105,7 +105,7 @@ public class ManageSystemsActivity
               paramAnonymous2DialogInterface.putExtra("onboard_reason", 2);
               ManageSystemsActivity.this.startActivityForResult(paramAnonymous2DialogInterface, 113);
             }
-          }).setNegativeButton(2131099774, null).create().show();
+          }).setNegativeButton(2131099778, null).create().show();
         }
       });
       return;
@@ -115,7 +115,7 @@ public class ManageSystemsActivity
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/activities/ManageSystemsActivity.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/ManageSystemsActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

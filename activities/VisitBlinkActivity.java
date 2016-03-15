@@ -16,8 +16,8 @@ public class VisitBlinkActivity
     super.onCreate(paramBundle);
     setContentView(2130903071);
     Bundle localBundle = getIntent().getExtras();
-    String str3 = getString(2131100010);
-    String str2 = getString(2131099741);
+    String str3 = getString(2131100014);
+    String str2 = getString(2131099745);
     String str1 = str2;
     paramBundle = str3;
     if (localBundle != null)
@@ -36,7 +36,7 @@ public class VisitBlinkActivity
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/activities/VisitBlinkActivity.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/VisitBlinkActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

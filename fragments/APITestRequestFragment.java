@@ -28,6 +28,7 @@ import com.immediasemi.blink.utils.OnClick;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -120,17 +121,17 @@ public class APITestRequestFragment
   {
     this.mInflater = paramLayoutInflater;
     paramLayoutInflater = paramLayoutInflater.inflate(2130903095, paramViewGroup, false);
-    ((TextView)paramLayoutInflater.findViewById(2131558590)).setText(this.mPath);
+    ((TextView)paramLayoutInflater.findViewById(2131558594)).setText(this.mPath);
     if (this.mPathParamNames != null)
     {
-      paramLayoutInflater.findViewById(2131558591).setVisibility(0);
-      paramViewGroup = (LinearLayout)paramLayoutInflater.findViewById(2131558592);
+      paramLayoutInflater.findViewById(2131558595).setVisibility(0);
+      paramViewGroup = (LinearLayout)paramLayoutInflater.findViewById(2131558596);
       int i = 0;
       while (i < this.mPathParamNames.size())
       {
         paramBundle = this.mInflater.inflate(2130903096, paramViewGroup, false);
-        ((TextView)paramBundle.findViewById(2131558595)).setText((CharSequence)this.mPathParamNames.get(i));
-        ((EditText)paramBundle.findViewById(2131558596)).setText((CharSequence)this.mPathParamValues.get(i));
+        ((TextView)paramBundle.findViewById(2131558599)).setText((CharSequence)this.mPathParamNames.get(i));
+        ((EditText)paramBundle.findViewById(2131558600)).setText((CharSequence)this.mPathParamValues.get(i));
         paramViewGroup.addView(paramBundle);
         i += 1;
       }
@@ -143,10 +144,10 @@ public class APITestRequestFragment
       this.mFieldNameArray.add(paramBundle.next());
     }
     if (this.mFieldNameArray.size() == 0) {
-      paramLayoutInflater.findViewById(2131558593).setVisibility(8);
+      paramLayoutInflater.findViewById(2131558597).setVisibility(8);
     }
     paramViewGroup.setAdapter(new TestArrayAdapter(getActivity()));
-    ((Button)paramLayoutInflater.findViewById(2131558594)).setOnClickListener(new View.OnClickListener()
+    ((Button)paramLayoutInflater.findViewById(2131558598)).setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
@@ -155,11 +156,11 @@ public class APITestRequestFragment
         }
         if (APITestRequestFragment.this.mPathParamNames != null)
         {
-          paramAnonymousView = (LinearLayout)APITestRequestFragment.this.getView().findViewById(2131558592);
+          paramAnonymousView = (LinearLayout)APITestRequestFragment.this.getView().findViewById(2131558596);
           int i = 0;
           if (i < APITestRequestFragment.this.mPathParamNames.size())
           {
-            String str = ((EditText)paramAnonymousView.getChildAt(i).findViewById(2131558596)).getText().toString();
+            String str = ((EditText)paramAnonymousView.getChildAt(i).findViewById(2131558600)).getText().toString();
             if (((String)APITestRequestFragment.this.mPathParamNames.get(i)).contains("network")) {
               BlinkApp.getApp().setLastNetworkId(str);
             }
@@ -182,7 +183,15 @@ public class APITestRequestFragment
           public void onError(BlinkError paramAnonymous2BlinkError)
           {
             if (APITestRequestFragment.this.getActivity() != null) {
-              new AlertDialog.Builder(APITestRequestFragment.this.getActivity()).setTitle("Error").setMessage(paramAnonymous2BlinkError.getErrorMessage()).setPositiveButton(2131099886, null).create().show();
+              if (paramAnonymous2BlinkError.response == null) {
+                break label67;
+              }
+            }
+            label67:
+            for (paramAnonymous2BlinkError = (String)paramAnonymous2BlinkError.response.get("message");; paramAnonymous2BlinkError = paramAnonymous2BlinkError.getErrorMessage())
+            {
+              new AlertDialog.Builder(APITestRequestFragment.this.getActivity()).setMessage(paramAnonymous2BlinkError).setPositiveButton(2131099890, null).create().show();
+              return;
             }
           }
           
@@ -190,7 +199,7 @@ public class APITestRequestFragment
           {
             paramAnonymous2BlinkData = BlinkData.mRawResponse;
             if (APITestRequestFragment.this.getActivity() != null) {
-              new AlertDialog.Builder(APITestRequestFragment.this.getActivity()).setTitle("Results").setMessage(paramAnonymous2BlinkData).setPositiveButton(2131099886, null).create().show();
+              new AlertDialog.Builder(APITestRequestFragment.this.getActivity()).setTitle("Results").setMessage(paramAnonymous2BlinkData).setPositiveButton(2131099890, null).create().show();
             }
           }
         }, true);
@@ -232,7 +241,7 @@ public class APITestRequestFragment
   {
     public TestArrayAdapter(Context paramContext)
     {
-      super(2130903096, 2131558595, APITestRequestFragment.this.mFieldNameArray);
+      super(2130903096, 2131558599, APITestRequestFragment.this.mFieldNameArray);
     }
     
     public View getView(int paramInt, View paramView, ViewGroup paramViewGroup)
@@ -241,8 +250,8 @@ public class APITestRequestFragment
       if (paramView == null) {
         localView = APITestRequestFragment.this.mInflater.inflate(2130903096, paramViewGroup, false);
       }
-      paramView = (TextView)localView.findViewById(2131558595);
-      EditText localEditText = (EditText)localView.findViewById(2131558596);
+      paramView = (TextView)localView.findViewById(2131558599);
+      EditText localEditText = (EditText)localView.findViewById(2131558600);
       paramView.setText((CharSequence)APITestRequestFragment.this.mFieldNameArray.get(paramInt));
       paramViewGroup = (String)APITestRequestFragment.this.mApiRequestFields.get(APITestRequestFragment.this.mFieldNameArray.get(paramInt));
       paramView = paramViewGroup;
@@ -259,7 +268,7 @@ public class APITestRequestFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/APITestRequestFragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/APITestRequestFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

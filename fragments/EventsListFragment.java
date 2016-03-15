@@ -33,6 +33,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.TreeSet;
@@ -133,10 +134,15 @@ public class EventsListFragment
             }
           }
         } while (EventsListFragment.this.getActivity() == null);
-        new AlertDialog.Builder(EventsListFragment.this.getActivity()).setTitle("Error").setMessage("Could not get activity list").setPositiveButton(2131099886, new DialogInterface.OnClickListener()
+        if (paramAnonymousBlinkError.response != null) {}
+        for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = paramAnonymousBlinkError.getErrorMessage())
         {
-          public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
-        }).create().show();
+          new AlertDialog.Builder(EventsListFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
+          {
+            public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
+          }).create().show();
+          return;
+        }
       }
       
       public void onResult(BlinkData paramAnonymousBlinkData)
@@ -259,7 +265,7 @@ public class EventsListFragment
     try
     {
       this.mListener = ((BaseFragment.OnFragmentInteractionListener)paramActivity);
-      ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099977));
+      ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099981));
       return;
     }
     catch (ClassCastException localClassCastException)
@@ -290,7 +296,7 @@ public class EventsListFragment
         return -Integer.compare(paramAnonymousEvent1.getId(), paramAnonymousEvent2.getId());
       }
     });
-    this.mListView = ((ListView)paramLayoutInflater.findViewById(2131558622));
+    this.mListView = ((ListView)paramLayoutInflater.findViewById(2131558626));
     this.mListView.setAdapter(new EventsSectionAdapter(null));
     kickOffRequest();
     return paramLayoutInflater;
@@ -377,9 +383,9 @@ public class EventsListFragment
         if (paramViewGroup == null) {
           paramView = Event.EVENT_TYPE.unknown;
         }
-        paramViewGroup = (TextView)localView.findViewById(2131558624);
+        paramViewGroup = (TextView)localView.findViewById(2131558628);
         localTextView = (TextView)localView.findViewById(2131558488);
-        localImageView = (ImageView)localView.findViewById(2131558623);
+        localImageView = (ImageView)localView.findViewById(2131558627);
         localObject = Util.reformatDate(Util.getLocalDateYearTime(localEvent.getCreated_at())).split("%");
         paramViewGroup.setText(localObject[0] + "\n" + localObject[1]);
         paramViewGroup = "";
@@ -400,11 +406,11 @@ public class EventsListFragment
         return localView;
         localView = EventsListFragment.this.mInflater.inflate(2130903100, null, true);
         break;
-        paramViewGroup = EventsListFragment.this.getString(2131099812);
+        paramViewGroup = EventsListFragment.this.getString(2131099816);
         paramView = EventsListFragment.this.getResources().getDrawable(2130837603);
         paramInt1 = EventsListFragment.this.getResources().getColor(2131492875);
         continue;
-        paramViewGroup = EventsListFragment.this.getString(2131099815);
+        paramViewGroup = EventsListFragment.this.getString(2131099819);
         paramView = EventsListFragment.this.getResources().getDrawable(2130837604);
         paramInt1 = EventsListFragment.this.getResources().getColor(2131492875);
         continue;
@@ -416,7 +422,7 @@ public class EventsListFragment
           paramInt1 = EventsListFragment.this.getResources().getColor(2131492875);
           continue;
           paramViewGroup = localEvent.getCamera_name();
-          paramView = EventsListFragment.this.getResources().getDrawable(2130837785);
+          paramView = EventsListFragment.this.getResources().getDrawable(2130837787);
           paramInt1 = EventsListFragment.this.getResources().getColor(2131492875);
         }
       }
@@ -460,7 +466,7 @@ public class EventsListFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/EventsListFragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/EventsListFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

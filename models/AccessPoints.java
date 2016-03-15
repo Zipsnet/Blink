@@ -5,20 +5,42 @@ public class AccessPoints
 {
   private static final long serialVersionUID = -5926434145829962443L;
   protected AccessPoint[] access_points;
+  protected boolean manual_ssid;
+  protected String version;
   
   public AccessPoint[] getAccessPoints()
   {
     return this.access_points;
   }
   
+  public boolean getManual_ssid()
+  {
+    return this.manual_ssid;
+  }
+  
+  public String getVersion()
+  {
+    return this.version;
+  }
+  
   public void setAccessPoints(AccessPoint[] paramArrayOfAccessPoint)
   {
     this.access_points = paramArrayOfAccessPoint;
   }
+  
+  public void setManual_ssid(boolean paramBoolean)
+  {
+    this.manual_ssid = paramBoolean;
+  }
+  
+  public void setVersion(String paramString)
+  {
+    this.version = paramString;
+  }
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/models/AccessPoints.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/models/AccessPoints.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

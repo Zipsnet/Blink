@@ -12,6 +12,7 @@ import com.immediasemi.blink.api.BlinkAPI.BlinkAPICallback;
 import com.immediasemi.blink.api.requests.BlinkRequest;
 import com.immediasemi.blink.api.requests.Videos.DeleteAllVideosRequest_v2;
 import com.immediasemi.blink.api.requests.Videos.DeleteVideoByIdRequest_v2;
+import com.immediasemi.blink.api.requests.Videos.DeleteVideosByArray_v2;
 import com.immediasemi.blink.api.requests.Videos.GetVideosCountRequest_v2;
 import com.immediasemi.blink.api.requests.Videos.GetVideosRequest_v2;
 import com.immediasemi.blink.models.BlinkData;
@@ -21,6 +22,7 @@ import com.immediasemi.blink.models.Video;
 import com.immediasemi.blink.models.Videos;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
@@ -32,6 +34,7 @@ public class BlinkClipArray
   private static final int DELETE_ALL_VIDEOS_DELAYED = 2;
   private static final int DELETE_VIDEO_IDS_DELAYED = 5;
   private static final int DELETE_VIDEO_ID_DELAYED = 4;
+  private static final int DELETE_VIDEO_LIST_DELAYED = 6;
   private static final int GET_VIDEO_PAGE_DELAYED = 3;
   private static final int PAGE_LENGTH = 10;
   private static final int POLL_FOR_REFRESH = 1;
@@ -66,7 +69,7 @@ public class BlinkClipArray
     {
       public void onError(BlinkError paramAnonymousBlinkError)
       {
-        Toast.makeText(BlinkApp.getApp().getApplicationContext(), "Couldn't delete video clip", 0).show();
+        Toast.makeText(BlinkApp.getApp().getApplicationContext(), (CharSequence)paramAnonymousBlinkError.response.get("message"), 0).show();
         BlinkClipArray.access$102(BlinkClipArray.this, false);
         BlinkClipArray.this.deleteVideoIDs(BlinkClipArray.this.mVideosToDelete);
       }
@@ -126,8 +129,11 @@ public class BlinkClipArray
     case 4: 
       deleteVideoID(paramMessage.arg1);
       return;
+    case 5: 
+      deleteVideoIDs(this.mVideosToDelete);
+      return;
     }
-    deleteVideoIDs(this.mVideosToDelete);
+    deleteVideoList(this.mVideosToDelete);
   }
   
   public static BlinkClipArray instance()
@@ -224,6 +230,39 @@ public class BlinkClipArray
     paramList.remove(0);
     this.mVideosToDelete = paramList;
     deleteVideoID(i);
+  }
+  
+  public void deleteVideoList(List<Integer> paramList)
+  {
+    if ((paramList == null) || (paramList.size() == 0))
+    {
+      refresh();
+      return;
+    }
+    if (this.mBusy)
+    {
+      if (this.mPollHandler == null) {
+        this.mPollHandler = new PollHandler();
+      }
+      paramList = this.mPollHandler.obtainMessage(6);
+      this.mPollHandler.sendMessageDelayed(paramList, 100L);
+      return;
+    }
+    this.mBusy = true;
+    DeleteVideosByArray_v2 localDeleteVideosByArray_v2 = new DeleteVideosByArray_v2();
+    localDeleteVideosByArray_v2.setVideo_list(paramList);
+    BlinkAPI.BlinkAPIRequest(localDeleteVideosByArray_v2.getQuery(), null, localDeleteVideosByArray_v2, new BlinkAPI.BlinkAPICallback()
+    {
+      public void onError(BlinkError paramAnonymousBlinkError)
+      {
+        BlinkClipArray.this.reload();
+      }
+      
+      public void onResult(BlinkData paramAnonymousBlinkData)
+      {
+        BlinkClipArray.this.reload();
+      }
+    }, false);
   }
   
   public int getClipCount()
@@ -362,7 +401,7 @@ public class BlinkClipArray
       return true;
     }
     int j = paramArrayOfVideo.length;
-    int i = 0;
+    final int i = 0;
     while (i < j)
     {
       Video localVideo = paramArrayOfVideo[i];
@@ -371,9 +410,29 @@ public class BlinkClipArray
       }
       i += 1;
     }
-    getVideoPage(paramInt + 1);
-    postVideosDidProcessNotification();
-    return true;
+    paramArrayOfVideo = new Handler();
+    i = paramInt + 1;
+    if (paramInt <= 100) {
+      paramArrayOfVideo.postDelayed(new Runnable()
+      {
+        public void run()
+        {
+          BlinkClipArray.this.getVideoPage(i);
+        }
+      }, 25L);
+    }
+    for (;;)
+    {
+      postVideosDidProcessNotification();
+      return true;
+      paramArrayOfVideo.postDelayed(new Runnable()
+      {
+        public void run()
+        {
+          BlinkClipArray.this.getVideoPage(i);
+        }
+      }, 250L);
+    }
   }
   
   public void refresh()
@@ -528,7 +587,7 @@ public class BlinkClipArray
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/utils/BlinkClipArray.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/utils/BlinkClipArray.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

@@ -25,7 +25,7 @@ public class AdvancedSettingsFragment
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099990));
+    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099994));
   }
   
   public void onCreate(Bundle paramBundle)
@@ -44,7 +44,7 @@ public class AdvancedSettingsFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/AdvancedSettingsFragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/AdvancedSettingsFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

@@ -28,6 +28,7 @@ import com.immediasemi.blink.models.OneCamera;
 import com.immediasemi.blink.utils.ClearEditSerialNumber;
 import com.immediasemi.blink.utils.ClearEditSerialNumber.OnClearEditSerialNumberChangeListener;
 import com.immediasemi.blink.utils.OnClick;
+import java.util.HashMap;
 
 public class AddCamera_2_Fragment
   extends BaseFragment
@@ -77,7 +78,7 @@ public class AddCamera_2_Fragment
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
     this.mView = paramLayoutInflater.inflate(2130903087, paramViewGroup, false);
-    this.mSerialNumber = ((ClearEditSerialNumber)this.mView.findViewById(2131558575));
+    this.mSerialNumber = ((ClearEditSerialNumber)this.mView.findViewById(2131558579));
     this.mSerialNumber.setOnClearEditSerialNumberChangeListener(new ClearEditSerialNumber.OnClearEditSerialNumberChangeListener()
     {
       public void onTextChanged(String paramAnonymousString)
@@ -85,7 +86,7 @@ public class AddCamera_2_Fragment
         if ((!paramAnonymousString.startsWith("1")) && (paramAnonymousString.length() > 0)) {}
         for (int i = 1; i != 0; i = 0)
         {
-          new AlertDialog.Builder(AddCamera_2_Fragment.this.getActivity()).setTitle("Invalid Serial Number").setMessage("Camera serial numbers begin with \"1\"").setPositiveButton(2131099886, new DialogInterface.OnClickListener()
+          new AlertDialog.Builder(AddCamera_2_Fragment.this.getActivity()).setTitle("Invalid Serial Number").setMessage("Camera serial numbers begin with \"1\"").setPositiveButton(2131099890, new DialogInterface.OnClickListener()
           {
             public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
             {
@@ -98,7 +99,7 @@ public class AddCamera_2_Fragment
         {
           if (!AddCamera_2_Fragment.this.serialIsValid(paramAnonymousString))
           {
-            new AlertDialog.Builder(AddCamera_2_Fragment.this.getActivity()).setTitle("Invalid Serial Number").setMessage("Check your camera's serial number and try again").setPositiveButton(2131099886, new DialogInterface.OnClickListener()
+            new AlertDialog.Builder(AddCamera_2_Fragment.this.getActivity()).setTitle("Invalid Serial Number").setMessage("Check your camera's serial number and try again").setPositiveButton(2131099890, new DialogInterface.OnClickListener()
             {
               public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
               {
@@ -127,7 +128,7 @@ public class AddCamera_2_Fragment
         }
       }
     }.sendEmptyMessageDelayed(0, 250L);
-    this.mEnterButton = ((Button)this.mView.findViewById(2131558574));
+    this.mEnterButton = ((Button)this.mView.findViewById(2131558578));
     this.mEnterButton.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -144,13 +145,18 @@ public class AddCamera_2_Fragment
           public void onError(BlinkError paramAnonymous2BlinkError)
           {
             if (AddCamera_2_Fragment.this.getActivity() != null) {
-              new AlertDialog.Builder(AddCamera_2_Fragment.this.getActivity()).setMessage("Add Camera Failed").setPositiveButton(2131099886, new DialogInterface.OnClickListener()
+              if (paramAnonymous2BlinkError.response == null) {
+                break label74;
+              }
+            }
+            label74:
+            for (paramAnonymous2BlinkError = (String)paramAnonymous2BlinkError.response.get("message");; paramAnonymous2BlinkError = "Could not add camera")
+            {
+              new AlertDialog.Builder(AddCamera_2_Fragment.this.getActivity()).setMessage(paramAnonymous2BlinkError).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
               {
-                public void onClick(DialogInterface paramAnonymous3DialogInterface, int paramAnonymous3Int)
-                {
-                  AddCamera_2_Fragment.this.getActivity().finish();
-                }
+                public void onClick(DialogInterface paramAnonymous3DialogInterface, int paramAnonymous3Int) {}
               }).create().show();
+              return;
             }
           }
           
@@ -171,7 +177,7 @@ public class AddCamera_2_Fragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/AddCamera_2_Fragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/AddCamera_2_Fragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

@@ -29,12 +29,12 @@ public class EventsActivity
     {
       localTextView1.setVisibility(0);
       localTextView2.setVisibility(0);
-      localTextView3.setText(getString(2131099978));
+      localTextView3.setText(getString(2131099982));
       return;
     }
     localTextView1.setVisibility(4);
     localTextView2.setVisibility(4);
-    localTextView3.setText(getString(2131099977));
+    localTextView3.setText(getString(2131099981));
   }
   
   public void onCancelClicked(View paramView)
@@ -96,7 +96,7 @@ public class EventsActivity
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/activities/EventsActivity.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/EventsActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

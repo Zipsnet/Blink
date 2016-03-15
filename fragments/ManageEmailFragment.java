@@ -27,6 +27,7 @@ import com.immediasemi.blink.models.BlinkData;
 import com.immediasemi.blink.models.BlinkError;
 import com.immediasemi.blink.utils.OnClick;
 import com.immediasemi.blink.utils.Validation;
+import java.util.HashMap;
 
 public class ManageEmailFragment
   extends BaseFragment
@@ -43,16 +44,24 @@ public class ManageEmailFragment
   private void loginError(BlinkError paramBlinkError)
   {
     if (getActivity() != null) {
-      new AlertDialog.Builder(getActivity()).setMessage(paramBlinkError.getErrorMessage()).setPositiveButton(2131099922, new DialogInterface.OnClickListener()
+      if (paramBlinkError.response == null) {
+        break label75;
+      }
+    }
+    label75:
+    for (paramBlinkError = (String)paramBlinkError.response.get("message");; paramBlinkError = "")
+    {
+      new AlertDialog.Builder(getActivity()).setMessage(paramBlinkError).setPositiveButton(2131099926, new DialogInterface.OnClickListener()
       {
         public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt) {}
-      }).setNegativeButton(2131099774, new DialogInterface.OnClickListener()
+      }).setNegativeButton(2131099778, new DialogInterface.OnClickListener()
       {
         public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt)
         {
           ManageEmailFragment.this.getActivity().finish();
         }
       }).create().show();
+      return;
     }
   }
   
@@ -76,8 +85,8 @@ public class ManageEmailFragment
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
     this.mView = paramLayoutInflater.inflate(2130903105, paramViewGroup, false);
-    this.mNewEmail = ((EditText)this.mView.findViewById(2131558654));
-    this.mChangeEmailButton = ((Button)this.mView.findViewById(2131558656));
+    this.mNewEmail = ((EditText)this.mView.findViewById(2131558658));
+    this.mChangeEmailButton = ((Button)this.mView.findViewById(2131558660));
     this.mNewEmail.addTextChangedListener(new TextWatcher()
     {
       public void afterTextChanged(Editable paramAnonymousEditable)
@@ -122,7 +131,7 @@ public class ManageEmailFragment
         }
       }
     });
-    this.mNewEmailConfirm = ((EditText)this.mView.findViewById(2131558655));
+    this.mNewEmailConfirm = ((EditText)this.mView.findViewById(2131558659));
     this.mNewEmailConfirm.addTextChangedListener(new TextWatcher()
     {
       public void afterTextChanged(Editable paramAnonymousEditable)
@@ -167,7 +176,7 @@ public class ManageEmailFragment
         Object localObject = ManageEmailFragment.this.mNewEmailConfirm.getText().toString();
         if (!Validation.validateEmail(paramAnonymousView))
         {
-          new AlertDialog.Builder(ManageEmailFragment.this.getActivity()).setMessage(2131099810).setPositiveButton(2131099886, new DialogInterface.OnClickListener()
+          new AlertDialog.Builder(ManageEmailFragment.this.getActivity()).setMessage(2131099814).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
           {
             public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
           }).create().show();
@@ -175,7 +184,7 @@ public class ManageEmailFragment
         }
         if (!paramAnonymousView.equals(localObject))
         {
-          new AlertDialog.Builder(ManageEmailFragment.this.getActivity()).setMessage("Email does not match").setPositiveButton(2131099886, new DialogInterface.OnClickListener()
+          new AlertDialog.Builder(ManageEmailFragment.this.getActivity()).setMessage("Email does not match").setPositiveButton(2131099890, new DialogInterface.OnClickListener()
           {
             public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
           }).create().show();
@@ -195,7 +204,7 @@ public class ManageEmailFragment
           {
             BlinkApp.getApp().setUserName(paramAnonymousView);
             if (ManageEmailFragment.this.getActivity() != null) {
-              new AlertDialog.Builder(ManageEmailFragment.this.getActivity()).setMessage("Email changed successfully").setPositiveButton(2131099886, new DialogInterface.OnClickListener()
+              new AlertDialog.Builder(ManageEmailFragment.this.getActivity()).setMessage("Email changed successfully").setPositiveButton(2131099890, new DialogInterface.OnClickListener()
               {
                 public void onClick(DialogInterface paramAnonymous3DialogInterface, int paramAnonymous3Int)
                 {
@@ -222,7 +231,7 @@ public class ManageEmailFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/ManageEmailFragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/ManageEmailFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

@@ -3,34 +3,29 @@ package com.immediasemi.blink.utils;
 public class OnClick
 {
   private static final long MINIMUM_KEY_BOUNCE = 150L;
-  private static boolean mBlockAllClicks = false;
-  private static long mTimeStamp = 0L;
+  private static boolean mEnableClicks = true;
+  private static long mLastClick = 0L;
   
-  public static void blockAllClicks(boolean paramBoolean)
+  public static void enableClicks(boolean paramBoolean)
   {
-    mBlockAllClicks = paramBoolean;
+    mEnableClicks = paramBoolean;
   }
   
   public static boolean ok()
   {
     long l = System.currentTimeMillis();
-    if (mBlockAllClicks)
+    if ((l - mLastClick > 150L) || (l - mLastClick < 0L))
     {
-      mTimeStamp = l;
-      return false;
+      mLastClick = l;
+      return mEnableClicks;
     }
-    if ((l - mTimeStamp > 150L) || (l - mTimeStamp < 0L))
-    {
-      mTimeStamp = l;
-      return true;
-    }
-    mTimeStamp = l;
+    mLastClick = l;
     return false;
   }
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/utils/OnClick.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/utils/OnClick.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */
