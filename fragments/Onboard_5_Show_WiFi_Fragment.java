@@ -1,17 +1,23 @@
 package com.immediasemi.blink.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.google.gson.Gson;
@@ -26,8 +32,26 @@ public class Onboard_5_Show_WiFi_Fragment
   public static final int ONBOARD_INDEX = 5;
   private AccessPoint[] mAccessPoints;
   private ListView mListView;
+  private String mSMFirmwareVersion;
   private int mSectionNumber;
+  private boolean mSupportsManualSSID;
   private View mView;
+  
+  private String encrpytionType(int paramInt)
+  {
+    switch (paramInt)
+    {
+    default: 
+      return "";
+    case 0: 
+      return "WPA2";
+    case 1: 
+      return "WPA";
+    case 2: 
+      return "WEP";
+    }
+    return "none";
+  }
   
   public static Onboard_5_Show_WiFi_Fragment newInstance(int paramInt)
   {
@@ -47,7 +71,7 @@ public class Onboard_5_Show_WiFi_Fragment
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099996));
+    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131100000));
   }
   
   public void onCreate(Bundle paramBundle)
@@ -58,8 +82,11 @@ public class Onboard_5_Show_WiFi_Fragment
     {
       this.mSectionNumber = getArguments().getInt("arg_section_number");
       paramBundle = (AccessPoints)new Gson().fromJson(getArguments().getString("AccessPoints", ""), AccessPoints.class);
-      if (paramBundle != null) {
+      if (paramBundle != null)
+      {
         this.mAccessPoints = paramBundle.getAccessPoints();
+        this.mSupportsManualSSID = paramBundle.getManual_ssid();
+        this.mSMFirmwareVersion = paramBundle.getVersion();
       }
     }
     if (this.mAccessPoints == null) {
@@ -70,7 +97,7 @@ public class Onboard_5_Show_WiFi_Fragment
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
     this.mView = paramLayoutInflater.inflate(2130903081, paramViewGroup, false);
-    this.mListView = ((ListView)this.mView.findViewById(2131558544));
+    this.mListView = ((ListView)this.mView.findViewById(2131558548));
     if ((this.mAccessPoints != null) && (this.mAccessPoints.length > 0))
     {
       this.mListView.setAdapter(new ArrayAdapter(getActivity(), 2130903124, this.mAccessPoints)
@@ -82,10 +109,10 @@ public class Onboard_5_Show_WiFi_Fragment
           }
           for (;;)
           {
-            paramAnonymousViewGroup = (TextView)paramAnonymousView.findViewById(2131558545);
-            TextView localTextView1 = (TextView)paramAnonymousView.findViewById(2131558720);
-            TextView localTextView2 = (TextView)paramAnonymousView.findViewById(2131558721);
-            TextView localTextView3 = (TextView)paramAnonymousView.findViewById(2131558722);
+            paramAnonymousViewGroup = (TextView)paramAnonymousView.findViewById(2131558549);
+            TextView localTextView1 = (TextView)paramAnonymousView.findViewById(2131558724);
+            TextView localTextView2 = (TextView)paramAnonymousView.findViewById(2131558725);
+            TextView localTextView3 = (TextView)paramAnonymousView.findViewById(2131558726);
             AccessPoint localAccessPoint = Onboard_5_Show_WiFi_Fragment.this.mAccessPoints[paramAnonymousInt];
             paramAnonymousViewGroup.setText(localAccessPoint.getSsid());
             localTextView1.setText(localAccessPoint.getQuality());
@@ -109,12 +136,40 @@ public class Onboard_5_Show_WiFi_Fragment
         }
       });
     }
+    paramLayoutInflater = (Button)this.mView.findViewById(2131558547);
+    if (!this.mSupportsManualSSID) {
+      paramLayoutInflater.setVisibility(4);
+    }
+    paramLayoutInflater.setOnClickListener(new View.OnClickListener()
+    {
+      public void onClick(View paramAnonymousView)
+      {
+        new AlertDialog.Builder(Onboard_5_Show_WiFi_Fragment.this.getActivity()).setTitle("Select security type").setItems(2131427331, new DialogInterface.OnClickListener()
+        {
+          public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
+          {
+            paramAnonymous2DialogInterface = PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext()).edit();
+            paramAnonymous2DialogInterface.putString("arg_ssid", "");
+            paramAnonymous2DialogInterface.putString("arg_encryption", Onboard_5_Show_WiFi_Fragment.this.encrpytionType(paramAnonymous2Int));
+            paramAnonymous2DialogInterface.commit();
+            paramAnonymous2DialogInterface = Onboard_6_Enter_WiFi_Credentials_Fragment.newInstance(6);
+            Onboard_5_Show_WiFi_Fragment.this.mListener.onFragmentInteraction(Onboard_5_Show_WiFi_Fragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymous2DialogInterface);
+          }
+        }).create().show();
+      }
+    });
     return this.mView;
+  }
+  
+  public void onResume()
+  {
+    super.onResume();
+    if (this.mSMFirmwareVersion == null) {}
   }
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/Onboard_5_Show_WiFi_Fragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/Onboard_5_Show_WiFi_Fragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

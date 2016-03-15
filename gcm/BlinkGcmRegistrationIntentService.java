@@ -47,7 +47,7 @@ public class BlinkGcmRegistrationIntentService
     {
       synchronized (TAG)
       {
-        String str2 = InstanceID.getInstance(this).getToken(getString(2131099750), "GCM", null);
+        String str2 = InstanceID.getInstance(this).getToken(getString(2131099754), "GCM", null);
         Log.i(TAG, "GCM Registration Token: " + str2);
         BlinkApp.getApp().setDeviceToken(str2);
         subscribeTopics(str2);
@@ -65,7 +65,7 @@ public class BlinkGcmRegistrationIntentService
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/gcm/BlinkGcmRegistrationIntentService.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/gcm/BlinkGcmRegistrationIntentService.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

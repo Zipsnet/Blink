@@ -50,7 +50,7 @@ public class Onboard_4_Successful_Connect_Fragment
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099996));
+    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131100000));
   }
   
   public void onCreate(Bundle paramBundle)
@@ -67,7 +67,7 @@ public class Onboard_4_Successful_Connect_Fragment
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
     this.mView = paramLayoutInflater.inflate(2130903080, paramViewGroup, false);
-    ((Button)this.mView.findViewById(2131558543)).setOnClickListener(new View.OnClickListener()
+    ((Button)this.mView.findViewById(2131558545)).setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
@@ -88,7 +88,7 @@ public class Onboard_4_Successful_Connect_Fragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/Onboard_4_Successful_Connect_Fragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/Onboard_4_Successful_Connect_Fragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

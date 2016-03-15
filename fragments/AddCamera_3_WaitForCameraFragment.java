@@ -129,7 +129,7 @@ public class AddCamera_3_WaitForCameraFragment
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099983));
+    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099987));
     this.handler.sendEmptyMessageDelayed(0, 100L);
   }
   
@@ -159,7 +159,7 @@ public class AddCamera_3_WaitForCameraFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/AddCamera_3_WaitForCameraFragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/AddCamera_3_WaitForCameraFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

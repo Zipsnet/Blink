@@ -43,7 +43,7 @@ public class Onboard_8_Setup_Complete
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099983));
+    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099987));
   }
   
   public void onCreate(Bundle paramBundle)
@@ -66,7 +66,7 @@ public class Onboard_8_Setup_Complete
       public void onResult(BlinkData paramAnonymousBlinkData) {}
     }, 2000);
     BlinkApp.getApp().setOnboardingUrl(null);
-    paramLayoutInflater = (Button)this.mView.findViewById(2131558552);
+    paramLayoutInflater = (Button)this.mView.findViewById(2131558556);
     if (this.mSMConnectedSuccessfully) {
       paramLayoutInflater.setOnClickListener(new View.OnClickListener()
       {
@@ -88,7 +88,7 @@ public class Onboard_8_Setup_Complete
     {
       return this.mView;
       paramLayoutInflater.setText("Retry");
-      ((TextView)this.mView.findViewById(2131558551)).setText(2131099900);
+      ((TextView)this.mView.findViewById(2131558555)).setText(2131099904);
       paramLayoutInflater.setOnClickListener(new View.OnClickListener()
       {
         public void onClick(View paramAnonymousView)
@@ -105,7 +105,7 @@ public class Onboard_8_Setup_Complete
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/Onboard_8_Setup_Complete.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/Onboard_8_Setup_Complete.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

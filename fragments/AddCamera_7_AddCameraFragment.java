@@ -48,7 +48,7 @@ public class AddCamera_7_AddCameraFragment
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
     this.mView = paramLayoutInflater.inflate(2130903092, paramViewGroup, false);
-    ((ImageView)this.mView.findViewById(2131558588)).setOnClickListener(new View.OnClickListener()
+    ((ImageView)this.mView.findViewById(2131558592)).setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
@@ -59,7 +59,7 @@ public class AddCamera_7_AddCameraFragment
         AddCamera_7_AddCameraFragment.this.mListener.onFragmentInteraction(AddCamera_7_AddCameraFragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymousView);
       }
     });
-    ((Button)this.mView.findViewById(2131558547)).setOnClickListener(new View.OnClickListener()
+    ((Button)this.mView.findViewById(2131558551)).setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
@@ -81,7 +81,7 @@ public class AddCamera_7_AddCameraFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/AddCamera_7_AddCameraFragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/AddCamera_7_AddCameraFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

@@ -2,7 +2,6 @@ package com.immediasemi.blink.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +14,7 @@ import com.immediasemi.blink.BlinkApp;
 import com.immediasemi.blink.api.BlinkAPI;
 import com.immediasemi.blink.api.BlinkAPI.BlinkAPICallback;
 import com.immediasemi.blink.api.requests.Accounts.LogoutRequest;
+import com.immediasemi.blink.api.requests.Onboarding.OnboardingDoneRequest;
 import com.immediasemi.blink.fragments.Onboard_1_Fragment;
 import com.immediasemi.blink.fragments.Onboard_2_Wait_For_Blue_Light_Fragment;
 import com.immediasemi.blink.fragments.Onboard_3_Connect_To_Blink_Fragment;
@@ -38,12 +38,22 @@ public class OnboardingActivity
   
   private void cancelSMSetup()
   {
-    Object localObject = PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext());
-    int i = ((SharedPreferences)localObject).getInt("onboard_sequence", -1);
-    FragmentManager localFragmentManager = getSupportFragmentManager();
-    if (i < 5)
+    int i = PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext()).getInt("onboard_sequence", -1);
+    Object localObject = getSupportFragmentManager();
+    switch (i)
     {
-      ((SharedPreferences)localObject).edit().remove("onboard_sequence").commit();
+    default: 
+      setResult(-1);
+      localObject = new Intent(this, MainActivity.class);
+      ((Intent)localObject).setFlags(67108864);
+      startActivity((Intent)localObject);
+      if (i > 5) {
+        break;
+      }
+    }
+    while (i <= 6)
+    {
+      return;
       BlinkAPI.BlinkAPIRequest(null, null, new LogoutRequest(), new BlinkAPI.BlinkAPICallback()
       {
         public void onError(BlinkError paramAnonymousBlinkError)
@@ -56,24 +66,21 @@ public class OnboardingActivity
           OnboardingActivity.this.logMeOut();
         }
       }, false);
-      return;
+      break;
+      killSMAP();
+      this.mCurrentOnboardFragment = 2;
+      ((FragmentManager)localObject).beginTransaction().replace(2131558534, Onboard_2_Wait_For_Blue_Light_Fragment.newInstance(-1)).commit();
+      break;
+      this.mCurrentOnboardFragment = 5;
+      ((Onboard_6_Enter_WiFi_Credentials_Fragment)((FragmentManager)localObject).findFragmentById(2131558534)).hideKeyboard();
+      ((FragmentManager)localObject).beginTransaction().replace(2131558534, Onboard_5_Show_WiFi_Fragment.newInstance(-1)).commit();
+      break;
     }
-    if (i > 6)
-    {
-      setResult(-1);
-      localObject = new Intent(this, MainActivity.class);
-      ((Intent)localObject).setFlags(67108864);
-      startActivity((Intent)localObject);
-      finish();
-      return;
-    }
-    switch (i)
-    {
-    default: 
-      return;
-    }
-    ((Onboard_6_Enter_WiFi_Credentials_Fragment)localFragmentManager.findFragmentById(2131558534)).hideKeyboard();
-    localFragmentManager.beginTransaction().replace(2131558534, Onboard_5_Show_WiFi_Fragment.newInstance(-1)).commit();
+  }
+  
+  private void killSMAP()
+  {
+    BlinkAPI.BlinkAPIRequest(null, null, new OnboardingDoneRequest(), null, false);
   }
   
   private void logMeOut()
@@ -126,7 +133,7 @@ public class OnboardingActivity
       this.actionbar.setDisplayOptions(16);
       paramBundle = getLayoutInflater().inflate(2130903077, null);
       this.actionbar.setCustomView(paramBundle);
-      this.actionbar.setTitle(2131099983);
+      this.actionbar.setTitle(2131099987);
       setResult(0);
       return;
       paramBundle.beginTransaction().replace(2131558534, Onboard_2_Wait_For_Blue_Light_Fragment.newInstance(-1)).commit();
@@ -158,7 +165,7 @@ public class OnboardingActivity
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/activities/OnboardingActivity.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/OnboardingActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

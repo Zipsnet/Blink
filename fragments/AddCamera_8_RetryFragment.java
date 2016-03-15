@@ -40,7 +40,7 @@ public class AddCamera_8_RetryFragment
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
     this.mView = paramLayoutInflater.inflate(2130903110, paramViewGroup, false);
-    ((Button)this.mView.findViewById(2131558552)).setOnClickListener(new View.OnClickListener()
+    ((Button)this.mView.findViewById(2131558556)).setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
@@ -56,7 +56,7 @@ public class AddCamera_8_RetryFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/AddCamera_8_RetryFragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/AddCamera_8_RetryFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

@@ -43,6 +43,7 @@ import com.immediasemi.blink.utils.SectionAdapter;
 import com.immediasemi.blink.utils.Util;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class VideoListViewFragment
@@ -78,18 +79,15 @@ public class VideoListViewFragment
   {
     public void onReceive(Context paramAnonymousContext, Intent paramAnonymousIntent)
     {
-      if (VideoListViewFragment.this.getActivity() == null) {
-        return;
-      }
-      if ((VideoListViewFragment.this.mDeleteMode) || (VideoListViewFragment.this.mEditMode))
+      if (VideoListViewFragment.this.getActivity() == null) {}
+      do
       {
-        BlinkClipArray.instance().refresh();
         return;
-      }
-      VideoListViewFragment.this.mProgress.setVisibility(4);
+        VideoListViewFragment.this.mProgress.setVisibility(4);
+      } while ((VideoListViewFragment.this.mDeleteMode) || (VideoListViewFragment.this.mEditMode));
       int i = VideoListViewFragment.this.mVideos.count();
       if (i != VideoListViewFragment.this.mVideoCount) {
-        VideoListViewFragment.access$1402(VideoListViewFragment.this, i);
+        VideoListViewFragment.access$1802(VideoListViewFragment.this, i);
       }
       if (VideoListViewFragment.this.mDeleteFlagArray.size() != VideoListViewFragment.this.mVideoCount)
       {
@@ -113,11 +111,11 @@ public class VideoListViewFragment
       VideoListViewFragment.this.mListView.setSelectionFromTop(VideoListViewFragment.this.mListPosition, VideoListViewFragment.this.mListTop);
       if (VideoListViewFragment.this.mVideos.getClipCount() == 0)
       {
-        VideoListViewFragment.this.mFragmentView.findViewById(2131558666).setVisibility(0);
+        VideoListViewFragment.this.mFragmentView.findViewById(2131558670).setVisibility(0);
         VideoListViewFragment.this.mProgress.setVisibility(4);
         return;
       }
-      VideoListViewFragment.this.mFragmentView.findViewById(2131558666).setVisibility(4);
+      VideoListViewFragment.this.mFragmentView.findViewById(2131558670).setVisibility(4);
       if (VideoListViewFragment.this.mVideoCount == 0)
       {
         VideoListViewFragment.this.mProgress.setVisibility(0);
@@ -131,21 +129,17 @@ public class VideoListViewFragment
     public void onReceive(Context paramAnonymousContext, Intent paramAnonymousIntent)
     {
       int i = 0;
-      if (VideoListViewFragment.this.getActivity() == null) {
+      if (VideoListViewFragment.this.getActivity() == null) {}
+      while ((VideoListViewFragment.this.mDeleteMode) || (VideoListViewFragment.this.mEditMode)) {
         return;
       }
-      if ((VideoListViewFragment.this.mDeleteMode) || (VideoListViewFragment.this.mEditMode))
-      {
-        BlinkClipArray.instance().refresh();
-        return;
-      }
-      VideoListViewFragment.access$902(VideoListViewFragment.this, VideoListViewFragment.this.mListView.getFirstVisiblePosition());
+      VideoListViewFragment.access$1402(VideoListViewFragment.this, VideoListViewFragment.this.mListView.getFirstVisiblePosition());
       paramAnonymousContext = VideoListViewFragment.this.mListView.getChildAt(0);
       paramAnonymousIntent = VideoListViewFragment.this;
       if (paramAnonymousContext == null) {}
       for (;;)
       {
-        VideoListViewFragment.access$1102(paramAnonymousIntent, i);
+        VideoListViewFragment.access$1602(paramAnonymousIntent, i);
         return;
         i = paramAnonymousContext.getTop() - VideoListViewFragment.this.mListView.getPaddingTop();
       }
@@ -154,7 +148,7 @@ public class VideoListViewFragment
   
   private void cancelDeleteMode()
   {
-    this.mEditButton.setText(2131099807);
+    this.mEditButton.setText(2131099811);
     this.mDeleteButton.setVisibility(4);
     int i = 0;
     while (i < this.mDeleteFlagArray.size())
@@ -180,7 +174,7 @@ public class VideoListViewFragment
     this.mDeleteCheckArray.clear();
     this.mMarkAllHasBeenSelected = false;
     this.mEditMode = false;
-    this.mEditButton.setText(2131099807);
+    this.mEditButton.setText(2131099811);
     this.mMarkAll.setVisibility(4);
     this.mDeleteButton.setVisibility(4);
   }
@@ -291,7 +285,12 @@ public class VideoListViewFragment
       }
       i -= 1;
     }
-    this.mVideos.deleteVideoIDs(localArrayList);
+    this.mVideos.deleteVideoList(localArrayList);
+    this.mEditMode = false;
+    this.mEditButton.setText(2131099811);
+    this.mMarkAll.setVisibility(4);
+    this.mDeleteButton.setVisibility(4);
+    this.mListAdapter.notifyDataSetChanged();
   }
   
   private void removeMarkedFromLists(int paramInt)
@@ -339,13 +338,37 @@ public class VideoListViewFragment
     launchVideoPlayer(paramInt1, paramInt2);
   }
   
+  private void selectAllForDelete()
+  {
+    if ((this.mDeleteCheckArray == null) || (this.mDeleteCheckArray.size() == 0)) {}
+    for (;;)
+    {
+      return;
+      for (Integer localInteger = Integer.valueOf(0); localInteger.intValue() < this.mDeleteCheckArray.size(); localInteger = Integer.valueOf(localInteger.intValue() + 1)) {
+        this.mDeleteCheckArray.set(localInteger.intValue(), Integer.valueOf(1));
+      }
+    }
+  }
+  
+  private Integer selectedForDeleteCount()
+  {
+    Integer localInteger = Integer.valueOf(0);
+    Iterator localIterator = this.mDeleteCheckArray.iterator();
+    while (localIterator.hasNext()) {
+      if (((Integer)localIterator.next()).intValue() == 1) {
+        localInteger = Integer.valueOf(localInteger.intValue() + 1);
+      }
+    }
+    return localInteger;
+  }
+  
   public void getSwipeItem(boolean paramBoolean, int paramInt)
   {
     boolean bool = true;
     if ((!this.mDeleteMode) && (!paramBoolean))
     {
       this.mDeleteMode = true;
-      this.mEditButton.setText(2131099774);
+      this.mEditButton.setText(2131099778);
     }
     int j;
     if (this.mDeleteMode)
@@ -388,8 +411,8 @@ public class VideoListViewFragment
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).getSupportActionBar().setTitle(2131099985);
-    ((VideoListViewActivity)paramActivity).setFragmentTitle(getString(2131099985));
+    ((BaseActivity)paramActivity).getSupportActionBar().setTitle(2131099989);
+    ((VideoListViewActivity)paramActivity).setFragmentTitle(getString(2131099989));
   }
   
   public void onCreate(Bundle paramBundle)
@@ -417,10 +440,10 @@ public class VideoListViewFragment
     this.mVideos = BlinkClipArray.instance();
     this.mVideos.context = getContext();
     this.mProgress = this.mFragmentView.findViewById(2131558538);
-    this.mListView = ((ListView)this.mFragmentView.findViewById(2131558667));
+    this.mListView = ((ListView)this.mFragmentView.findViewById(2131558671));
     this.mListAdapter = new VideoSectionAdapter(null);
     this.mListView.setAdapter(this.mListAdapter);
-    this.mEditButton = ((Button)this.mFragmentView.findViewById(2131558663));
+    this.mEditButton = ((Button)this.mFragmentView.findViewById(2131558667));
     this.mEditButton.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -428,30 +451,41 @@ public class VideoListViewFragment
         if (!OnClick.ok()) {
           return;
         }
-        if (VideoListViewFragment.this.mDeleteMode)
-        {
+        if (VideoListViewFragment.this.mDeleteMode) {
           VideoListViewFragment.this.cancelDeleteMode();
-          VideoListViewFragment.access$302(VideoListViewFragment.this, false);
-          return;
         }
-        if (VideoListViewFragment.this.mEditMode)
+        for (;;)
         {
-          VideoListViewFragment.access$402(VideoListViewFragment.this, false);
-          int i = 0;
-          while (i < VideoListViewFragment.this.mDeleteCheckArray.size())
-          {
-            VideoListViewFragment.this.mDeleteCheckArray.set(i, Integer.valueOf(0));
-            i += 1;
+          VideoListViewFragment.access$902(VideoListViewFragment.this, false);
+          if (!VideoListViewFragment.this.mEditMode) {
+            break;
           }
-          VideoListViewFragment.this.mListAdapter.notifyDataSetChanged();
+          VideoListViewFragment.this.mVideos.stop();
           return;
+          if (VideoListViewFragment.this.mEditMode)
+          {
+            VideoListViewFragment.access$302(VideoListViewFragment.this, false);
+            VideoListViewFragment.this.mEditButton.setText(2131099811);
+            VideoListViewFragment.this.mMarkAll.setVisibility(4);
+            VideoListViewFragment.this.mDeleteButton.setVisibility(4);
+            int i = 0;
+            while (i < VideoListViewFragment.this.mDeleteCheckArray.size())
+            {
+              VideoListViewFragment.this.mDeleteCheckArray.set(i, Integer.valueOf(0));
+              i += 1;
+            }
+            VideoListViewFragment.this.mListAdapter.notifyDataSetChanged();
+          }
+          else
+          {
+            VideoListViewFragment.access$302(VideoListViewFragment.this, true);
+            VideoListViewFragment.this.mListAdapter.notifyDataSetChanged();
+          }
         }
-        VideoListViewFragment.access$402(VideoListViewFragment.this, true);
-        VideoListViewFragment.this.mListAdapter.notifyDataSetChanged();
-        VideoListViewFragment.access$302(VideoListViewFragment.this, false);
+        VideoListViewFragment.this.mVideos.refresh();
       }
     });
-    this.mDeleteButton = ((Button)this.mFragmentView.findViewById(2131558665));
+    this.mDeleteButton = ((Button)this.mFragmentView.findViewById(2131558669));
     this.mDeleteButton.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -460,8 +494,10 @@ public class VideoListViewFragment
         do
         {
           return;
-          if (VideoListViewFragment.this.mDeleteMode) {
+          if (VideoListViewFragment.this.mDeleteMode)
+          {
             VideoListViewFragment.this.cancelDeleteMode();
+            VideoListViewFragment.this.mVideos.refresh();
           }
         } while (!VideoListViewFragment.this.mEditMode);
         if (VideoListViewFragment.this.mMarkAllHasBeenSelected)
@@ -472,7 +508,7 @@ public class VideoListViewFragment
         VideoListViewFragment.this.private_delete_lines();
       }
     });
-    this.mMarkAll = ((Button)this.mFragmentView.findViewById(2131558664));
+    this.mMarkAll = ((Button)this.mFragmentView.findViewById(2131558668));
     this.mMarkAll.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -480,8 +516,9 @@ public class VideoListViewFragment
         if (!OnClick.ok()) {
           return;
         }
+        VideoListViewFragment.access$902(VideoListViewFragment.this, true);
+        VideoListViewFragment.this.selectAllForDelete();
         VideoListViewFragment.this.mListAdapter.notifyDataSetChanged();
-        VideoListViewFragment.access$302(VideoListViewFragment.this, true);
       }
     });
     this.mPollHandler = new PollHandler();
@@ -491,6 +528,7 @@ public class VideoListViewFragment
   public void onDetach()
   {
     this.mVideos.stop();
+    this.mVideos = null;
     super.onDetach();
   }
   
@@ -540,7 +578,10 @@ public class VideoListViewFragment
     this.mListAdapter.notifyDataSetChanged();
     this.mListView.setSelectionFromTop(this.mListPosition, this.mListTop);
     this.mProgress.setVisibility(0);
-    BlinkClipArray.instance().refresh();
+    if (this.mVideos == null) {
+      this.mVideos = BlinkClipArray.instance();
+    }
+    this.mVideos.refresh();
     localObject = this.mPollHandler.obtainMessage(1, this);
     this.mPollHandler.sendMessageDelayed((Message)localObject, 20000L);
   }
@@ -590,9 +631,15 @@ public class VideoListViewFragment
     
     public boolean onSingleTapUp(MotionEvent paramMotionEvent)
     {
-      int i = VideoListViewFragment.this.mListView.pointToPosition((int)paramMotionEvent.getX(), (int)paramMotionEvent.getY());
-      VideoListViewFragment.this.rowClicked(0, i);
-      return true;
+      if (VideoListViewFragment.this.mDeleteMode) {
+        VideoListViewFragment.this.cancelDeleteMode();
+      }
+      for (;;)
+      {
+        return true;
+        int i = VideoListViewFragment.this.mListView.pointToPosition((int)paramMotionEvent.getX(), (int)paramMotionEvent.getY());
+        VideoListViewFragment.this.rowClicked(0, i);
+      }
     }
   }
   
@@ -619,15 +666,15 @@ public class VideoListViewFragment
     
     public VideoItemHolder(int paramInt, View paramView)
     {
-      this.camName = ((TextView)paramView.findViewById(2131558670));
-      this.txtTitle = ((TextView)paramView.findViewById(2131558671));
-      this.subTitle = ((TextView)paramView.findViewById(2131558672));
-      this.imageView = ((ImageView)paramView.findViewById(2131558623));
-      this.deleteItemButton = ((TextView)paramView.findViewById(2131558673));
+      this.camName = ((TextView)paramView.findViewById(2131558674));
+      this.txtTitle = ((TextView)paramView.findViewById(2131558675));
+      this.subTitle = ((TextView)paramView.findViewById(2131558676));
+      this.imageView = ((ImageView)paramView.findViewById(2131558627));
+      this.deleteItemButton = ((TextView)paramView.findViewById(2131558677));
       this.deleteItemButton.setVisibility(8);
-      this.deleteCheck = ((AppCompatCheckBox)paramView.findViewById(2131558669));
+      this.deleteCheck = ((AppCompatCheckBox)paramView.findViewById(2131558673));
       this.deleteCheck.setVisibility(8);
-      this.blue_dot = ((ImageView)paramView.findViewById(2131558668));
+      this.blue_dot = ((ImageView)paramView.findViewById(2131558672));
       this.blue_dot.setVisibility(4);
       this.row = paramInt;
       paramView.setTag(this);
@@ -646,123 +693,110 @@ public class VideoListViewFragment
     
     public View getRowView(final int paramInt1, final int paramInt2, View paramView, ViewGroup paramViewGroup)
     {
-      final Object localObject1;
-      if (paramView != null)
+      paramView = VideoListViewFragment.this.mInflater.inflate(2130903113, paramViewGroup, false);
+      paramViewGroup = new VideoListViewFragment.VideoItemHolder(paramInt2, paramView);
+      paramViewGroup.imageView.setVisibility(4);
+      final Video localVideo = (Video)getRowItem(paramInt1, paramInt2);
+      String[] arrayOfString = Util.reformatDate(Util.getLocalDateYearTime(localVideo.getCreated_at())).split("%");
+      paramViewGroup.txtTitle.setText(arrayOfString[0]);
+      paramViewGroup.subTitle.setText(arrayOfString[1]);
+      paramViewGroup.camName.setText(localVideo.getCamera_name());
+      if (localVideo.getViewed() == null)
       {
-        localObject1 = paramView;
-        Object localObject2 = (VideoListViewFragment.VideoItemHolder)paramView.getTag();
-        paramViewGroup = (ViewGroup)localObject1;
-        paramView = (View)localObject2;
-        if (((VideoListViewFragment.VideoItemHolder)localObject2).row != paramInt2)
-        {
-          paramView = new VideoListViewFragment.VideoItemHolder(paramInt2, (View)localObject1);
-          paramView.imageView.setVisibility(4);
-          paramViewGroup = (ViewGroup)localObject1;
-        }
-        localObject1 = (Video)getRowItem(paramInt1, paramInt2);
-        localObject2 = Util.reformatDate(Util.getLocalDateYearTime(((Video)localObject1).getCreated_at())).split("%");
-        paramView.txtTitle.setText(localObject2[0]);
-        paramView.subTitle.setText(localObject2[1]);
-        paramView.camName.setText(((Video)localObject1).getCamera_name());
-        if (((Video)localObject1).getViewed() != null) {
-          break label334;
-        }
-        paramView.blue_dot.setVisibility(0);
-        label134:
+        paramViewGroup.blue_dot.setVisibility(0);
         if (!VideoListViewFragment.this.mDeleteMode) {
-          break label365;
+          break label316;
         }
         if (!((Boolean)VideoListViewFragment.this.mDeleteFlagArray.get(paramInt2)).booleanValue()) {
-          break label345;
+          break label294;
         }
-        paramView.deleteItemButton.setVisibility(0);
-        paramView.deleteItemButton.setOnClickListener(new View.OnClickListener()
+        paramViewGroup.deleteItemButton.setVisibility(0);
+        paramViewGroup.deleteItemButton.setOnClickListener(new View.OnClickListener()
         {
           public void onClick(View paramAnonymousView)
           {
             if (!OnClick.ok()) {
               return;
             }
-            VideoListViewFragment.this.deleteLine(paramInt1, paramInt2, localObject1);
+            VideoListViewFragment.this.deleteLine(paramInt1, paramInt2, localVideo);
           }
         });
-        label193:
-        paramView.deleteCheck.setVisibility(8);
+        label180:
+        paramViewGroup.deleteCheck.setVisibility(8);
         VideoListViewFragment.this.mMarkAll.setVisibility(4);
         VideoListViewFragment.this.mDeleteButton.setVisibility(4);
       }
       for (;;)
       {
-        new ImageLoader(((Video)localObject1).getThumbnail(), paramView.imageView, false, 0);
+        new ImageLoader(localVideo.getThumbnail(), paramViewGroup.imageView, true, 0);
         if (paramInt2 == VideoListViewFragment.this.mVideos.count() - 1) {
           VideoListViewFragment.this.mVideos.setCurrentIndex(paramInt2);
         }
         if (VideoListViewFragment.this.mSelection != paramInt2) {
-          break label592;
+          break label535;
         }
-        paramViewGroup.findViewById(2131558674).setVisibility(0);
-        return paramViewGroup;
-        paramViewGroup = VideoListViewFragment.this.mInflater.inflate(2130903113, paramViewGroup, false);
-        paramView = new VideoListViewFragment.VideoItemHolder(paramInt2, paramViewGroup);
-        paramView.imageView.setVisibility(4);
+        paramView.findViewById(2131558678).setVisibility(0);
+        return paramView;
+        paramViewGroup.blue_dot.setVisibility(4);
         break;
-        label334:
-        paramView.blue_dot.setVisibility(4);
-        break label134;
-        label345:
-        paramView.deleteItemButton.setOnClickListener(null);
-        paramView.deleteItemButton.setVisibility(8);
-        break label193;
-        label365:
-        paramView.deleteItemButton.setVisibility(8);
+        label294:
+        paramViewGroup.deleteItemButton.setOnClickListener(null);
+        paramViewGroup.deleteItemButton.setVisibility(8);
+        break label180;
+        label316:
+        paramViewGroup.deleteItemButton.setVisibility(8);
         if (VideoListViewFragment.this.mEditMode)
         {
-          paramView.deleteCheck.setVisibility(0);
+          paramViewGroup.deleteCheck.setVisibility(0);
           if ((((Integer)VideoListViewFragment.this.mDeleteCheckArray.get(paramInt2)).intValue() == 1) || (VideoListViewFragment.this.mMarkAllHasBeenSelected))
           {
             VideoListViewFragment.this.mDeleteCheckArray.set(paramInt2, Integer.valueOf(1));
-            paramView.deleteCheck.setChecked(true);
+            paramViewGroup.deleteCheck.setChecked(true);
           }
           for (;;)
           {
-            paramView.deleteCheck.setTag(Integer.valueOf(paramInt2));
-            paramView.deleteCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+            paramViewGroup.deleteCheck.setTag(Integer.valueOf(paramInt2));
+            paramViewGroup.deleteCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
             {
               public void onCheckedChanged(CompoundButton paramAnonymousCompoundButton, boolean paramAnonymousBoolean)
               {
-                int j;
+                boolean bool = true;
+                int j = ((Integer)paramAnonymousCompoundButton.getTag()).intValue();
+                int i;
                 if (paramAnonymousBoolean)
                 {
-                  j = ((Integer)paramAnonymousCompoundButton.getTag()).intValue();
-                  if (!paramAnonymousBoolean) {
-                    break label45;
+                  i = 1;
+                  VideoListViewFragment.this.mDeleteCheckArray.set(j, Integer.valueOf(i));
+                  paramAnonymousCompoundButton = VideoListViewFragment.this;
+                  if (VideoListViewFragment.this.selectedForDeleteCount().intValue() != VideoListViewFragment.this.mVideoCount) {
+                    break label92;
                   }
                 }
-                label45:
-                for (int i = 1;; i = 0)
+                label92:
+                for (paramAnonymousBoolean = bool;; paramAnonymousBoolean = false)
                 {
-                  VideoListViewFragment.this.mDeleteCheckArray.set(j, Integer.valueOf(i));
+                  VideoListViewFragment.access$902(paramAnonymousCompoundButton, paramAnonymousBoolean);
                   return;
+                  i = 0;
+                  break;
                 }
               }
             });
-            VideoListViewFragment.this.mEditButton.setText(2131099774);
-            VideoListViewFragment.this.mMarkAll.setText(2131099873);
+            VideoListViewFragment.this.mEditButton.setText(2131099778);
+            VideoListViewFragment.this.mMarkAll.setText(2131099877);
             VideoListViewFragment.this.mMarkAll.setVisibility(0);
             VideoListViewFragment.this.mDeleteButton.setVisibility(0);
             break;
-            paramView.deleteCheck.setChecked(false);
+            VideoListViewFragment.this.mDeleteCheckArray.set(paramInt2, Integer.valueOf(0));
+            paramViewGroup.deleteCheck.setChecked(false);
           }
         }
-        paramView.deleteCheck.setVisibility(8);
-        paramView.deleteItemButton.setVisibility(8);
-        VideoListViewFragment.this.mEditButton.setText(2131099807);
-        VideoListViewFragment.this.mMarkAll.setVisibility(4);
-        VideoListViewFragment.this.mDeleteButton.setVisibility(4);
+        paramViewGroup.deleteCheck.setVisibility(8);
+        paramViewGroup.deleteItemButton.setVisibility(8);
       }
-      label592:
-      paramViewGroup.findViewById(2131558674).setVisibility(4);
-      return paramViewGroup;
+      label535:
+      paramView.findViewById(2131558678).setVisibility(4);
+      return paramView;
     }
     
     public int getSectionHeaderItemViewType(int paramInt)
@@ -803,7 +837,7 @@ public class VideoListViewFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/VideoListViewFragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/VideoListViewFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

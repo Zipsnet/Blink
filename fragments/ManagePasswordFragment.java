@@ -25,6 +25,7 @@ import com.immediasemi.blink.api.requests.Accounts.ChangePasswordRequest;
 import com.immediasemi.blink.models.BlinkData;
 import com.immediasemi.blink.models.BlinkError;
 import com.immediasemi.blink.utils.OnClick;
+import java.util.HashMap;
 
 public class ManagePasswordFragment
   extends BaseFragment
@@ -41,16 +42,24 @@ public class ManagePasswordFragment
   private void loginError(BlinkError paramBlinkError)
   {
     if (getActivity() != null) {
-      new AlertDialog.Builder(getActivity()).setMessage(paramBlinkError.getErrorMessage()).setPositiveButton(2131099922, new DialogInterface.OnClickListener()
+      if (paramBlinkError.response == null) {
+        break label75;
+      }
+    }
+    label75:
+    for (paramBlinkError = (String)paramBlinkError.response.get("message");; paramBlinkError = "")
+    {
+      new AlertDialog.Builder(getActivity()).setMessage(paramBlinkError).setPositiveButton(2131099926, new DialogInterface.OnClickListener()
       {
         public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt) {}
-      }).setNegativeButton(2131099774, new DialogInterface.OnClickListener()
+      }).setNegativeButton(2131099778, new DialogInterface.OnClickListener()
       {
         public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt)
         {
           ManagePasswordFragment.this.getActivity().finish();
         }
       }).create().show();
+      return;
     }
   }
   
@@ -74,8 +83,8 @@ public class ManagePasswordFragment
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
     this.mView = paramLayoutInflater.inflate(2130903106, paramViewGroup, false);
-    this.mNewPassword = ((EditText)this.mView.findViewById(2131558657));
-    this.mChangePasswordButton = ((Button)this.mView.findViewById(2131558659));
+    this.mNewPassword = ((EditText)this.mView.findViewById(2131558661));
+    this.mChangePasswordButton = ((Button)this.mView.findViewById(2131558663));
     this.mNewPassword.addTextChangedListener(new TextWatcher()
     {
       public void afterTextChanged(Editable paramAnonymousEditable)
@@ -120,7 +129,7 @@ public class ManagePasswordFragment
         }
       }
     });
-    this.mNewPasswordConfirm = ((EditText)this.mView.findViewById(2131558658));
+    this.mNewPasswordConfirm = ((EditText)this.mView.findViewById(2131558662));
     this.mNewPasswordConfirm.addTextChangedListener(new TextWatcher()
     {
       public void afterTextChanged(Editable paramAnonymousEditable)
@@ -165,7 +174,7 @@ public class ManagePasswordFragment
         String str = ManagePasswordFragment.this.mNewPasswordConfirm.getText().toString();
         if (paramAnonymousView.length() < 6)
         {
-          new AlertDialog.Builder(ManagePasswordFragment.this.getActivity()).setMessage("Password must be at least 6 characters").setPositiveButton(2131099886, new DialogInterface.OnClickListener()
+          new AlertDialog.Builder(ManagePasswordFragment.this.getActivity()).setMessage("Password must be at least 6 characters").setPositiveButton(2131099890, new DialogInterface.OnClickListener()
           {
             public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
           }).create().show();
@@ -173,7 +182,7 @@ public class ManagePasswordFragment
         }
         if (!paramAnonymousView.equals(str))
         {
-          new AlertDialog.Builder(ManagePasswordFragment.this.getActivity()).setMessage("Password does not match").setPositiveButton(2131099886, new DialogInterface.OnClickListener()
+          new AlertDialog.Builder(ManagePasswordFragment.this.getActivity()).setMessage("Password does not match").setPositiveButton(2131099890, new DialogInterface.OnClickListener()
           {
             public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
           }).create().show();
@@ -194,7 +203,7 @@ public class ManagePasswordFragment
           {
             BlinkApp.getApp().setUserName(paramAnonymousView);
             if (ManagePasswordFragment.this.getActivity() != null) {
-              new AlertDialog.Builder(ManagePasswordFragment.this.getActivity()).setMessage("Password changed successfully").setPositiveButton(2131099886, new DialogInterface.OnClickListener()
+              new AlertDialog.Builder(ManagePasswordFragment.this.getActivity()).setMessage("Password changed successfully").setPositiveButton(2131099890, new DialogInterface.OnClickListener()
               {
                 public void onClick(DialogInterface paramAnonymous3DialogInterface, int paramAnonymous3Int)
                 {
@@ -221,7 +230,7 @@ public class ManagePasswordFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/ManagePasswordFragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/ManagePasswordFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

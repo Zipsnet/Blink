@@ -27,6 +27,7 @@ import com.immediasemi.blink.api.requests.Cameras.UpdateCameraRequest;
 import com.immediasemi.blink.models.BlinkData;
 import com.immediasemi.blink.models.BlinkError;
 import com.immediasemi.blink.utils.OnClick;
+import java.util.HashMap;
 
 public class AddCamera_5_NameCameraFragment
   extends BaseFragment
@@ -59,7 +60,7 @@ public class AddCamera_5_NameCameraFragment
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
     this.mView = paramLayoutInflater.inflate(2130903090, paramViewGroup, false);
-    this.mCamName = ((EditText)this.mView.findViewById(2131558585));
+    this.mCamName = ((EditText)this.mView.findViewById(2131558589));
     if ((this.mCameraName != null) && (this.mCameraName.length() > 0)) {
       this.mCamName.setText(this.mCameraName);
     }
@@ -86,7 +87,7 @@ public class AddCamera_5_NameCameraFragment
         AddCamera_5_NameCameraFragment.this.mCamName.setSelection(AddCamera_5_NameCameraFragment.this.mCamName.getText().length());
       }
     }.sendEmptyMessageDelayed(0, 250L);
-    ((Button)this.mView.findViewById(2131558547)).setOnClickListener(new View.OnClickListener()
+    ((Button)this.mView.findViewById(2131558551)).setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
@@ -108,13 +109,18 @@ public class AddCamera_5_NameCameraFragment
             public void onError(BlinkError paramAnonymous2BlinkError)
             {
               if (AddCamera_5_NameCameraFragment.this.getActivity() != null) {
-                new AlertDialog.Builder(AddCamera_5_NameCameraFragment.this.getActivity()).setTitle("Error").setMessage("Camera naming failed").setPositiveButton(2131099922, new DialogInterface.OnClickListener()
-                {
-                  public void onClick(DialogInterface paramAnonymous3DialogInterface, int paramAnonymous3Int) {}
-                }).setNegativeButton(2131099774, new DialogInterface.OnClickListener()
+                if (paramAnonymous2BlinkError.response == null) {
+                  break label74;
+                }
+              }
+              label74:
+              for (paramAnonymous2BlinkError = (String)paramAnonymous2BlinkError.response.get("message");; paramAnonymous2BlinkError = paramAnonymous2BlinkError.getErrorMessage())
+              {
+                new AlertDialog.Builder(AddCamera_5_NameCameraFragment.this.getActivity()).setMessage(paramAnonymous2BlinkError).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
                 {
                   public void onClick(DialogInterface paramAnonymous3DialogInterface, int paramAnonymous3Int) {}
                 }).create().show();
+                return;
               }
             }
             
@@ -135,7 +141,7 @@ public class AddCamera_5_NameCameraFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/AddCamera_5_NameCameraFragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/AddCamera_5_NameCameraFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

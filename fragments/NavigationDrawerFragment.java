@@ -36,8 +36,8 @@ public class NavigationDrawerFragment
   private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
   private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
   private static final String STATE_SIGNED_IN = "is_signed_in";
-  static int[] drawer_signed_in_icons = { 0, 2130837735, 2130837743, 2130837716, 2130837732, 2130837726, 2130837748, 0 };
-  static int[] drawer_signed_out_icons = { 0, 2130837746, 2130837743, 2130837716, 2130837732, 2130837726, 0 };
+  static int[] drawer_signed_in_icons = { 0, 2130837737, 2130837745, 2130837718, 2130837734, 2130837728, 2130837750, 0 };
+  static int[] drawer_signed_out_icons = { 0, 2130837748, 2130837745, 2130837718, 2130837734, 2130837728, 0 };
   private NavigationDrawerCallbacks mCallbacks;
   private int mCurrentSelectedPosition = 0;
   private DrawerLayout mDrawerLayout;
@@ -69,7 +69,7 @@ public class NavigationDrawerFragment
     ActionBar localActionBar = getActionBar();
     localActionBar.setDisplayShowTitleEnabled(true);
     localActionBar.setNavigationMode(0);
-    localActionBar.setTitle(2131099741);
+    localActionBar.setTitle(2131099745);
   }
   
   public boolean closeDrawer()
@@ -175,12 +175,12 @@ public class NavigationDrawerFragment
   {
     this.mFragmentContainerView = getActivity().findViewById(paramInt);
     this.mDrawerLayout = paramDrawerLayout;
-    this.mDrawerLayout.setDrawerShadow(2130837680, 8388611);
+    this.mDrawerLayout.setDrawerShadow(2130837682, 8388611);
     paramDrawerLayout = getActionBar();
     paramDrawerLayout.setDisplayHomeAsUpEnabled(true);
     paramDrawerLayout.setHomeButtonEnabled(true);
-    paramDrawerLayout.setHomeAsUpIndicator(2130837783);
-    this.mDrawerToggle = new ActionBarDrawerToggle(getActivity(), this.mDrawerLayout, 2130837783, 2131099879, 2131099878)
+    paramDrawerLayout.setHomeAsUpIndicator(2130837785);
+    this.mDrawerToggle = new ActionBarDrawerToggle(getActivity(), this.mDrawerLayout, 2130837785, 2131099883, 2131099882)
     {
       public void onDrawerClosed(View paramAnonymousView)
       {
@@ -191,7 +191,7 @@ public class NavigationDrawerFragment
         ((MainActivity)NavigationDrawerFragment.this.getActivity()).navigationDrawerDidClose();
         paramAnonymousView = ((AppCompatActivity)NavigationDrawerFragment.this.getActivity()).getSupportActionBar();
         paramAnonymousView.setDisplayHomeAsUpEnabled(true);
-        paramAnonymousView.setHomeAsUpIndicator(2130837783);
+        paramAnonymousView.setHomeAsUpIndicator(2130837785);
         NavigationDrawerFragment.this.getActivity().supportInvalidateOptionsMenu();
       }
       
@@ -309,7 +309,7 @@ public class NavigationDrawerFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/NavigationDrawerFragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/NavigationDrawerFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

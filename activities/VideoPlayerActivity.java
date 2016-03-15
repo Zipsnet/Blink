@@ -1,7 +1,5 @@
 package com.immediasemi.blink.activities;
 
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -12,8 +10,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AlertDialog.Builder;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -54,6 +50,8 @@ public class VideoPlayerActivity
   public static final String VIDEO_DICT_ENTRY_VIDEO = "video";
   private boolean firstClip = true;
   private ThisHandler handler;
+  private boolean hasNext;
+  private boolean hasPrevious;
   private View mActionBarView;
   private String mClipName;
   private int mCurrentSelection;
@@ -79,21 +77,23 @@ public class VideoPlayerActivity
       localVideo.setCreated_at((String)localObject1);
       localVideo.setNetwork_id(Integer.valueOf(this.mVideoDict.getString("network")).intValue());
       localVideo.setEvent_id(Integer.valueOf(this.mVideoDict.getString("video")).intValue());
+      BlinkApp.getApp().setLastCameraId(this.mVideoDict.getString("camera"));
+      BlinkApp.getApp().setLastVideoId(this.mVideoDict.getString("video"));
       localObject1 = Util.reformatDate(Util.getLocalDateYearTime((String)localObject1)).split("%");
       localObject2 = getSupportFragmentManager();
       if (!this.firstClip) {
-        break label219;
+        break label249;
       }
       this.firstClip = false;
       localObject2 = ((FragmentManager)localObject2).beginTransaction();
       if (!this.mDeeplinked) {
-        break label213;
+        break label243;
       }
-      label166:
+      label196:
       ((FragmentTransaction)localObject2).replace(2131558534, VideoPlayerFragment.newInstance(i, localVideo, this.mClipName, (String[])localObject1)).commit();
     }
-    label213:
-    label219:
+    label243:
+    label249:
     do
     {
       return;
@@ -102,11 +102,11 @@ public class VideoPlayerActivity
       localObject1 = localVideo.getCreated_at();
       break;
       i = -1;
-      break label166;
+      break label196;
       localObject2 = ((FragmentManager)localObject2).getFragments();
     } while (localObject2 == null);
     Object localObject2 = ((List)localObject2).iterator();
-    label235:
+    label265:
     Object localObject3;
     while (((Iterator)localObject2).hasNext())
     {
@@ -115,15 +115,15 @@ public class VideoPlayerActivity
       {
         localObject3 = (VideoPlayerFragment)localObject3;
         if (!this.mDeeplinked) {
-          break label301;
+          break label331;
         }
       }
     }
-    label301:
+    label331:
     for (i = 0;; i = -1)
     {
       ((VideoPlayerFragment)localObject3).playClip(i, localVideo, this.mClipName, (String[])localObject1);
-      break label235;
+      break label265;
       break;
     }
   }
@@ -131,6 +131,9 @@ public class VideoPlayerActivity
   private void deleteCurrent()
   {
     int i = Integer.valueOf(BlinkApp.getApp().getLastVideoId()).intValue();
+    if (i == 0) {
+      return;
+    }
     if (i > 0)
     {
       this.mNumberOfClipsDeleted += 1;
@@ -168,17 +171,6 @@ public class VideoPlayerActivity
     this.handler.sendMessageDelayed(paramMessage, 2000L);
   }
   
-  private void endOfListDialog()
-  {
-    new AlertDialog.Builder(this).setTitle(getString(2131099745)).setMessage("").setPositiveButton(2131099886, new DialogInterface.OnClickListener()
-    {
-      public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt)
-      {
-        VideoPlayerActivity.this.finish();
-      }
-    }).create().show();
-  }
-  
   private Video getListRowItem(int paramInt)
   {
     return this.mVideos.objectAtIndex(paramInt);
@@ -186,9 +178,14 @@ public class VideoPlayerActivity
   
   private void hideBars()
   {
-    findViewById(2131558675).setVisibility(8);
-    this.mActionBarView.setVisibility(4);
-    Object localObject = getSupportFragmentManager().getFragments();
+    Object localObject = findViewById(2131558679);
+    if (localObject != null) {
+      ((View)localObject).setVisibility(8);
+    }
+    if (this.mActionBarView != null) {
+      this.mActionBarView.setVisibility(4);
+    }
+    localObject = getSupportFragmentManager().getFragments();
     if (localObject != null)
     {
       localObject = ((List)localObject).iterator();
@@ -226,9 +223,17 @@ public class VideoPlayerActivity
       this.mVideos.setCurrentIndex(this.mCurrentSelection);
       this.mVideos.objectAtIndex(this.mCurrentSelection).setViewed(Util.getTodayFormatted());
       launchPlayerFragment();
+      if (this.mCurrentSelection == this.mVideos.count() - 1) {
+        break label86;
+      }
+    }
+    label86:
+    for (boolean bool = true;; bool = false)
+    {
+      this.hasNext = bool;
+      updateMediaControllerButtons();
       return;
     }
-    endOfListDialog();
   }
   
   private void playPrevious()
@@ -239,16 +244,29 @@ public class VideoPlayerActivity
       this.mVideos.setCurrentIndex(this.mCurrentSelection);
       this.mVideos.objectAtIndex(this.mCurrentSelection).setViewed(Util.getTodayFormatted());
       launchPlayerFragment();
+      if (this.mCurrentSelection == 0) {
+        break label68;
+      }
+    }
+    label68:
+    for (boolean bool = true;; bool = false)
+    {
+      this.hasPrevious = bool;
+      updateMediaControllerButtons();
       return;
     }
-    endOfListDialog();
   }
   
   private void showBars()
   {
-    findViewById(2131558675).setVisibility(8);
-    this.mActionBarView.setVisibility(0);
-    Object localObject = getSupportFragmentManager().getFragments();
+    Object localObject = findViewById(2131558679);
+    if (localObject != null) {
+      ((View)localObject).setVisibility(8);
+    }
+    if (this.mActionBarView != null) {
+      this.mActionBarView.setVisibility(0);
+    }
+    localObject = getSupportFragmentManager().getFragments();
     if (localObject != null)
     {
       localObject = ((List)localObject).iterator();
@@ -266,19 +284,35 @@ public class VideoPlayerActivity
   {
     if (this.mIsLandscape)
     {
-      this.mActionBarView.findViewById(2131558679).setVisibility(4);
+      this.mActionBarView.findViewById(2131558683).setVisibility(4);
       this.mActionBarView.setBackgroundColor(ContextCompat.getColor(getBaseContext(), 2131492877));
       return;
     }
-    this.mActionBarView.findViewById(2131558679).setVisibility(0);
+    this.mActionBarView.findViewById(2131558683).setVisibility(0);
     this.mActionBarView.setBackgroundColor(ContextCompat.getColor(getBaseContext(), 2131492875));
+  }
+  
+  private void updateMediaControllerButtons()
+  {
+    Object localObject = getSupportFragmentManager().getFragments();
+    if (localObject != null)
+    {
+      localObject = ((List)localObject).iterator();
+      while (((Iterator)localObject).hasNext())
+      {
+        Fragment localFragment = (Fragment)((Iterator)localObject).next();
+        if (localFragment.getClass().equals(VideoPlayerFragment.class)) {
+          ((VideoPlayerFragment)localFragment).setMediaPrevNextButtons(this.hasPrevious, this.hasNext);
+        }
+      }
+    }
   }
   
   public void initActionBar(View paramView)
   {
-    this.mActionBarView = paramView.findViewById(2131558678);
-    ((TextView)this.mActionBarView.findViewById(2131558680)).setText(this.mClipName);
-    this.mActionBarView.findViewById(2131558679).setOnClickListener(new View.OnClickListener()
+    this.mActionBarView = paramView.findViewById(2131558682);
+    ((TextView)this.mActionBarView.findViewById(2131558684)).setText(this.mClipName);
+    this.mActionBarView.findViewById(2131558683).setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
@@ -397,9 +431,20 @@ public class VideoPlayerActivity
     paramBundle.putInt("current_selection", this.mCurrentSelection);
   }
   
+  public void onStop()
+  {
+    if (this.mVideos != null)
+    {
+      this.mVideos.stop();
+      this.mVideos = null;
+    }
+    super.onStop();
+  }
+  
   public boolean onTouchEvent(MotionEvent paramMotionEvent)
   {
     boolean bool;
+    Object localObject;
     if ((((WindowManager)getSystemService("window")).getDefaultDisplay().getRotation() & 0x1) != 0)
     {
       bool = true;
@@ -408,8 +453,8 @@ public class VideoPlayerActivity
         break label74;
       }
       showBars();
-      Message localMessage = this.handler.obtainMessage(1, this);
-      this.handler.sendMessageDelayed(localMessage, 4000L);
+      localObject = this.handler.obtainMessage(1, this);
+      this.handler.sendMessageDelayed((Message)localObject, 4000L);
     }
     for (;;)
     {
@@ -417,8 +462,12 @@ public class VideoPlayerActivity
       bool = false;
       break;
       label74:
-      findViewById(2131558675).setVisibility(0);
-      findViewById(2131558675).bringToFront();
+      localObject = findViewById(2131558679);
+      if (localObject != null)
+      {
+        ((View)localObject).setVisibility(0);
+        ((View)localObject).bringToFront();
+      }
     }
   }
   
@@ -435,7 +484,7 @@ public class VideoPlayerActivity
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/activities/VideoPlayerActivity.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/VideoPlayerActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

@@ -238,10 +238,10 @@ public class BlinkApp
         this.mTempUnits = ((SharedPreferences)localObject).getBoolean("pref_temp_units", true);
         this.mServerUrl = ((SharedPreferences)localObject).getString("pref_server_url", "");
         if (this.mServerUrl.length() == 0) {
-          this.mServerUrl = getResources().getStringArray(2131427331)[0];
+          this.mServerUrl = getResources().getStringArray(2131427332)[0];
         }
         this.mScreenMetrics = getResources().getDisplayMetrics();
-        Util.mWeekdays = getApp().getApplicationContext().getResources().getStringArray(2131427332);
+        Util.mWeekdays = getApp().getApplicationContext().getResources().getStringArray(2131427333);
         localObject = new File(Environment.getExternalStorageDirectory() + "/Android/data/" + getPackageName() + "/image_cache");
         if ((localObject == null) || (!((File)localObject).exists()) || (!((File)localObject).isDirectory())) {
           ((File)localObject).mkdir();
@@ -398,7 +398,7 @@ public class BlinkApp
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/BlinkApp.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/BlinkApp.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

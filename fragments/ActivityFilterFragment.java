@@ -136,7 +136,7 @@ public class ActivityFilterFragment
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099978));
+    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099982));
   }
   
   public void onCreate(Bundle paramBundle)
@@ -154,11 +154,11 @@ public class ActivityFilterFragment
     this.mInflater = paramLayoutInflater;
     paramLayoutInflater = paramLayoutInflater.inflate(2130903085, paramViewGroup, false);
     this.mViews = new ArrayList();
-    this.mTimeFrameGroup = ((LinearLayout)paramLayoutInflater.findViewById(2131558553));
-    this.mSpecificRangeGroup = ((LinearLayout)paramLayoutInflater.findViewById(2131558556));
-    this.mStartDateHeader = ((TextView)paramLayoutInflater.findViewById(2131558557));
-    this.mStartDateGroup = ((LinearLayout)paramLayoutInflater.findViewById(2131558558));
-    this.mStartDateValue = ((TextView)paramLayoutInflater.findViewById(2131558559));
+    this.mTimeFrameGroup = ((LinearLayout)paramLayoutInflater.findViewById(2131558557));
+    this.mSpecificRangeGroup = ((LinearLayout)paramLayoutInflater.findViewById(2131558560));
+    this.mStartDateHeader = ((TextView)paramLayoutInflater.findViewById(2131558561));
+    this.mStartDateGroup = ((LinearLayout)paramLayoutInflater.findViewById(2131558562));
+    this.mStartDateValue = ((TextView)paramLayoutInflater.findViewById(2131558563));
     this.mStartDateHeader.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -175,9 +175,9 @@ public class ActivityFilterFragment
       }
     });
     this.mStartDateValue.setText(new Date().toString());
-    this.mEndDateHeader = ((TextView)paramLayoutInflater.findViewById(2131558560));
-    this.mEndDateGroup = ((LinearLayout)paramLayoutInflater.findViewById(2131558561));
-    this.mEndDateValue = ((TextView)paramLayoutInflater.findViewById(2131558562));
+    this.mEndDateHeader = ((TextView)paramLayoutInflater.findViewById(2131558564));
+    this.mEndDateGroup = ((LinearLayout)paramLayoutInflater.findViewById(2131558565));
+    this.mEndDateValue = ((TextView)paramLayoutInflater.findViewById(2131558566));
     this.mEndDateHeader.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -194,28 +194,28 @@ public class ActivityFilterFragment
       }
     });
     this.mEndDateValue.setText(new Date().toString());
-    this.mCamerasGroup = ((LinearLayout)paramLayoutInflater.findViewById(2131558563));
-    this.mActivityTypeGroup = ((LinearLayout)paramLayoutInflater.findViewById(2131558566));
-    addTV(1, (TextView)paramLayoutInflater.findViewById(2131558554));
-    addTV(2, (TextView)paramLayoutInflater.findViewById(2131558555));
-    addTV(4, (TextView)paramLayoutInflater.findViewById(2131558564));
-    addTV(8, (TextView)paramLayoutInflater.findViewById(2131558567));
-    addTV(16, (TextView)paramLayoutInflater.findViewById(2131558568));
-    addTV(32, (TextView)paramLayoutInflater.findViewById(2131558569));
-    addTV(64, (TextView)paramLayoutInflater.findViewById(2131558570));
-    addTV(128, (TextView)paramLayoutInflater.findViewById(2131558571));
+    this.mCamerasGroup = ((LinearLayout)paramLayoutInflater.findViewById(2131558567));
+    this.mActivityTypeGroup = ((LinearLayout)paramLayoutInflater.findViewById(2131558570));
+    addTV(1, (TextView)paramLayoutInflater.findViewById(2131558558));
+    addTV(2, (TextView)paramLayoutInflater.findViewById(2131558559));
+    addTV(4, (TextView)paramLayoutInflater.findViewById(2131558568));
+    addTV(8, (TextView)paramLayoutInflater.findViewById(2131558571));
+    addTV(16, (TextView)paramLayoutInflater.findViewById(2131558572));
+    addTV(32, (TextView)paramLayoutInflater.findViewById(2131558573));
+    addTV(64, (TextView)paramLayoutInflater.findViewById(2131558574));
+    addTV(128, (TextView)paramLayoutInflater.findViewById(2131558575));
     this.mWhatsChecked = 13;
     if (this.mIsEventList)
     {
-      paramLayoutInflater.findViewById(2131558566).setVisibility(0);
-      paramLayoutInflater.findViewById(2131558565).setVisibility(0);
+      paramLayoutInflater.findViewById(2131558570).setVisibility(0);
+      paramLayoutInflater.findViewById(2131558569).setVisibility(0);
     }
     for (;;)
     {
       updateChecks(false);
       return paramLayoutInflater;
-      paramLayoutInflater.findViewById(2131558566).setVisibility(8);
-      paramLayoutInflater.findViewById(2131558565).setVisibility(8);
+      paramLayoutInflater.findViewById(2131558570).setVisibility(8);
+      paramLayoutInflater.findViewById(2131558569).setVisibility(8);
     }
   }
   
@@ -234,7 +234,7 @@ public class ActivityFilterFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/ActivityFilterFragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/ActivityFilterFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

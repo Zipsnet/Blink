@@ -32,6 +32,7 @@ import com.immediasemi.blink.activities.BaseActivity;
 import com.immediasemi.blink.api.BlinkAPI;
 import com.immediasemi.blink.api.BlinkAPI.BlinkAPICallback;
 import com.immediasemi.blink.api.requests.Cameras.EnableLiveViewRequest;
+import com.immediasemi.blink.api.requests.Command.CommandDoneRequest;
 import com.immediasemi.blink.models.BlinkData;
 import com.immediasemi.blink.models.BlinkError;
 import com.immediasemi.blink.models.LiveVideoResponse;
@@ -41,6 +42,7 @@ import com.immediasemi.rtsp.RTSPPlayer;
 import com.immediasemi.rtsp.RTSPPlayerView;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 
 public class VideoLiveViewFragment
   extends BaseFragment
@@ -83,15 +85,20 @@ public class VideoLiveViewFragment
         if ((VideoLiveViewFragment.this.getActivity() == null) || (VideoLiveViewFragment.this.mListener == null) || (VideoLiveViewFragment.this.isDetached())) {
           return;
         }
-        new AlertDialog.Builder(VideoLiveViewFragment.this.getActivity()).setTitle("Error").setMessage("Could not start live view").setPositiveButton(2131099886, null).setOnDismissListener(new DialogInterface.OnDismissListener()
+        if (paramAnonymousBlinkError.response != null) {}
+        for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = "")
         {
-          public void onDismiss(DialogInterface paramAnonymous2DialogInterface)
+          new AlertDialog.Builder(VideoLiveViewFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, null).setOnDismissListener(new DialogInterface.OnDismissListener()
           {
-            if (VideoLiveViewFragment.this.getActivity() != null) {
-              VideoLiveViewFragment.this.getActivity().finish();
+            public void onDismiss(DialogInterface paramAnonymous2DialogInterface)
+            {
+              if (VideoLiveViewFragment.this.getActivity() != null) {
+                VideoLiveViewFragment.this.getActivity().finish();
+              }
             }
-          }
-        }).create().show();
+          }).create().show();
+          return;
+        }
       }
       
       public void onResult(BlinkData paramAnonymousBlinkData)
@@ -99,8 +106,10 @@ public class VideoLiveViewFragment
         if ((VideoLiveViewFragment.this.getActivity() == null) || (VideoLiveViewFragment.this.mListener == null) || (VideoLiveViewFragment.this.isDetached())) {
           return;
         }
-        VideoLiveViewFragment.access$702(VideoLiveViewFragment.this, ((LiveVideoResponse)paramAnonymousBlinkData).getServer());
-        VideoLiveViewFragment.access$802(VideoLiveViewFragment.this, System.currentTimeMillis() / 1000L + Integer.parseInt(((LiveVideoResponse)paramAnonymousBlinkData).getDuration()));
+        paramAnonymousBlinkData = (LiveVideoResponse)paramAnonymousBlinkData;
+        BlinkApp.getApp().setLastCommand(String.valueOf(paramAnonymousBlinkData.getId()));
+        VideoLiveViewFragment.access$702(VideoLiveViewFragment.this, paramAnonymousBlinkData.getServer());
+        VideoLiveViewFragment.access$802(VideoLiveViewFragment.this, System.currentTimeMillis() / 1000L + Integer.parseInt(paramAnonymousBlinkData.getDuration()));
         paramAnonymousBlinkData = VideoLiveViewFragment.this.handler.obtainMessage(1, VideoLiveViewFragment.this);
         VideoLiveViewFragment.this.handler.sendMessage(paramAnonymousBlinkData);
       }
@@ -131,6 +140,21 @@ public class VideoLiveViewFragment
     return PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext()).getBoolean("live_view_muted", true);
   }
   
+  private void liveViewDone()
+  {
+    this.mShouldContinueCountdown = false;
+    if (this.mStopCalled) {}
+    do
+    {
+      return;
+      if (this.handler.hasMessages(1)) {
+        this.handler.removeMessages(1);
+      }
+    } while (this.mRTSPPlayer == null);
+    this.mStopCalled = true;
+    this.mRTSPPlayer.stop();
+  }
+  
   public static VideoLiveViewFragment newInstance(int paramInt)
   {
     VideoLiveViewFragment localVideoLiveViewFragment = new VideoLiveViewFragment();
@@ -145,6 +169,7 @@ public class VideoLiveViewFragment
     this.mRTSPPlayer = new RTSPPlayer(null);
     this.mRTSPPlayer.registerForNotifications(this);
     this.mRTSPPlayer.setMuted(isMuted());
+    this.mMuteButton.setVisibility(0);
     this.mRTSPPlayerView = new RTSPPlayerView(BlinkApp.getApp());
     this.mRTSPPlayerView.setDebugEnabled(false);
     this.mRTSPPlayerView.setPlayer(this.mRTSPPlayer);
@@ -282,7 +307,7 @@ public class VideoLiveViewFragment
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099986));
+    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099990));
   }
   
   public void onConfigurationChanged(Configuration paramConfiguration)
@@ -319,13 +344,14 @@ public class VideoLiveViewFragment
         return true;
       }
     });
-    ((TextView)this.mMainView.findViewById(2131558642)).setText(BlinkApp.getApp().getLastCameraName());
-    this.mLiveViewBackground = ((FrameLayout)this.mMainView.findViewById(2131558636));
-    this.mContainer = ((FrameLayout)this.mMainView.findViewById(2131558637));
-    this.mSpinner = ((ContentLoadingProgressBar)this.mMainView.findViewById(2131558638));
-    this.mButtonBar = ((RelativeLayout)this.mMainView.findViewById(2131558640));
-    this.mBetaWarning = ((TextView)this.mMainView.findViewById(2131558639));
-    this.mContinueButton = ((Button)this.mMainView.findViewById(2131558547));
+    ((TextView)this.mMainView.findViewById(2131558646)).setText(BlinkApp.getApp().getLastCameraName());
+    this.mLiveViewBackground = ((FrameLayout)this.mMainView.findViewById(2131558640));
+    this.mContainer = ((FrameLayout)this.mMainView.findViewById(2131558641));
+    this.mSpinner = ((ContentLoadingProgressBar)this.mMainView.findViewById(2131558642));
+    this.mButtonBar = ((RelativeLayout)this.mMainView.findViewById(2131558644));
+    this.mBetaWarning = ((TextView)this.mMainView.findViewById(2131558643));
+    this.mBetaWarning.setVisibility(4);
+    this.mContinueButton = ((Button)this.mMainView.findViewById(2131558551));
     this.mContinueButton.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -334,7 +360,7 @@ public class VideoLiveViewFragment
         VideoLiveViewFragment.this.mContinueButton.setVisibility(4);
       }
     });
-    this.mStopButton = ((Button)this.mMainView.findViewById(2131558641));
+    this.mStopButton = ((Button)this.mMainView.findViewById(2131558645));
     this.mStopButton.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -345,7 +371,7 @@ public class VideoLiveViewFragment
         VideoLiveViewFragment.this.stopVideo();
       }
     });
-    this.mMuteButton = ((Button)this.mMainView.findViewById(2131558643));
+    this.mMuteButton = ((Button)this.mMainView.findViewById(2131558647));
     this.mMuteButton.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -353,6 +379,7 @@ public class VideoLiveViewFragment
         VideoLiveViewFragment.this.toggleMute();
       }
     });
+    this.mMuteButton.setVisibility(4);
     paramLayoutInflater = this.handler.obtainMessage(2, this);
     this.handler.sendMessageDelayed(paramLayoutInflater, 100L);
     setMuteButtonBackground();
@@ -362,18 +389,14 @@ public class VideoLiveViewFragment
   
   public void onPause()
   {
-    if (this.mRTSPPlayerView != null) {
-      this.mRTSPPlayerView.onPause();
-    }
+    stopVideo();
     super.onPause();
   }
   
   public void onResume()
   {
     super.onResume();
-    if (this.mRTSPPlayerView != null) {
-      this.mRTSPPlayerView.onResume();
-    }
+    stopVideo();
   }
   
   public void onStop()
@@ -406,17 +429,18 @@ public class VideoLiveViewFragment
   
   public void stopVideo()
   {
-    this.mShouldContinueCountdown = false;
-    if (this.mStopCalled) {}
-    do
+    BlinkAPI.BlinkAPIRequest(null, null, new CommandDoneRequest(), new BlinkAPI.BlinkAPICallback()
     {
-      return;
-      if (this.handler.hasMessages(1)) {
-        this.handler.removeMessages(1);
+      public void onError(BlinkError paramAnonymousBlinkError)
+      {
+        VideoLiveViewFragment.this.liveViewDone();
       }
-    } while (this.mRTSPPlayer == null);
-    this.mStopCalled = true;
-    this.mRTSPPlayer.stop();
+      
+      public void onResult(BlinkData paramAnonymousBlinkData)
+      {
+        VideoLiveViewFragment.this.liveViewDone();
+      }
+    }, false);
   }
   
   static class VideoHandler
@@ -431,7 +455,7 @@ public class VideoLiveViewFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/VideoLiveViewFragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/VideoLiveViewFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

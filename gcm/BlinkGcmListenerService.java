@@ -47,7 +47,7 @@ public class BlinkGcmListenerService
     ((Intent)localObject).putExtra("start_alert_view", true);
     localObject = TaskStackBuilder.create(this).addNextIntent((Intent)localObject).getPendingIntent(0, 134217728);
     Uri localUri = RingtoneManager.getDefaultUri(2);
-    paramBundle = new NotificationCompat.Builder(this).setSmallIcon(2130837683).setContentTitle(paramBundle.getString("title")).setContentText(paramBundle.getString("message")).setAutoCancel(true).setSound(localUri).setContentIntent((PendingIntent)localObject);
+    paramBundle = new NotificationCompat.Builder(this).setSmallIcon(2130837685).setContentTitle(paramBundle.getString("title")).setContentText(paramBundle.getString("message")).setAutoCancel(true).setSound(localUri).setContentIntent((PendingIntent)localObject);
     ((NotificationManager)getSystemService("notification")).notify(1, paramBundle.build());
     paramBundle = LocalBroadcastManager.getInstance(BlinkApp.getApp().getApplicationContext());
     localObject = new Intent();
@@ -62,7 +62,7 @@ public class BlinkGcmListenerService
     ((Intent)localObject).addFlags(67108864);
     localObject = PendingIntent.getActivity(this, 0, (Intent)localObject, 1073741824);
     Uri localUri = RingtoneManager.getDefaultUri(2);
-    paramString = new NotificationCompat.Builder(this).setSmallIcon(2130837714).setContentTitle("GCM Message").setContentText(paramString).setAutoCancel(true).setSound(localUri).setContentIntent((PendingIntent)localObject);
+    paramString = new NotificationCompat.Builder(this).setSmallIcon(2130837716).setContentTitle("GCM Message").setContentText(paramString).setAutoCancel(true).setSound(localUri).setContentIntent((PendingIntent)localObject);
     ((NotificationManager)getSystemService("notification")).notify(0, paramString.build());
   }
   
@@ -76,7 +76,7 @@ public class BlinkGcmListenerService
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/gcm/BlinkGcmListenerService.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/gcm/BlinkGcmListenerService.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

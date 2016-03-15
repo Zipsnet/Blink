@@ -111,7 +111,7 @@ public class ChooseDialog
       paramBundle.setView(this.mCustomView);
       if (this.mHasExtraButton)
       {
-        localObject = (TextView)this.mCustomView.findViewById(2131558744);
+        localObject = (TextView)this.mCustomView.findViewById(2131558748);
         if (localObject != null) {
           ((TextView)localObject).setOnClickListener(new View.OnClickListener()
           {
@@ -128,7 +128,7 @@ public class ChooseDialog
         {
           ChooseDialog.this.mListener.onDialogPositiveClick(ChooseDialog.this);
         }
-      }).setNegativeButton(2131099774, new DialogInterface.OnClickListener()
+      }).setNegativeButton(2131099778, new DialogInterface.OnClickListener()
       {
         public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt)
         {
@@ -201,7 +201,7 @@ public class ChooseDialog
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/utils/ChooseDialog.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/utils/ChooseDialog.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

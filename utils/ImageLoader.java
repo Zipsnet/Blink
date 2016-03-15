@@ -29,6 +29,7 @@ import java.io.OutputStream;
 public class ImageLoader
   implements Closeable
 {
+  int borderWidth;
   boolean closed;
   ImageView imgView;
   boolean roundedCorners;
@@ -66,6 +67,8 @@ public class ImageLoader
   {
     switch (paramInt)
     {
+    default: 
+      this.borderWidth = 6;
     }
     final String str;
     for (;;)
@@ -87,8 +90,10 @@ public class ImageLoader
             setImageBitmap(this.imgView, paramImageView);
             return;
             paramString = paramString + "_s";
+            this.borderWidth = 1;
             continue;
             paramString = paramString + "_m";
+            this.borderWidth = 4;
           }
         }
         catch (Exception paramImageView)
@@ -146,7 +151,7 @@ public class ImageLoader
   {
     if (this.roundedCorners)
     {
-      paramBitmap = getRoundedCornerBitmap(paramBitmap, BlinkApp.getApp().getResources().getColor(2131492875), 8, 8, BlinkApp.getApp().getApplicationContext());
+      paramBitmap = getRoundedCornerBitmap(paramBitmap, BlinkApp.getApp().getResources().getColor(2131492875), 8, this.borderWidth, BlinkApp.getApp().getApplicationContext());
       paramImageView.setAdjustViewBounds(true);
       paramImageView.setImageBitmap(paramBitmap);
       return;
@@ -162,7 +167,7 @@ public class ImageLoader
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/utils/ImageLoader.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/utils/ImageLoader.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

@@ -39,6 +39,7 @@ import com.immediasemi.blink.models.MessageResponse;
 import com.immediasemi.blink.utils.LiveViewWhiteList;
 import com.immediasemi.blink.utils.OnClick;
 import com.immediasemi.blink.utils.Validation;
+import java.util.HashMap;
 
 public class LoginFragment
   extends BaseFragment
@@ -60,16 +61,18 @@ public class LoginFragment
   private void loginError(BlinkError paramBlinkError)
   {
     if (getActivity() != null) {
-      new AlertDialog.Builder(getActivity()).setTitle("Error").setMessage(paramBlinkError.getErrorMessage()).setPositiveButton(2131099922, new DialogInterface.OnClickListener()
+      if (paramBlinkError.response == null) {
+        break label62;
+      }
+    }
+    label62:
+    for (paramBlinkError = (String)paramBlinkError.response.get("message");; paramBlinkError = "")
+    {
+      new AlertDialog.Builder(getActivity()).setMessage(paramBlinkError).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
       {
         public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt) {}
-      }).setNegativeButton(2131099774, new DialogInterface.OnClickListener()
-      {
-        public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt)
-        {
-          LoginFragment.this.getActivity().finish();
-        }
       }).create().show();
+      return;
     }
   }
   
@@ -86,17 +89,17 @@ public class LoginFragment
   {
     if (!Validation.validateEmail(this.mUserName.getText().toString()))
     {
-      this.mErrorString = getString(2131099855);
+      this.mErrorString = getString(2131099859);
       return false;
     }
     if (this.mPassword.getText().length() == 0)
     {
-      this.mErrorString = getString(2131099857);
+      this.mErrorString = getString(2131099861);
       return false;
     }
     if (this.mPassword.getText().length() > 128)
     {
-      this.mErrorString = getString(2131099857);
+      this.mErrorString = getString(2131099861);
       return false;
     }
     return true;
@@ -105,7 +108,7 @@ public class LoginFragment
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099980));
+    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099984));
   }
   
   public void onCreate(Bundle paramBundle)
@@ -119,7 +122,7 @@ public class LoginFragment
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
     this.mView = paramLayoutInflater.inflate(2130903103, paramViewGroup, false);
-    this.mUserName = ((EditText)this.mView.findViewById(2131558645));
+    this.mUserName = ((EditText)this.mView.findViewById(2131558649));
     this.mUserName.addTextChangedListener(new TextWatcher()
     {
       public void afterTextChanged(Editable paramAnonymousEditable)
@@ -164,7 +167,7 @@ public class LoginFragment
         }
       }
     });
-    this.mPassword = ((EditText)this.mView.findViewById(2131558647));
+    this.mPassword = ((EditText)this.mView.findViewById(2131558651));
     this.mPassword.addTextChangedListener(new TextWatcher()
     {
       public void afterTextChanged(Editable paramAnonymousEditable)
@@ -198,9 +201,9 @@ public class LoginFragment
       
       public void onTextChanged(CharSequence paramAnonymousCharSequence, int paramAnonymousInt1, int paramAnonymousInt2, int paramAnonymousInt3) {}
     });
-    this.mShowPWSwitch = this.mView.findViewById(2131558649);
+    this.mShowPWSwitch = this.mView.findViewById(2131558653);
     this.mShowPWSwitch.setVisibility(8);
-    this.mForgotPassword = this.mView.findViewById(2131558648);
+    this.mForgotPassword = this.mView.findViewById(2131558652);
     this.mForgotPassword.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -211,7 +214,7 @@ public class LoginFragment
         paramAnonymousView = LoginFragment.this.mUserName.getText().toString();
         if ((paramAnonymousView.length() == 0) || (!Validation.validateEmail(paramAnonymousView)))
         {
-          new AlertDialog.Builder(LoginFragment.this.getActivity()).setTitle(2131099875).setMessage(2131099810).setPositiveButton(2131099886, new DialogInterface.OnClickListener()
+          new AlertDialog.Builder(LoginFragment.this.getActivity()).setTitle(2131099879).setMessage(2131099814).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
           {
             public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
           }).create().show();
@@ -230,7 +233,7 @@ public class LoginFragment
           {
             paramAnonymous2BlinkData = ((MessageResponse)paramAnonymous2BlinkData).getMessage();
             if (LoginFragment.this.getActivity() != null) {
-              new AlertDialog.Builder(LoginFragment.this.getActivity()).setTitle("Password Reset").setMessage(paramAnonymous2BlinkData).setPositiveButton(2131099886, new DialogInterface.OnClickListener()
+              new AlertDialog.Builder(LoginFragment.this.getActivity()).setTitle("Password Reset").setMessage(paramAnonymous2BlinkData).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
               {
                 public void onClick(DialogInterface paramAnonymous3DialogInterface, int paramAnonymous3Int)
                 {
@@ -242,9 +245,9 @@ public class LoginFragment
         }, false);
       }
     });
-    this.mTermsAndConditions = ((TextView)this.mView.findViewById(2131558652));
+    this.mTermsAndConditions = ((TextView)this.mView.findViewById(2131558656));
     this.mTermsAndConditions.setVisibility(4);
-    this.mLoginButton = ((Button)this.mView.findViewById(2131558651));
+    this.mLoginButton = ((Button)this.mView.findViewById(2131558655));
     this.mLoginButton.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -299,7 +302,7 @@ public class LoginFragment
               if (paramAnonymous2BlinkData == null)
               {
                 paramAnonymous2BlinkData = new BlinkError();
-                paramAnonymous2BlinkData.setErrorMessage(LoginFragment.this.getString(2131099717));
+                paramAnonymous2BlinkData.setErrorMessage(LoginFragment.this.getString(2131099721));
                 LoginFragment.this.loginError(paramAnonymous2BlinkData);
               }
               do
@@ -318,17 +321,9 @@ public class LoginFragment
           return;
         } while (LoginFragment.this.getActivity() == null);
         if (LoginFragment.this.mErrorString == null) {
-          LoginFragment.access$502(LoginFragment.this, LoginFragment.this.getString(2131099856));
+          LoginFragment.access$502(LoginFragment.this, LoginFragment.this.getString(2131099860));
         }
-        new AlertDialog.Builder(LoginFragment.this.getActivity()).setTitle(LoginFragment.this.mErrorString).setMessage(LoginFragment.this.getString(2131100002)).setPositiveButton(2131099886, null).setNegativeButton(2131099774, new DialogInterface.OnClickListener()
-        {
-          public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
-          {
-            if (LoginFragment.this.mListener != null) {
-              LoginFragment.this.mListener.onFragmentInteraction(LoginFragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.RESULT, Boolean.FALSE);
-            }
-          }
-        }).create().show();
+        new AlertDialog.Builder(LoginFragment.this.getActivity()).setTitle(LoginFragment.this.mErrorString).setMessage(LoginFragment.this.getString(2131100006)).setPositiveButton(2131099890, null).show();
       }
     });
     this.mLoginButton.setVisibility(4);
@@ -349,7 +344,7 @@ public class LoginFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/LoginFragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/LoginFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Resources;
-import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -45,6 +44,7 @@ import com.immediasemi.blink.api.requests.Homescreen.HomescreenRequest;
 import com.immediasemi.blink.api.requests.Networks.ArmNetworkRequest;
 import com.immediasemi.blink.api.requests.Networks.DisarmNetworkRequest;
 import com.immediasemi.blink.api.requests.Networks.ListNetworksRequest;
+import com.immediasemi.blink.api.requests.SyncModules.GetAllSyncModulesRequest;
 import com.immediasemi.blink.models.BlinkData;
 import com.immediasemi.blink.models.BlinkError;
 import com.immediasemi.blink.models.CameraStatus;
@@ -58,10 +58,13 @@ import com.immediasemi.blink.models.QuickDeviceStatus;
 import com.immediasemi.blink.models.QuickDeviceStatus.DEVICE_STATUS;
 import com.immediasemi.blink.models.QuickDeviceStatus.DEVICE_TYPE;
 import com.immediasemi.blink.models.QuickNetworkStatus;
+import com.immediasemi.blink.models.QuickSyncModuleInfo;
+import com.immediasemi.blink.models.SyncModules;
 import com.immediasemi.blink.utils.CustomSwitch;
 import com.immediasemi.blink.utils.ImageLoader;
 import com.immediasemi.blink.utils.OnClick;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class HomeScreenFragment
   extends BaseFragment
@@ -96,6 +99,7 @@ public class HomeScreenFragment
   private int mCommandType;
   private QuickDeviceStatus[] mDevices;
   private LayoutInflater mInflater;
+  private View mMainHomeScreenview;
   private QuickNetworkStatus mNetwork;
   private String mNetworkId;
   private int mNetworkIndex;
@@ -115,28 +119,33 @@ public class HomeScreenFragment
     {
       this.mArmedStatusString.setVisibility(4);
       this.mArmSwitchProgress.setVisibility(0);
-      OnClick.blockAllClicks(true);
+      OnClick.enableClicks(false);
+      this.mArmSwitch.setEnabled(false);
       cleanUpHandler();
       BlinkAPI.BlinkAPIRequest(null, null, (BlinkRequest)localObject, new BlinkAPI.BlinkAPICallback()
       {
         public void onError(BlinkError paramAnonymousBlinkError)
         {
-          OnClick.blockAllClicks(false);
           HomeScreenFragment.this.mArmSwitchProgress.setVisibility(4);
           HomeScreenFragment.this.mArmedStatusString.setVisibility(0);
-          HomeScreenFragment.this.retryDialog(new Runnable()new Runnable
+          if (paramAnonymousBlinkError.response != null) {}
+          for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = paramAnonymousBlinkError.getErrorMessage())
           {
-            public void run()
+            HomeScreenFragment.this.retryDialog(new Runnable()new Runnable
             {
-              HomeScreenFragment.this.armNetwork(HomeScreenFragment.3.this.val$isChecked);
-            }
-          }, new Runnable()
-          {
-            public void run()
+              public void run()
+              {
+                HomeScreenFragment.this.armNetwork(HomeScreenFragment.3.this.val$isChecked);
+              }
+            }, new Runnable()
             {
-              HomeScreenFragment.this.refresh();
-            }
-          });
+              public void run()
+              {
+                HomeScreenFragment.this.refresh();
+              }
+            }, paramAnonymousBlinkError);
+            return;
+          }
         }
         
         public void onResult(BlinkData paramAnonymousBlinkData)
@@ -171,18 +180,23 @@ public class HomeScreenFragment
         while (HomeScreenFragment.this.getActivity() == null) {
           return;
         }
-        new AlertDialog.Builder(HomeScreenFragment.this.getActivity()).setTitle(HomeScreenFragment.this.getString(2131099811)).setMessage("Command failed").setPositiveButton(2131099886, new DialogInterface.OnClickListener()
+        if (paramAnonymousBlinkError.response != null) {}
+        for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = paramAnonymousBlinkError.getErrorMessage())
         {
-          public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
+          new AlertDialog.Builder(HomeScreenFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
           {
-            HomeScreenFragment.this.refresh();
-          }
-        }).create().show();
+            public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
+            {
+              HomeScreenFragment.this.refresh();
+            }
+          }).create().show();
+          return;
+        }
       }
       
       public void onResult(BlinkData paramAnonymousBlinkData)
       {
-        if (((Commands)paramAnonymousBlinkData).isComplete() == true)
+        if (((Commands)paramAnonymousBlinkData).isComplete())
         {
           if (((Commands)paramAnonymousBlinkData).getStatus() == 0)
           {
@@ -201,15 +215,9 @@ public class HomeScreenFragment
             HomeScreenFragment.handler.sendMessageDelayed(paramAnonymousBlinkData, 100L);
             return;
             HomeScreenFragment.this.refresh();
-            OnClick.blockAllClicks(false);
-            return;
-            HomeScreenFragment.this.refresh();
-            OnClick.blockAllClicks(false);
-            return;
-            HomeScreenFragment.this.refresh();
             return;
           }
-          new AlertDialog.Builder(HomeScreenFragment.this.getActivity()).setTitle(HomeScreenFragment.this.getString(2131099811)).setMessage("Command failed").setPositiveButton(2131099886, new DialogInterface.OnClickListener()
+          new AlertDialog.Builder(HomeScreenFragment.this.getActivity()).setMessage(((Commands)paramAnonymousBlinkData).getStatus_msg()).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
           {
             public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
             {
@@ -225,6 +233,30 @@ public class HomeScreenFragment
     }, false);
   }
   
+  private void checkForOnboardedSM()
+  {
+    BlinkAPI.BlinkAPIRequest(null, null, new GetAllSyncModulesRequest(), new BlinkAPI.BlinkAPICallback()
+    {
+      public void onError(BlinkError paramAnonymousBlinkError) {}
+      
+      public void onResult(BlinkData paramAnonymousBlinkData)
+      {
+        if (HomeScreenFragment.this.getActivity() == null) {
+          return;
+        }
+        paramAnonymousBlinkData = ((SyncModules)paramAnonymousBlinkData).getSyncmodule();
+        if ((paramAnonymousBlinkData == null) || (paramAnonymousBlinkData.getId() <= 0))
+        {
+          HomeScreenFragment.this.openOnboarding();
+          return;
+        }
+        HomeScreenFragment.access$1102(HomeScreenFragment.this, 2);
+        paramAnonymousBlinkData = HomeScreenFragment.handler.obtainMessage(HomeScreenFragment.this.mState, HomeScreenFragment.this);
+        HomeScreenFragment.handler.sendMessageDelayed(paramAnonymousBlinkData, 100L);
+      }
+    }, false);
+  }
+  
   private void checkForThumbnailUpdated()
   {
     GetSingleCameraStatusRequest localGetSingleCameraStatusRequest = new GetSingleCameraStatusRequest();
@@ -233,11 +265,22 @@ public class HomeScreenFragment
     {
       public void onError(BlinkError paramAnonymousBlinkError)
       {
-        if ((HomeScreenFragment.this.getActivity() == null) || (HomeScreenFragment.this.mListener == null) || (HomeScreenFragment.this.isDetached())) {}
-        while (HomeScreenFragment.this.getActivity() == null) {
+        if ((HomeScreenFragment.this.getActivity() == null) || (HomeScreenFragment.this.mListener == null) || (HomeScreenFragment.this.isDetached())) {
           return;
         }
-        new AlertDialog.Builder(HomeScreenFragment.this.getActivity()).setTitle("Error").setMessage("Could not update thumbnail").setPositiveButton(2131099886, null).create().show();
+        OnClick.enableClicks(true);
+        if (paramAnonymousBlinkError.response != null) {}
+        for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = paramAnonymousBlinkError.getErrorMessage())
+        {
+          new AlertDialog.Builder(HomeScreenFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
+          {
+            public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
+            {
+              HomeScreenFragment.this.refresh();
+            }
+          }).create().show();
+          return;
+        }
       }
       
       public void onResult(BlinkData paramAnonymousBlinkData)
@@ -245,6 +288,7 @@ public class HomeScreenFragment
         if ((HomeScreenFragment.this.getActivity() == null) || (HomeScreenFragment.this.mListener == null) || (HomeScreenFragment.this.isDetached())) {
           return;
         }
+        OnClick.enableClicks(true);
         paramAnonymousBlinkData = ((CameraStatus)paramAnonymousBlinkData).getCamera_status();
         int m = paramAnonymousBlinkData.getCamera_id();
         int j = 0;
@@ -274,7 +318,6 @@ public class HomeScreenFragment
         HomeScreenFragment.handler.sendMessageDelayed(paramAnonymousBlinkData, 1000L);
       }
     }, false);
-    OnClick.blockAllClicks(false);
   }
   
   private void cleanUpHandler()
@@ -327,16 +370,24 @@ public class HomeScreenFragment
     return localHomeScreenFragment;
   }
   
+  private void openOnboarding()
+  {
+    PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext()).edit().putInt("onboard_sequence", 2).apply();
+    Intent localIntent = new Intent(getActivity(), OnboardingActivity.class);
+    localIntent.putExtra("onboard_reason", 2);
+    startActivity(localIntent);
+  }
+  
   private void pollForHomescreen()
   {
     Message localMessage = handler.obtainMessage(1, this);
     handler.sendMessageDelayed(localMessage, 20000L);
   }
   
-  private void retryDialog(final Runnable paramRunnable1, final Runnable paramRunnable2)
+  private void retryDialog(final Runnable paramRunnable1, final Runnable paramRunnable2, String paramString)
   {
     if (getActivity() != null) {
-      new AlertDialog.Builder(getActivity()).setTitle(getString(2131099999)).setMessage("System is busy").setPositiveButton(2131100015, new DialogInterface.OnClickListener()
+      new AlertDialog.Builder(getActivity()).setTitle(getString(2131100003)).setMessage(paramString).setPositiveButton(2131100021, new DialogInterface.OnClickListener()
       {
         public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt)
         {
@@ -344,7 +395,7 @@ public class HomeScreenFragment
             paramRunnable1.run();
           }
         }
-      }).setNegativeButton(2131099883, new DialogInterface.OnClickListener()
+      }).setNegativeButton(2131099887, new DialogInterface.OnClickListener()
       {
         public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt)
         {
@@ -379,13 +430,21 @@ public class HomeScreenFragment
       public void onError(BlinkError paramAnonymousBlinkError)
       {
         if (HomeScreenFragment.this.getActivity() != null) {
-          new AlertDialog.Builder(HomeScreenFragment.this.getActivity()).setTitle(HomeScreenFragment.this.getString(2131099811)).setMessage("Could not update thumbnail").setPositiveButton(2131099886, new DialogInterface.OnClickListener()
+          if (paramAnonymousBlinkError.response == null) {
+            break label68;
+          }
+        }
+        label68:
+        for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = paramAnonymousBlinkError.getErrorMessage())
+        {
+          new AlertDialog.Builder(HomeScreenFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
           {
             public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
             {
               HomeScreenFragment.this.refresh();
             }
           }).create().show();
+          return;
         }
       }
       
@@ -409,7 +468,12 @@ public class HomeScreenFragment
         while (HomeScreenFragment.this.getActivity() == null) {
           return;
         }
-        new AlertDialog.Builder(HomeScreenFragment.this.getActivity()).setTitle("Error").setMessage("Could not get camera info").setPositiveButton(2131099886, null).create().show();
+        if (paramAnonymousBlinkError.response != null) {}
+        for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = paramAnonymousBlinkError.getErrorMessage())
+        {
+          new AlertDialog.Builder(HomeScreenFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, null).create().show();
+          return;
+        }
       }
       
       public void onResult(BlinkData paramAnonymousBlinkData)
@@ -465,6 +529,7 @@ public class HomeScreenFragment
       
       public void onResult(BlinkData paramAnonymousBlinkData)
       {
+        boolean bool = true;
         if ((HomeScreenFragment.this.getActivity() == null) || (HomeScreenFragment.this.mListener == null) || (HomeScreenFragment.this.isDetached())) {
           return;
         }
@@ -475,9 +540,9 @@ public class HomeScreenFragment
           i -= 1;
         }
         paramAnonymousBlinkData = (HomescreenSummaryStatus)paramAnonymousBlinkData;
-        HomeScreenFragment.access$2102(HomeScreenFragment.this, paramAnonymousBlinkData.getNetwork());
+        HomeScreenFragment.access$2202(HomeScreenFragment.this, paramAnonymousBlinkData.getNetwork());
         HomeScreenFragment.access$1302(HomeScreenFragment.this, paramAnonymousBlinkData.getDevices());
-        HomeScreenFragment.access$2202(HomeScreenFragment.this, HomeScreenFragment.this.mNetwork.getNotifications().intValue());
+        HomeScreenFragment.access$2302(HomeScreenFragment.this, HomeScreenFragment.this.mNetwork.getNotifications().intValue());
         HomeScreenFragment.access$1202(HomeScreenFragment.this, "");
         int j = 0;
         i = 0;
@@ -498,35 +563,57 @@ public class HomeScreenFragment
             k = j;
             if (HomeScreenFragment.this.mDevices[i].getDevice_type().equals(QuickDeviceStatus.DEVICE_TYPE.sync_module))
             {
-              HomeScreenFragment.access$2302(HomeScreenFragment.this, String.valueOf(HomeScreenFragment.this.mDevices[i].getDevice_id()));
+              HomeScreenFragment.access$2402(HomeScreenFragment.this, String.valueOf(HomeScreenFragment.this.mDevices[i].getDevice_id()));
               BlinkApp.getApp().setlastSyncModuleId(HomeScreenFragment.this.mSyncModuleId);
               if (HomeScreenFragment.this.mDevices[i].getStatus() == QuickDeviceStatus.DEVICE_STATUS.offline)
               {
-                HomeScreenFragment.access$2402(HomeScreenFragment.this, false);
+                HomeScreenFragment.access$2502(HomeScreenFragment.this, false);
                 k = j;
               }
               else
               {
-                HomeScreenFragment.access$2402(HomeScreenFragment.this, true);
+                HomeScreenFragment.access$2502(HomeScreenFragment.this, true);
                 k = j;
               }
             }
           }
         }
-        if (HomeScreenFragment.this.mNumberOfNotifications == 0) {
+        if (HomeScreenFragment.this.mAddCameraView != null)
+        {
+          if (j >= 10) {
+            HomeScreenFragment.this.mAddCameraView.setVisibility(8);
+          }
+        }
+        else
+        {
+          paramAnonymousBlinkData = HomeScreenFragment.this.mArmSwitch;
+          if (j <= 0) {
+            break label451;
+          }
+          label378:
+          paramAnonymousBlinkData.setEnabled(bool);
+          if (HomeScreenFragment.this.mNumberOfNotifications != 0) {
+            break label457;
+          }
           ((MainActivity)HomeScreenFragment.this.getActivity()).setClipRollActionIcon(2130837608);
         }
-        while (HomeScreenFragment.this.mDevices.length == 0)
+        for (;;)
         {
-          PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext()).edit().putInt("onboard_sequence", 2).commit();
-          paramAnonymousBlinkData = new Intent(HomeScreenFragment.this.getActivity(), OnboardingActivity.class);
-          paramAnonymousBlinkData.putExtra("onboard_reason", 2);
-          HomeScreenFragment.this.startActivity(paramAnonymousBlinkData);
+          if (HomeScreenFragment.this.mDevices.length != 0) {
+            break label475;
+          }
+          HomeScreenFragment.this.openOnboarding();
           HomeScreenFragment.access$1102(HomeScreenFragment.this, 0);
-          HomeScreenFragment.this.pollForHomescreen();
           return;
+          HomeScreenFragment.this.mAddCameraView.setVisibility(0);
+          break;
+          label451:
+          bool = false;
+          break label378;
+          label457:
           ((MainActivity)HomeScreenFragment.this.getActivity()).setClipRollActionIcon(2130837607);
         }
+        label475:
         HomeScreenFragment.access$1102(HomeScreenFragment.this, 3);
         paramAnonymousBlinkData = HomeScreenFragment.handler.obtainMessage(HomeScreenFragment.this.mState, HomeScreenFragment.this);
         HomeScreenFragment.handler.sendMessageDelayed(paramAnonymousBlinkData, 100L);
@@ -555,18 +642,7 @@ public class HomeScreenFragment
         } while (HomeScreenFragment.this.getActivity() == null);
         if (paramAnonymousBlinkError.getErrorMessage().equalsIgnoreCase("Unauthorized Access"))
         {
-          if (HomeScreenFragment.this.mBooting)
-          {
-            ((MainActivity)HomeScreenFragment.this.getActivity()).logMeOut();
-            return;
-          }
-          new AlertDialog.Builder(HomeScreenFragment.this.getActivity()).setTitle(HomeScreenFragment.this.getString(2131099811)).setMessage("Please sign in again").setPositiveButton("Ok", new DialogInterface.OnClickListener()
-          {
-            public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
-            {
-              ((MainActivity)HomeScreenFragment.this.getActivity()).logMeOut();
-            }
-          }).create().show();
+          ((MainActivity)HomeScreenFragment.this.getActivity()).refreshScreen();
           return;
         }
         if ((HomeScreenFragment.this.mNetworkId.length() > 0) && (Integer.parseInt(HomeScreenFragment.this.mNetworkId) > 0))
@@ -576,7 +652,7 @@ public class HomeScreenFragment
           HomeScreenFragment.handler.sendMessageDelayed(paramAnonymousBlinkError, 1000L);
           return;
         }
-        new AlertDialog.Builder(HomeScreenFragment.this.getActivity()).setTitle(HomeScreenFragment.this.getString(2131099811)).setMessage("Could not get system info").setPositiveButton(2131099999, new DialogInterface.OnClickListener()
+        new AlertDialog.Builder(HomeScreenFragment.this.getActivity()).setTitle(HomeScreenFragment.this.getString(2131099815)).setMessage("Could not get system info").setPositiveButton(2131100003, new DialogInterface.OnClickListener()
         {
           public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
           {
@@ -599,15 +675,10 @@ public class HomeScreenFragment
           }
           HomeScreenFragment.access$1802(HomeScreenFragment.this, String.valueOf(HomeScreenFragment.this.mNetworks.getNetworks()[HomeScreenFragment.this.mNetworkIndex].getId()));
           BlinkApp.getApp().setLastNetworkId(String.valueOf(HomeScreenFragment.this.mNetworkId));
-          HomeScreenFragment.access$1102(HomeScreenFragment.this, 2);
-          paramAnonymousBlinkData = HomeScreenFragment.handler.obtainMessage(HomeScreenFragment.this.mState, HomeScreenFragment.this);
-          HomeScreenFragment.handler.sendMessageDelayed(paramAnonymousBlinkData, 100L);
+          HomeScreenFragment.this.checkForOnboardedSM();
           return;
         }
-        PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext()).edit().putInt("onboard_sequence", 1).commit();
-        paramAnonymousBlinkData = new Intent(HomeScreenFragment.this.getActivity(), OnboardingActivity.class);
-        paramAnonymousBlinkData.putExtra("onboard_reason", 2);
-        HomeScreenFragment.this.startActivity(paramAnonymousBlinkData);
+        ((MainActivity)HomeScreenFragment.this.getActivity()).logMeOut();
       }
     }, false);
   }
@@ -624,47 +695,48 @@ public class HomeScreenFragment
       this.mArmedStatusIcon.setImageResource(2130837576);
       this.mSwitchSetProgrammaticly = true;
       if (!bool1) {
-        break label187;
+        break label191;
       }
       this.mArmSwitch.setChecked(true);
       this.mSwitchSetProgrammaticly = false;
       if (!this.mSMOnline) {
-        break label209;
+        break label213;
       }
-      OnClick.blockAllClicks(false);
+      OnClick.enableClicks(true);
+      this.mArmSwitch.setEnabled(true);
       TextView localTextView = this.mArmedStatusString;
       if (!bool1) {
-        break label198;
+        break label202;
       }
-      str = getString(2131099744);
-      label120:
+      str = getString(2131099748);
+      label128:
       localTextView.setText(str);
     }
     for (;;)
     {
       this.mArmedStatusString.setVisibility(0);
       this.mState = 4;
-      OnClick.blockAllClicks(false);
       pollForHomescreen();
       return;
       this.mSwitchSetProgrammaticly = true;
       if (bool1) {
-        this.mArmedStatusIcon.setImageResource(2130837719);
+        this.mArmedStatusIcon.setImageResource(2130837721);
       }
       for (;;)
       {
         this.mSwitchSetProgrammaticly = false;
         break;
-        this.mArmedStatusIcon.setImageResource(2130837721);
+        this.mArmedStatusIcon.setImageResource(2130837723);
       }
-      label187:
+      label191:
       this.mArmSwitch.setChecked(false);
       break label87;
-      label198:
-      str = getString(2131099803);
-      break label120;
-      label209:
-      OnClick.blockAllClicks(true);
+      label202:
+      str = getString(2131099807);
+      break label128;
+      label213:
+      OnClick.enableClicks(false);
+      this.mArmSwitch.setEnabled(false);
       this.mArmedStatusString.setText("Sync Module offline");
     }
   }
@@ -688,16 +760,16 @@ public class HomeScreenFragment
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
     this.mInflater = paramLayoutInflater;
-    paramLayoutInflater = paramLayoutInflater.inflate(2130903101, paramViewGroup, false);
-    this.mCameraScrollView = ((ScrollView)paramLayoutInflater.findViewById(2131558625));
-    this.mCameraListContainer = ((LinearLayout)paramLayoutInflater.findViewById(2131558626));
-    this.mAddCameraView = paramLayoutInflater.findViewById(2131558627);
-    this.mArmedStatusIcon = ((ImageView)paramLayoutInflater.findViewById(2131558630));
-    this.mArmedStatusString = ((TextView)paramLayoutInflater.findViewById(2131558634));
-    this.mArmSwitchProgress = ((ContentLoadingProgressBar)paramLayoutInflater.findViewById(2131558633));
+    this.mMainHomeScreenview = paramLayoutInflater.inflate(2130903101, paramViewGroup, false);
+    this.mCameraScrollView = ((ScrollView)this.mMainHomeScreenview.findViewById(2131558629));
+    this.mCameraListContainer = ((LinearLayout)this.mMainHomeScreenview.findViewById(2131558630));
+    this.mAddCameraView = this.mMainHomeScreenview.findViewById(2131558631);
+    this.mArmedStatusIcon = ((ImageView)this.mMainHomeScreenview.findViewById(2131558634));
+    this.mArmedStatusString = ((TextView)this.mMainHomeScreenview.findViewById(2131558638));
+    this.mArmSwitchProgress = ((ContentLoadingProgressBar)this.mMainHomeScreenview.findViewById(2131558637));
     this.mArmSwitchProgress.setVisibility(4);
     this.mArmedStatusString.setVisibility(0);
-    this.mArmSwitch = ((CustomSwitch)paramLayoutInflater.findViewById(2131558635));
+    this.mArmSwitch = ((CustomSwitch)this.mMainHomeScreenview.findViewById(2131558639));
     this.mArmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
     {
       public void onCheckedChanged(CompoundButton paramAnonymousCompoundButton, boolean paramAnonymousBoolean)
@@ -708,7 +780,7 @@ public class HomeScreenFragment
         HomeScreenFragment.this.armNetwork(paramAnonymousBoolean);
       }
     });
-    paramLayoutInflater.findViewById(2131558628).setOnClickListener(new View.OnClickListener()
+    this.mMainHomeScreenview.findViewById(2131558632).setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
@@ -724,12 +796,12 @@ public class HomeScreenFragment
     this.mCameraId = BlinkApp.getApp().getLastCameraId();
     this.mNetworkIndex = 0;
     refresh();
-    return paramLayoutInflater;
+    return this.mMainHomeScreenview;
   }
   
   public void onDetach()
   {
-    OnClick.blockAllClicks(false);
+    OnClick.enableClicks(true);
     cleanUpHandler();
     super.onDetach();
   }
@@ -816,14 +888,14 @@ public class HomeScreenFragment
         this.view = HomeScreenFragment.this.mInflater.inflate(2130903117, HomeScreenFragment.this.mCameraListContainer, false);
         this.spinner = ((ContentLoadingProgressBar)this.view.findViewById(2131558538));
         this.spinner.hide();
-        this.runningIcon = ((ImageView)this.view.findViewById(2131558689));
+        this.runningIcon = ((ImageView)this.view.findViewById(2131558693));
         if (!HomeScreenFragment.this.mNetworks.getNetworks()[HomeScreenFragment.this.mNetworkIndex].isArmed()) {
           break label414;
         }
         if (!paramQuickDeviceStatus.getEnabled().booleanValue()) {
           break label395;
         }
-        this.runningIcon.setImageDrawable(HomeScreenFragment.this.getResources().getDrawable(2130837784));
+        this.runningIcon.setImageDrawable(HomeScreenFragment.this.getResources().getDrawable(2130837786));
         label137:
         this.runningIcon.setVisibility(0);
         label145:
@@ -835,28 +907,30 @@ public class HomeScreenFragment
               return;
             }
             BlinkApp.getApp().setLastCameraId(String.valueOf(HomeScreenFragment.CameraItem.this.camera.getDevice_id()));
-            HomeScreenFragment.CameraItem.this.view.findViewById(2131558689).setVisibility(4);
-            HomeScreenFragment.CameraItem.this.view.findViewById(2131558690).setVisibility(0);
+            HomeScreenFragment.CameraItem.this.view.findViewById(2131558693).setVisibility(4);
+            HomeScreenFragment.CameraItem.this.view.findViewById(2131558694).setVisibility(0);
             final boolean bool = paramQuickDeviceStatus.getEnabled().booleanValue();
             if (bool) {}
             for (paramAnonymousView = new DisableCameraAlertsRequest();; paramAnonymousView = new EnableCameraAlertsRequest())
             {
-              OnClick.blockAllClicks(true);
+              OnClick.enableClicks(false);
+              HomeScreenFragment.this.mArmSwitch.setEnabled(false);
               HomeScreenFragment.this.cleanUpHandler();
               BlinkAPI.BlinkAPIRequest(null, null, paramAnonymousView, new BlinkAPI.BlinkAPICallback()
               {
                 public void onError(BlinkError paramAnonymous2BlinkError)
                 {
-                  OnClick.blockAllClicks(false);
-                  HomeScreenFragment.CameraItem.this.view.findViewById(2131558689).setVisibility(0);
-                  HomeScreenFragment.CameraItem.this.view.findViewById(2131558690).setVisibility(4);
+                  OnClick.enableClicks(true);
+                  HomeScreenFragment.this.mArmSwitch.setEnabled(true);
+                  HomeScreenFragment.CameraItem.this.view.findViewById(2131558693).setVisibility(0);
+                  HomeScreenFragment.CameraItem.this.view.findViewById(2131558694).setVisibility(4);
                   HomeScreenFragment.this.refresh();
                   if (HomeScreenFragment.CameraItem.1.this.val$cam.getEnabled().booleanValue())
                   {
-                    HomeScreenFragment.CameraItem.this.runningIcon.setImageDrawable(HomeScreenFragment.this.getResources().getDrawable(2130837784));
+                    HomeScreenFragment.CameraItem.this.runningIcon.setImageDrawable(HomeScreenFragment.this.getResources().getDrawable(2130837786));
                     return;
                   }
-                  HomeScreenFragment.CameraItem.this.runningIcon.setImageDrawable(HomeScreenFragment.this.getResources().getDrawable(2130837785));
+                  HomeScreenFragment.CameraItem.this.runningIcon.setImageDrawable(HomeScreenFragment.this.getResources().getDrawable(2130837787));
                 }
                 
                 public void onResult(BlinkData paramAnonymous2BlinkData)
@@ -874,7 +948,7 @@ public class HomeScreenFragment
             }
           }
         });
-        this.thumbnail = ((ImageView)this.view.findViewById(2131558584));
+        this.thumbnail = ((ImageView)this.view.findViewById(2131558588));
         if (paramString == null) {
           break label425;
         }
@@ -884,20 +958,17 @@ public class HomeScreenFragment
       }
       for (;;)
       {
-        this.statusLabel = ((TextView)this.view.findViewById(2131558687));
-        this.statusIcon = ((ImageView)this.view.findViewById(2131558688));
+        this.statusLabel = ((TextView)this.view.findViewById(2131558691));
+        this.statusIcon = ((ImageView)this.view.findViewById(2131558692));
         this.statusIcon.setOnClickListener(new View.OnClickListener()
         {
           public void onClick(View paramAnonymousView)
           {
-            if (!OnClick.ok()) {
-              return;
-            }
             BlinkApp.getApp().setLastCameraId(String.valueOf(HomeScreenFragment.CameraItem.this.camera.getDevice_id()));
             ((MainActivity)HomeScreenFragment.this.getActivity()).startCameraSettings(HomeScreenFragment.CameraItem.this.camera.getDevice_id().intValue());
           }
         });
-        this.liveButton = ((Button)this.view.findViewById(2131558681));
+        this.liveButton = ((Button)this.view.findViewById(2131558685));
         this.liveButton.setOnClickListener(new View.OnClickListener()
         {
           public void onClick(View paramAnonymousView)
@@ -910,22 +981,11 @@ public class HomeScreenFragment
             HomeScreenFragment.this.cleanUpHandler();
             BlinkApp.getApp().setLastNetworkId(HomeScreenFragment.this.mNetworkId);
             BlinkApp.getApp().setLastCameraId(String.valueOf(HomeScreenFragment.CameraItem.this.camera.getDevice_id()));
-            if ((0 != 0) && (Build.VERSION.SDK_INT == 19))
-            {
-              new AlertDialog.Builder(HomeScreenFragment.this.getActivity()).setMessage(HomeScreenFragment.this.getString(2131099866)).setPositiveButton(2131099886, new DialogInterface.OnClickListener()
-              {
-                public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
-                {
-                  HomeScreenFragment.this.refresh();
-                }
-              }).create().show();
-              return;
-            }
             paramAnonymousView = new Intent(HomeScreenFragment.this.getActivity(), VideoLiveViewActivity.class);
             HomeScreenFragment.this.startActivityForResult(paramAnonymousView, 109);
           }
         });
-        this.picButton = ((Button)this.view.findViewById(2131558691));
+        this.picButton = ((Button)this.view.findViewById(2131558695));
         this.picButton.setOnClickListener(new View.OnClickListener()
         {
           public void onClick(View paramAnonymousView)
@@ -936,7 +996,8 @@ public class HomeScreenFragment
             BlinkApp.getApp().setLastNetworkId(HomeScreenFragment.this.mNetworkId);
             BlinkApp.getApp().setLastCameraId(String.valueOf(HomeScreenFragment.CameraItem.this.camera.getDevice_id()));
             HomeScreenFragment.CameraItem.this.spinner.show();
-            OnClick.blockAllClicks(true);
+            OnClick.enableClicks(false);
+            HomeScreenFragment.this.mArmSwitch.setEnabled(false);
             HomeScreenFragment.this.takePicture(HomeScreenFragment.CameraItem.this.index, String.valueOf(HomeScreenFragment.CameraItem.this.camera.getDevice_id()));
           }
         });
@@ -949,7 +1010,7 @@ public class HomeScreenFragment
         this.view = HomeScreenFragment.this.mCameraListContainer.getChildAt(this.index);
         break;
         label395:
-        this.runningIcon.setImageDrawable(HomeScreenFragment.this.getResources().getDrawable(2130837785));
+        this.runningIcon.setImageDrawable(HomeScreenFragment.this.getResources().getDrawable(2130837787));
         break label137;
         label414:
         this.runningIcon.setVisibility(4);
@@ -980,7 +1041,7 @@ public class HomeScreenFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/fragments/HomeScreenFragment.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/HomeScreenFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

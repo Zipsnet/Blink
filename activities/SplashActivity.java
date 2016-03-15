@@ -41,11 +41,11 @@ public class SplashActivity
       if ((i < 0) || (this.mUrls[i].equals(BlinkApp.getApp().getServerUrl())))
       {
         Bundle localBundle = new Bundle();
-        localBundle.putString("Title", getString(2131099782));
+        localBundle.putString("Title", getString(2131099786));
         localBundle.putStringArray("List", this.mUrls);
         localBundle.putInt("Current_selection", i);
         localBundle.putInt("Layout_id_key", 0);
-        localBundle.putString("Ok_Button_Label", getResources().getString(2131099886));
+        localBundle.putString("Ok_Button_Label", getResources().getString(2131099890));
         this.mChooseDialog = new ChooseDialog();
         this.mChooseDialog.setArguments(localBundle);
         this.mChooseDialog.show(getSupportFragmentManager(), "ChooseDialog");
@@ -93,26 +93,26 @@ public class SplashActivity
   {
     super.onCreate(paramBundle);
     setContentView(2130903141);
-    this.mUrls = getResources().getStringArray(2131427331);
+    this.mUrls = getResources().getStringArray(2131427332);
     BlinkApp.getApp().getServerUrl();
     if (BlinkApp.getApp().getDeviceToken() == null) {
       startService(new Intent(this, BlinkGcmRegistrationIntentService.class));
     }
-    paramBundle = (Button)findViewById(2131558651);
-    Button localButton = (Button)findViewById(2131558747);
-    TextView localTextView = (TextView)findViewById(2131558749);
+    paramBundle = (Button)findViewById(2131558655);
+    Button localButton = (Button)findViewById(2131558751);
+    TextView localTextView = (TextView)findViewById(2131558753);
     try
     {
       PackageInfo localPackageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-      String[] arrayOfString = (getString(2131100006) + localPackageInfo.versionName).split("\\.");
-      localTextView.setText(arrayOfString[0] + "." + arrayOfString[1] + "." + localPackageInfo.versionCode);
+      String[] arrayOfString = (getString(2131100010) + localPackageInfo.versionName).split("\\.");
+      localTextView.setText(arrayOfString[0] + "." + arrayOfString[1] + "." + arrayOfString[2] + " (" + localPackageInfo.versionCode + ")");
       if ((getApplicationInfo().flags & 0x2) != 0)
       {
         i = 1;
         if (i != 0) {
-          break label253;
+          break label272;
         }
-        BlinkApp.getApp().setServerUrl(getString(2131099915));
+        BlinkApp.getApp().setServerUrl(getString(2131099919));
         paramBundle.setOnClickListener(new View.OnClickListener()
         {
           public void onClick(View paramAnonymousView)
@@ -145,8 +145,8 @@ public class SplashActivity
         continue;
         int i = 0;
         continue;
-        label253:
-        View localView = findViewById(2131558745);
+        label272:
+        View localView = findViewById(2131558749);
         localView.setOnLongClickListener(new View.OnLongClickListener()
         {
           public boolean onLongClick(View paramAnonymousView)
@@ -208,7 +208,7 @@ public class SplashActivity
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/Blick_output_jar.jar!/com/immediasemi/blink/activities/SplashActivity.class
+/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/SplashActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */
