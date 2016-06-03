@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.TextView;
 import com.immediasemi.blink.fragments.BaseFragment.OnFragmentInteractionListener;
 import com.immediasemi.blink.fragments.BaseFragment.OnFragmentInteractionListener.InteractionAction;
+import com.immediasemi.blink.utils.NotificationsUtils;
 import com.immediasemi.blink.utils.OnClick;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class BaseActivity
     ((ActionBar)localObject).setDisplayOptions(16);
     ((ActionBar)localObject).setBackgroundDrawable(getResources().getDrawable(2130837573));
     ((ActionBar)localObject).setElevation(0.0F);
-    View localView = getLayoutInflater().inflate(2130903067, null);
+    View localView = getLayoutInflater().inflate(2130903069, null);
     this.mActionBarTitleTextView = ((TextView)localView.findViewById(2131558488));
     ((ActionBar)localObject).setCustomView(localView, new ActionBar.LayoutParams(-2, -1, 17));
     try
@@ -53,18 +54,23 @@ public class BaseActivity
       this.mActionBarTitleTextView.setText((CharSequence)localObject);
       return;
     }
-    catch (Exception localException) {}
+    catch (Exception localException)
+    {
+      for (;;) {}
+    }
   }
   
   public void onBackPressed()
   {
     FragmentManager localFragmentManager = getSupportFragmentManager();
-    if ((localFragmentManager.getFragments() != null) && (localFragmentManager.getFragments().size() > 1) && (localFragmentManager.getBackStackEntryCount() > 0))
-    {
+    if ((localFragmentManager.getFragments() != null) && (localFragmentManager.getFragments().size() > 1) && (localFragmentManager.getBackStackEntryCount() > 0)) {
       localFragmentManager.popBackStack();
-      return;
     }
-    super.onBackPressed();
+    for (;;)
+    {
+      return;
+      super.onBackPressed();
+    }
   }
   
   public void onConfigurationChanged(Configuration paramConfiguration)
@@ -81,29 +87,31 @@ public class BaseActivity
     {
       public void onReceive(Context paramAnonymousContext, Intent paramAnonymousIntent)
       {
-        if (BaseActivity.this.mBlockListener) {
-          return;
-        }
-        BaseActivity.this.mBlockListener = true;
-        paramAnonymousContext = new Runnable()
+        if ((BaseActivity.this.mBlockListener) || (!NotificationsUtils.isNotificationEnabled(BaseActivity.this.getApplicationContext()))) {}
+        for (;;)
         {
-          public void run()
+          return;
+          BaseActivity.this.mBlockListener = true;
+          paramAnonymousContext = new Runnable()
           {
-            String str = "Motion alert from " + this.val$videoDict.getString("camera_name") + " camera";
-            new AlertDialog.Builder(BaseActivity.this).setMessage(str).setPositiveButton(2131100012, new DialogInterface.OnClickListener()
+            public void run()
             {
-              public void onClick(DialogInterface paramAnonymous3DialogInterface, int paramAnonymous3Int)
+              String str = "Motion alert from " + this.val$videoDict.getString("camera_name") + " camera";
+              new AlertDialog.Builder(BaseActivity.this).setMessage(str).setPositiveButton(2131100015, new DialogInterface.OnClickListener()
               {
-                paramAnonymous3DialogInterface = new Intent(BaseActivity.this, VideoPlayerActivity.class);
-                paramAnonymous3DialogInterface.putExtra("video_dictionary", BaseActivity.1.1.this.val$videoDict);
-                paramAnonymous3DialogInterface.putExtra("start_alert_view", true);
-                BaseActivity.this.startActivity(paramAnonymous3DialogInterface);
-                BaseActivity.this.mBlockListener = false;
-              }
-            }).setNegativeButton(2131099808, null).create().show();
-          }
-        };
-        BaseActivity.this.runOnUiThread(paramAnonymousContext);
+                public void onClick(DialogInterface paramAnonymous3DialogInterface, int paramAnonymous3Int)
+                {
+                  paramAnonymous3DialogInterface = new Intent(BaseActivity.this, VideoPlayerActivity.class);
+                  paramAnonymous3DialogInterface.putExtra("video_dictionary", BaseActivity.1.1.this.val$videoDict);
+                  paramAnonymous3DialogInterface.putExtra("start_alert_view", true);
+                  BaseActivity.this.startActivity(paramAnonymous3DialogInterface);
+                  BaseActivity.this.mBlockListener = false;
+                }
+              }).setNegativeButton(2131099809, null).create().show();
+            }
+          };
+          BaseActivity.this.runOnUiThread(paramAnonymousContext);
+        }
       }
     };
   }
@@ -115,27 +123,27 @@ public class BaseActivity
   
   public void onFragmentInteraction(int paramInt, BaseFragment.OnFragmentInteractionListener.InteractionAction paramInteractionAction, Object paramObject)
   {
-    if ((paramInteractionAction == BaseFragment.OnFragmentInteractionListener.InteractionAction.RESULT) || (paramInteractionAction == BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT))
-    {
+    if ((paramInteractionAction == BaseFragment.OnFragmentInteractionListener.InteractionAction.RESULT) || (paramInteractionAction == BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT)) {
       switch (paramInteractionAction)
       {
-      default: 
-        return;
-      case ???: 
-        if (((Boolean)paramObject).booleanValue() == true) {
-          setResult(-1);
-        }
-        for (;;)
-        {
-          finish();
-          return;
-          setResult(0);
-        }
       }
-      getSupportFragmentManager().beginTransaction().replace(2131558534, (Fragment)paramObject).commit();
-      return;
     }
-    onBackPressed();
+    for (;;)
+    {
+      return;
+      if (((Boolean)paramObject).booleanValue() == true) {
+        setResult(-1);
+      }
+      for (;;)
+      {
+        finish();
+        break;
+        setResult(0);
+      }
+      getSupportFragmentManager().beginTransaction().replace(2131558537, (Fragment)paramObject).commit();
+      continue;
+      onBackPressed();
+    }
   }
   
   public void onLowMemory()
@@ -154,12 +162,10 @@ public class BaseActivity
   {
     super.onResume();
     LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(this.mNotificationListener, new IntentFilter("new_video_notification"));
-    if (getClass().equals(VideoPlayerActivity.class))
-    {
-      this.mBlockListener = true;
+    if (getClass().equals(VideoPlayerActivity.class)) {}
+    for (this.mBlockListener = true;; this.mBlockListener = false) {
       return;
     }
-    this.mBlockListener = false;
   }
   
   protected void onStart()
@@ -181,7 +187,7 @@ public class BaseActivity
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/BaseActivity.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/activities/BaseActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

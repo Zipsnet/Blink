@@ -13,11 +13,9 @@ public class VideoLiveViewActivity
 {
   public void onBackPressed()
   {
-    Fragment localFragment = getSupportFragmentManager().findFragmentById(2131558534);
-    if ((localFragment != null) && ((localFragment instanceof VideoLiveViewFragment)))
-    {
+    Fragment localFragment = getSupportFragmentManager().findFragmentById(2131558537);
+    if ((localFragment != null) && ((localFragment instanceof VideoLiveViewFragment))) {
       ((VideoLiveViewFragment)localFragment).stopVideo();
-      return;
     }
     super.onBackPressed();
   }
@@ -25,10 +23,10 @@ public class VideoLiveViewActivity
   protected void onCreate(Bundle paramBundle)
   {
     super.onCreate(paramBundle);
-    setContentView(2130903071);
+    setContentView(2130903074);
     if (paramBundle == null)
     {
-      getSupportFragmentManager().beginTransaction().replace(2131558534, VideoLiveViewFragment.newInstance(-1)).commit();
+      getSupportFragmentManager().beginTransaction().replace(2131558537, VideoLiveViewFragment.newInstance(-1)).commit();
       paramBundle = getSupportActionBar();
       if (paramBundle != null)
       {
@@ -45,7 +43,7 @@ public class VideoLiveViewActivity
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/VideoLiveViewActivity.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/activities/VideoLiveViewActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

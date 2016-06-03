@@ -14,18 +14,19 @@ public class OnClick
   public static boolean ok()
   {
     long l = System.currentTimeMillis();
-    if ((l - mLastClick > 150L) || (l - mLastClick < 0L))
-    {
+    if ((l - mLastClick > 150L) || (l - mLastClick < 0L)) {
       mLastClick = l;
-      return mEnableClicks;
     }
-    mLastClick = l;
-    return false;
+    for (boolean bool = mEnableClicks;; bool = false)
+    {
+      return bool;
+      mLastClick = l;
+    }
   }
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/utils/OnClick.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/utils/OnClick.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

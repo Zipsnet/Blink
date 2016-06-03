@@ -61,11 +61,15 @@ public class GsonRequest<T>
   public byte[] getBody()
     throws AuthFailureError
   {
+    byte[] arrayOfByte = null;
     if (this.body.length() == 0) {}
-    while (this.body.equals("{}")) {
-      return null;
+    for (;;)
+    {
+      return arrayOfByte;
+      if (!this.body.equals("{}")) {
+        arrayOfByte = this.body.getBytes();
+      }
     }
-    return this.body.getBytes();
   }
   
   public String getBodyContentType()
@@ -76,10 +80,10 @@ public class GsonRequest<T>
   public Map<String, String> getHeaders()
     throws AuthFailureError
   {
-    if (this.headers != null) {
-      return this.headers;
+    if (this.headers != null) {}
+    for (Map localMap = this.headers;; localMap = super.getHeaders()) {
+      return localMap;
     }
-    return super.getHeaders();
   }
   
   /* Error */
@@ -87,161 +91,174 @@ public class GsonRequest<T>
   {
     // Byte code:
     //   0: ldc -117
-    //   2: astore_2
-    //   3: new 107	java/lang/String
-    //   6: dup
-    //   7: aload_1
-    //   8: getfield 145	com/android/volley/NetworkResponse:data	[B
-    //   11: aload_1
-    //   12: getfield 146	com/android/volley/NetworkResponse:headers	Ljava/util/Map;
-    //   15: invokestatic 152	com/android/volley/toolbox/HttpHeaderParser:parseCharset	(Ljava/util/Map;)Ljava/lang/String;
-    //   18: invokespecial 155	java/lang/String:<init>	([BLjava/lang/String;)V
-    //   21: astore_3
-    //   22: aload_3
-    //   23: putstatic 160	com/immediasemi/blink/models/BlinkData:mRawResponse	Ljava/lang/String;
-    //   26: aload_0
-    //   27: getfield 36	com/immediasemi/blink/api/GsonRequest:raw	Z
-    //   30: istore 5
-    //   32: iload 5
-    //   34: ifeq +50 -> 84
-    //   37: aload_0
-    //   38: getfield 46	com/immediasemi/blink/api/GsonRequest:resultsClass	Ljava/lang/Class;
-    //   41: aconst_null
-    //   42: checkcast 162	[Ljava/lang/Class;
-    //   45: invokevirtual 168	java/lang/Class:getConstructor	([Ljava/lang/Class;)Ljava/lang/reflect/Constructor;
-    //   48: astore_2
+    //   2: astore 5
+    //   4: new 107	java/lang/String
+    //   7: astore_3
+    //   8: aload_3
+    //   9: aload_1
+    //   10: getfield 145	com/android/volley/NetworkResponse:data	[B
+    //   13: aload_1
+    //   14: getfield 146	com/android/volley/NetworkResponse:headers	Ljava/util/Map;
+    //   17: invokestatic 152	com/android/volley/toolbox/HttpHeaderParser:parseCharset	(Ljava/util/Map;)Ljava/lang/String;
+    //   20: invokespecial 155	java/lang/String:<init>	([BLjava/lang/String;)V
+    //   23: aload_3
+    //   24: putstatic 160	com/immediasemi/blink/models/BlinkData:mRawResponse	Ljava/lang/String;
+    //   27: aload_0
+    //   28: getfield 36	com/immediasemi/blink/api/GsonRequest:raw	Z
+    //   31: istore_2
+    //   32: iload_2
+    //   33: ifeq +70 -> 103
+    //   36: aload_0
+    //   37: getfield 46	com/immediasemi/blink/api/GsonRequest:resultsClass	Ljava/lang/Class;
+    //   40: aconst_null
+    //   41: checkcast 162	[Ljava/lang/Class;
+    //   44: invokevirtual 168	java/lang/Class:getConstructor	([Ljava/lang/Class;)Ljava/lang/reflect/Constructor;
+    //   47: astore 4
     //   49: aload_3
     //   50: putstatic 160	com/immediasemi/blink/models/BlinkData:mRawResponse	Ljava/lang/String;
-    //   53: aload_2
-    //   54: iconst_0
-    //   55: anewarray 170	java/lang/Object
-    //   58: invokevirtual 176	java/lang/reflect/Constructor:newInstance	([Ljava/lang/Object;)Ljava/lang/Object;
-    //   61: aload_1
-    //   62: invokestatic 180	com/android/volley/toolbox/HttpHeaderParser:parseCacheHeaders	(Lcom/android/volley/NetworkResponse;)Lcom/android/volley/Cache$Entry;
-    //   65: invokestatic 186	com/android/volley/Response:success	(Ljava/lang/Object;Lcom/android/volley/Cache$Entry;)Lcom/android/volley/Response;
-    //   68: astore_2
-    //   69: aload_2
-    //   70: areturn
-    //   71: astore_2
-    //   72: new 188	com/android/volley/ParseError
-    //   75: dup
-    //   76: aload_2
-    //   77: invokespecial 191	com/android/volley/ParseError:<init>	(Ljava/lang/Throwable;)V
-    //   80: invokestatic 195	com/android/volley/Response:error	(Lcom/android/volley/VolleyError;)Lcom/android/volley/Response;
-    //   83: areturn
-    //   84: aload_0
-    //   85: getfield 44	com/immediasemi/blink/api/GsonRequest:gson	Lcom/google/gson/Gson;
-    //   88: aload_3
-    //   89: aload_0
-    //   90: getfield 46	com/immediasemi/blink/api/GsonRequest:resultsClass	Ljava/lang/Class;
-    //   93: invokevirtual 199	com/google/gson/Gson:fromJson	(Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;
-    //   96: aload_1
-    //   97: invokestatic 180	com/android/volley/toolbox/HttpHeaderParser:parseCacheHeaders	(Lcom/android/volley/NetworkResponse;)Lcom/android/volley/Cache$Entry;
-    //   100: invokestatic 186	com/android/volley/Response:success	(Ljava/lang/Object;Lcom/android/volley/Cache$Entry;)Lcom/android/volley/Response;
-    //   103: astore_2
-    //   104: aload_2
-    //   105: areturn
-    //   106: astore_1
-    //   107: new 188	com/android/volley/ParseError
-    //   110: dup
-    //   111: aload_1
-    //   112: invokespecial 191	com/android/volley/ParseError:<init>	(Ljava/lang/Throwable;)V
-    //   115: invokestatic 195	com/android/volley/Response:error	(Lcom/android/volley/VolleyError;)Lcom/android/volley/Response;
-    //   118: areturn
-    //   119: astore 4
-    //   121: aload_2
-    //   122: astore_3
-    //   123: aload 4
-    //   125: astore_2
-    //   126: aload_3
-    //   127: ifnull +95 -> 222
-    //   130: aload_3
-    //   131: invokevirtual 111	java/lang/String:length	()I
-    //   134: iconst_2
-    //   135: if_icmplt +87 -> 222
-    //   138: aload_3
-    //   139: ldc -55
-    //   141: invokevirtual 205	java/lang/String:startsWith	(Ljava/lang/String;)Z
-    //   144: ifeq +78 -> 222
-    //   147: aload_3
-    //   148: ldc -49
-    //   150: invokevirtual 205	java/lang/String:startsWith	(Ljava/lang/String;)Z
-    //   153: ifeq +9 -> 162
-    //   156: aconst_null
-    //   157: aconst_null
-    //   158: invokestatic 186	com/android/volley/Response:success	(Ljava/lang/Object;Lcom/android/volley/Cache$Entry;)Lcom/android/volley/Response;
-    //   161: areturn
-    //   162: new 209	java/lang/StringBuilder
-    //   165: dup
-    //   166: invokespecial 210	java/lang/StringBuilder:<init>	()V
-    //   169: ldc -44
-    //   171: invokevirtual 216	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
-    //   174: aload_3
-    //   175: invokevirtual 216	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
-    //   178: ldc -38
-    //   180: invokevirtual 216	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
-    //   183: invokevirtual 221	java/lang/StringBuilder:toString	()Ljava/lang/String;
-    //   186: astore_2
-    //   187: aload_0
-    //   188: getfield 44	com/immediasemi/blink/api/GsonRequest:gson	Lcom/google/gson/Gson;
-    //   191: aload_2
-    //   192: aload_0
-    //   193: getfield 46	com/immediasemi/blink/api/GsonRequest:resultsClass	Ljava/lang/Class;
-    //   196: invokevirtual 199	com/google/gson/Gson:fromJson	(Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;
-    //   199: aload_1
-    //   200: invokestatic 180	com/android/volley/toolbox/HttpHeaderParser:parseCacheHeaders	(Lcom/android/volley/NetworkResponse;)Lcom/android/volley/Cache$Entry;
-    //   203: invokestatic 186	com/android/volley/Response:success	(Ljava/lang/Object;Lcom/android/volley/Cache$Entry;)Lcom/android/volley/Response;
-    //   206: astore_1
-    //   207: aload_1
-    //   208: areturn
-    //   209: astore_1
-    //   210: new 188	com/android/volley/ParseError
-    //   213: dup
-    //   214: aload_1
-    //   215: invokespecial 191	com/android/volley/ParseError:<init>	(Ljava/lang/Throwable;)V
-    //   218: invokestatic 195	com/android/volley/Response:error	(Lcom/android/volley/VolleyError;)Lcom/android/volley/Response;
-    //   221: areturn
-    //   222: new 188	com/android/volley/ParseError
-    //   225: dup
-    //   226: aload_2
-    //   227: invokespecial 191	com/android/volley/ParseError:<init>	(Ljava/lang/Throwable;)V
-    //   230: invokestatic 195	com/android/volley/Response:error	(Lcom/android/volley/VolleyError;)Lcom/android/volley/Response;
-    //   233: areturn
-    //   234: astore_2
-    //   235: goto -109 -> 126
-    //   238: astore_1
-    //   239: goto -132 -> 107
+    //   53: aload 4
+    //   55: iconst_0
+    //   56: anewarray 170	java/lang/Object
+    //   59: invokevirtual 176	java/lang/reflect/Constructor:newInstance	([Ljava/lang/Object;)Ljava/lang/Object;
+    //   62: aload_1
+    //   63: invokestatic 180	com/android/volley/toolbox/HttpHeaderParser:parseCacheHeaders	(Lcom/android/volley/NetworkResponse;)Lcom/android/volley/Cache$Entry;
+    //   66: invokestatic 186	com/android/volley/Response:success	(Ljava/lang/Object;Lcom/android/volley/Cache$Entry;)Lcom/android/volley/Response;
+    //   69: astore 4
+    //   71: aload 4
+    //   73: astore_1
+    //   74: aload_1
+    //   75: areturn
+    //   76: astore 4
+    //   78: new 188	com/android/volley/ParseError
+    //   81: astore 5
+    //   83: aload 5
+    //   85: aload 4
+    //   87: invokespecial 191	com/android/volley/ParseError:<init>	(Ljava/lang/Throwable;)V
+    //   90: aload 5
+    //   92: invokestatic 195	com/android/volley/Response:error	(Lcom/android/volley/VolleyError;)Lcom/android/volley/Response;
+    //   95: astore 4
+    //   97: aload 4
+    //   99: astore_1
+    //   100: goto -26 -> 74
+    //   103: aload_0
+    //   104: getfield 44	com/immediasemi/blink/api/GsonRequest:gson	Lcom/google/gson/Gson;
+    //   107: aload_3
+    //   108: aload_0
+    //   109: getfield 46	com/immediasemi/blink/api/GsonRequest:resultsClass	Ljava/lang/Class;
+    //   112: invokevirtual 199	com/google/gson/Gson:fromJson	(Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;
+    //   115: aload_1
+    //   116: invokestatic 180	com/android/volley/toolbox/HttpHeaderParser:parseCacheHeaders	(Lcom/android/volley/NetworkResponse;)Lcom/android/volley/Cache$Entry;
+    //   119: invokestatic 186	com/android/volley/Response:success	(Ljava/lang/Object;Lcom/android/volley/Cache$Entry;)Lcom/android/volley/Response;
+    //   122: astore 4
+    //   124: aload 4
+    //   126: astore_1
+    //   127: goto -53 -> 74
+    //   130: astore_1
+    //   131: new 188	com/android/volley/ParseError
+    //   134: dup
+    //   135: aload_1
+    //   136: invokespecial 191	com/android/volley/ParseError:<init>	(Ljava/lang/Throwable;)V
+    //   139: invokestatic 195	com/android/volley/Response:error	(Lcom/android/volley/VolleyError;)Lcom/android/volley/Response;
+    //   142: astore_1
+    //   143: goto -69 -> 74
+    //   146: astore 4
+    //   148: aload 5
+    //   150: astore_3
+    //   151: aload_3
+    //   152: ifnull +107 -> 259
+    //   155: aload_3
+    //   156: invokevirtual 111	java/lang/String:length	()I
+    //   159: iconst_2
+    //   160: if_icmplt +99 -> 259
+    //   163: aload_3
+    //   164: ldc -55
+    //   166: invokevirtual 205	java/lang/String:startsWith	(Ljava/lang/String;)Z
+    //   169: ifeq +90 -> 259
+    //   172: aload_3
+    //   173: ldc -49
+    //   175: invokevirtual 205	java/lang/String:startsWith	(Ljava/lang/String;)Z
+    //   178: ifeq +12 -> 190
+    //   181: aconst_null
+    //   182: aconst_null
+    //   183: invokestatic 186	com/android/volley/Response:success	(Ljava/lang/Object;Lcom/android/volley/Cache$Entry;)Lcom/android/volley/Response;
+    //   186: astore_1
+    //   187: goto -113 -> 74
+    //   190: new 209	java/lang/StringBuilder
+    //   193: astore 4
+    //   195: aload 4
+    //   197: invokespecial 210	java/lang/StringBuilder:<init>	()V
+    //   200: aload 4
+    //   202: ldc -44
+    //   204: invokevirtual 216	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   207: aload_3
+    //   208: invokevirtual 216	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   211: ldc -38
+    //   213: invokevirtual 216	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   216: invokevirtual 221	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   219: astore_3
+    //   220: aload_0
+    //   221: getfield 44	com/immediasemi/blink/api/GsonRequest:gson	Lcom/google/gson/Gson;
+    //   224: aload_3
+    //   225: aload_0
+    //   226: getfield 46	com/immediasemi/blink/api/GsonRequest:resultsClass	Ljava/lang/Class;
+    //   229: invokevirtual 199	com/google/gson/Gson:fromJson	(Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;
+    //   232: aload_1
+    //   233: invokestatic 180	com/android/volley/toolbox/HttpHeaderParser:parseCacheHeaders	(Lcom/android/volley/NetworkResponse;)Lcom/android/volley/Cache$Entry;
+    //   236: invokestatic 186	com/android/volley/Response:success	(Ljava/lang/Object;Lcom/android/volley/Cache$Entry;)Lcom/android/volley/Response;
+    //   239: astore_1
+    //   240: goto -166 -> 74
+    //   243: astore_1
+    //   244: new 188	com/android/volley/ParseError
+    //   247: dup
+    //   248: aload_1
+    //   249: invokespecial 191	com/android/volley/ParseError:<init>	(Ljava/lang/Throwable;)V
+    //   252: invokestatic 195	com/android/volley/Response:error	(Lcom/android/volley/VolleyError;)Lcom/android/volley/Response;
+    //   255: astore_1
+    //   256: goto -182 -> 74
+    //   259: new 188	com/android/volley/ParseError
+    //   262: dup
+    //   263: aload 4
+    //   265: invokespecial 191	com/android/volley/ParseError:<init>	(Ljava/lang/Throwable;)V
+    //   268: invokestatic 195	com/android/volley/Response:error	(Lcom/android/volley/VolleyError;)Lcom/android/volley/Response;
+    //   271: astore_1
+    //   272: goto -198 -> 74
+    //   275: astore 4
+    //   277: goto -126 -> 151
+    //   280: astore_1
+    //   281: goto -150 -> 131
     // Local variable table:
     //   start	length	slot	name	signature
-    //   0	242	0	this	GsonRequest
-    //   0	242	1	paramNetworkResponse	com.android.volley.NetworkResponse
-    //   2	68	2	localObject1	Object
-    //   71	6	2	localException	Exception
-    //   103	124	2	localObject2	Object
-    //   234	1	2	localJsonSyntaxException1	com.google.gson.JsonSyntaxException
-    //   21	154	3	localObject3	Object
-    //   119	5	4	localJsonSyntaxException2	com.google.gson.JsonSyntaxException
-    //   30	3	5	bool	boolean
+    //   0	284	0	this	GsonRequest
+    //   0	284	1	paramNetworkResponse	com.android.volley.NetworkResponse
+    //   31	2	2	bool	boolean
+    //   7	218	3	localObject1	Object
+    //   47	25	4	localObject2	Object
+    //   76	10	4	localException	Exception
+    //   95	30	4	localResponse	com.android.volley.Response
+    //   146	1	4	localJsonSyntaxException1	com.google.gson.JsonSyntaxException
+    //   193	71	4	localStringBuilder	StringBuilder
+    //   275	1	4	localJsonSyntaxException2	com.google.gson.JsonSyntaxException
+    //   2	147	5	localObject3	Object
     // Exception table:
     //   from	to	target	type
-    //   37	69	71	java/lang/Exception
-    //   3	22	106	java/io/UnsupportedEncodingException
-    //   3	22	119	com/google/gson/JsonSyntaxException
-    //   130	162	209	java/lang/Exception
-    //   162	207	209	java/lang/Exception
-    //   22	32	234	com/google/gson/JsonSyntaxException
-    //   37	69	234	com/google/gson/JsonSyntaxException
-    //   72	84	234	com/google/gson/JsonSyntaxException
-    //   84	104	234	com/google/gson/JsonSyntaxException
-    //   22	32	238	java/io/UnsupportedEncodingException
-    //   37	69	238	java/io/UnsupportedEncodingException
-    //   72	84	238	java/io/UnsupportedEncodingException
-    //   84	104	238	java/io/UnsupportedEncodingException
+    //   36	71	76	java/lang/Exception
+    //   4	23	130	java/io/UnsupportedEncodingException
+    //   4	23	146	com/google/gson/JsonSyntaxException
+    //   155	187	243	java/lang/Exception
+    //   190	240	243	java/lang/Exception
+    //   23	32	275	com/google/gson/JsonSyntaxException
+    //   36	71	275	com/google/gson/JsonSyntaxException
+    //   78	97	275	com/google/gson/JsonSyntaxException
+    //   103	124	275	com/google/gson/JsonSyntaxException
+    //   23	32	280	java/io/UnsupportedEncodingException
+    //   36	71	280	java/io/UnsupportedEncodingException
+    //   78	97	280	java/io/UnsupportedEncodingException
+    //   103	124	280	java/io/UnsupportedEncodingException
   }
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/api/GsonRequest.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/api/GsonRequest.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

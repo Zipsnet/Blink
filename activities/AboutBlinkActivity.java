@@ -37,13 +37,15 @@ public class AboutBlinkActivity
     {
       public void onClick(View paramAnonymousView)
       {
-        if (!OnClick.ok()) {
+        if (!OnClick.ok()) {}
+        for (;;)
+        {
           return;
+          paramAnonymousView = new Intent(AboutBlinkActivity.this, VisitBlinkActivity.class);
+          paramAnonymousView.putExtra(VisitBlinkFragment.URL_STRING, AboutBlinkActivity.this.getString(2131099966));
+          paramAnonymousView.putExtra(VisitBlinkFragment.TITLE_STRING, AboutBlinkActivity.this.getString(2131099718));
+          AboutBlinkActivity.this.startActivity(paramAnonymousView);
         }
-        paramAnonymousView = new Intent(AboutBlinkActivity.this, VisitBlinkActivity.class);
-        paramAnonymousView.putExtra(VisitBlinkFragment.URL_STRING, AboutBlinkActivity.this.getString(2131099963));
-        paramAnonymousView.putExtra(VisitBlinkFragment.TITLE_STRING, AboutBlinkActivity.this.getString(2131099718));
-        AboutBlinkActivity.this.startActivity(paramAnonymousView);
       }
     });
     this.mPrivacyPolicy = findViewById(2131558529);
@@ -53,31 +55,42 @@ public class AboutBlinkActivity
     {
       public void onClick(View paramAnonymousView)
       {
-        if (!OnClick.ok()) {
+        if (!OnClick.ok()) {}
+        for (;;)
+        {
           return;
+          paramAnonymousView = new Intent(AboutBlinkActivity.this, VisitBlinkActivity.class);
+          paramAnonymousView.putExtra(VisitBlinkFragment.URL_STRING, AboutBlinkActivity.this.getString(2131099918));
+          paramAnonymousView.putExtra(VisitBlinkFragment.TITLE_STRING, AboutBlinkActivity.this.getString(2131099717));
+          AboutBlinkActivity.this.startActivity(paramAnonymousView);
         }
-        paramAnonymousView = new Intent(AboutBlinkActivity.this, VisitBlinkActivity.class);
-        paramAnonymousView.putExtra(VisitBlinkFragment.URL_STRING, AboutBlinkActivity.this.getString(2131099917));
-        paramAnonymousView.putExtra(VisitBlinkFragment.TITLE_STRING, AboutBlinkActivity.this.getString(2131099717));
-        AboutBlinkActivity.this.startActivity(paramAnonymousView);
       }
     });
     try
     {
       paramBundle = getPackageManager().getPackageInfo(getPackageName(), 0);
-      this.mVersion.setText("" + paramBundle.versionName);
-      this.mBuildNumber.setText("" + paramBundle.versionCode);
+      Object localObject2 = this.mVersion;
+      Object localObject1 = new java/lang/StringBuilder;
+      ((StringBuilder)localObject1).<init>();
+      ((TextView)localObject2).setText("" + paramBundle.versionName);
+      localObject1 = this.mBuildNumber;
+      localObject2 = new java/lang/StringBuilder;
+      ((StringBuilder)localObject2).<init>();
+      ((TextView)localObject1).setText("" + paramBundle.versionCode);
       return;
     }
     catch (PackageManager.NameNotFoundException paramBundle)
     {
-      paramBundle.printStackTrace();
+      for (;;)
+      {
+        paramBundle.printStackTrace();
+      }
     }
   }
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/AboutBlinkActivity.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/activities/AboutBlinkActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

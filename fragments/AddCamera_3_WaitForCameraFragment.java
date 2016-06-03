@@ -41,50 +41,52 @@ public class AddCamera_3_WaitForCameraFragment
           if ((AddCamera_3_WaitForCameraFragment.this.getActivity() == null) || (AddCamera_3_WaitForCameraFragment.this.mListener == null) || (AddCamera_3_WaitForCameraFragment.this.isDetached())) {
             AddCamera_3_WaitForCameraFragment.this.tryAgain();
           }
-          do
+          for (;;)
           {
             return;
-            if (AddCamera_3_WaitForCameraFragment.access$106(AddCamera_3_WaitForCameraFragment.this) > 0) {
-              break;
+            if (AddCamera_3_WaitForCameraFragment.access$106(AddCamera_3_WaitForCameraFragment.this) <= 0)
+            {
+              if (AddCamera_3_WaitForCameraFragment.this.getActivity() != null) {
+                AddCamera_3_WaitForCameraFragment.this.tryAgain();
+              }
             }
-          } while (AddCamera_3_WaitForCameraFragment.this.getActivity() == null);
-          AddCamera_3_WaitForCameraFragment.this.tryAgain();
-          return;
-          AddCamera_3_WaitForCameraFragment.this.handler.sendEmptyMessageDelayed(0, 5000L);
+            else {
+              AddCamera_3_WaitForCameraFragment.this.handler.sendEmptyMessageDelayed(0, 5000L);
+            }
+          }
         }
         
         public void onResult(BlinkData paramAnonymous2BlinkData)
         {
-          paramAnonymous2BlinkData = ((DeviceStatuses)paramAnonymous2BlinkData).getDevicestatus();
+          DeviceStatus[] arrayOfDeviceStatus = ((DeviceStatuses)paramAnonymous2BlinkData).getDevicestatus();
           int j = Integer.valueOf(BlinkApp.getApp().getLastCameraId()).intValue();
           int i = 0;
-          if (i < paramAnonymous2BlinkData.length)
+          if (i < arrayOfDeviceStatus.length)
           {
-            Object localObject = paramAnonymous2BlinkData[i];
-            if (((DeviceStatus)localObject).getCamera_id() == j)
+            paramAnonymous2BlinkData = arrayOfDeviceStatus[i];
+            if (paramAnonymous2BlinkData.getCamera_id() == j)
             {
-              BlinkApp.getApp().setLastCameraId(String.valueOf(((DeviceStatus)localObject).getCamera_id()));
+              BlinkApp.getApp().setLastCameraId(String.valueOf(paramAnonymous2BlinkData.getCamera_id()));
               AddCamera_3_WaitForCameraFragment.this.success();
             }
           }
-          do
+          for (;;)
           {
             return;
-            i += 1;
+            i++;
             break;
-            if (AddCamera_3_WaitForCameraFragment.access$106(AddCamera_3_WaitForCameraFragment.this) > 0) {
-              break label111;
+            if (AddCamera_3_WaitForCameraFragment.access$106(AddCamera_3_WaitForCameraFragment.this) <= 0)
+            {
+              if (AddCamera_3_WaitForCameraFragment.this.getActivity() != null) {
+                AddCamera_3_WaitForCameraFragment.this.tryAgain();
+              }
             }
-          } while (AddCamera_3_WaitForCameraFragment.this.getActivity() == null);
-          AddCamera_3_WaitForCameraFragment.this.tryAgain();
-          return;
-          label111:
-          if ((AddCamera_3_WaitForCameraFragment.this.getActivity() == null) || (AddCamera_3_WaitForCameraFragment.this.mListener == null) || (AddCamera_3_WaitForCameraFragment.this.isDetached()))
-          {
-            AddCamera_3_WaitForCameraFragment.this.tryAgain();
-            return;
+            else if ((AddCamera_3_WaitForCameraFragment.this.getActivity() == null) || (AddCamera_3_WaitForCameraFragment.this.mListener == null) || (AddCamera_3_WaitForCameraFragment.this.isDetached())) {
+              AddCamera_3_WaitForCameraFragment.this.tryAgain();
+            } else {
+              AddCamera_3_WaitForCameraFragment.this.handler.sendEmptyMessageDelayed(0, 5000L);
+            }
           }
-          AddCamera_3_WaitForCameraFragment.this.handler.sendEmptyMessageDelayed(0, 5000L);
         }
       }, false);
     }
@@ -106,30 +108,34 @@ public class AddCamera_3_WaitForCameraFragment
   private void success()
   {
     this.pd.setVisibility(4);
-    if ((getActivity() == null) || (this.mListener == null) || (isDetached()))
-    {
+    if ((getActivity() == null) || (this.mListener == null) || (isDetached())) {
       PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext()).edit().putInt("add_camera_sequence", 4).commit();
-      return;
     }
-    AddCamera_4_SuccessFragment localAddCamera_4_SuccessFragment = AddCamera_4_SuccessFragment.newInstance(-1);
-    this.mListener.onFragmentInteraction(this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, localAddCamera_4_SuccessFragment);
+    for (;;)
+    {
+      return;
+      AddCamera_4_SuccessFragment localAddCamera_4_SuccessFragment = AddCamera_4_SuccessFragment.newInstance(-1);
+      this.mListener.onFragmentInteraction(this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, localAddCamera_4_SuccessFragment);
+    }
   }
   
   private void tryAgain()
   {
-    if ((getActivity() == null) || (this.mListener == null) || (isDetached()))
-    {
+    if ((getActivity() == null) || (this.mListener == null) || (isDetached())) {
       PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext()).edit().putInt("add_camera_sequence", 8).commit();
-      return;
     }
-    AddCamera_8_RetryFragment localAddCamera_8_RetryFragment = AddCamera_8_RetryFragment.newInstance(-1);
-    this.mListener.onFragmentInteraction(this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, localAddCamera_8_RetryFragment);
+    for (;;)
+    {
+      return;
+      AddCamera_8_RetryFragment localAddCamera_8_RetryFragment = AddCamera_8_RetryFragment.newInstance(-1);
+      this.mListener.onFragmentInteraction(this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, localAddCamera_8_RetryFragment);
+    }
   }
   
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099987));
+    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099990));
     this.handler.sendEmptyMessageDelayed(0, 100L);
   }
   
@@ -145,8 +151,8 @@ public class AddCamera_3_WaitForCameraFragment
   
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
-    this.mView = paramLayoutInflater.inflate(2130903088, paramViewGroup, false);
-    this.pd = ((ContentLoadingProgressBar)this.mView.findViewById(2131558538));
+    this.mView = paramLayoutInflater.inflate(2130903092, paramViewGroup, false);
+    this.pd = ((ContentLoadingProgressBar)this.mView.findViewById(2131558541));
     this.pd.setVisibility(0);
     return this.mView;
   }
@@ -159,7 +165,7 @@ public class AddCamera_3_WaitForCameraFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/AddCamera_3_WaitForCameraFragment.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/fragments/AddCamera_3_WaitForCameraFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

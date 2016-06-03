@@ -14,9 +14,9 @@ public class VisitBlinkActivity
   protected void onCreate(Bundle paramBundle)
   {
     super.onCreate(paramBundle);
-    setContentView(2130903071);
+    setContentView(2130903074);
     Bundle localBundle = getIntent().getExtras();
-    String str3 = getString(2131100014);
+    String str3 = getString(2131100017);
     String str2 = getString(2131099745);
     String str1 = str2;
     paramBundle = str3;
@@ -25,7 +25,7 @@ public class VisitBlinkActivity
       paramBundle = localBundle.getString(VisitBlinkFragment.URL_STRING, str3);
       str1 = localBundle.getString(VisitBlinkFragment.TITLE_STRING, str2);
     }
-    getSupportFragmentManager().beginTransaction().replace(2131558534, VisitBlinkFragment.newInstance(-1, paramBundle, str1)).commit();
+    getSupportFragmentManager().beginTransaction().replace(2131558537, VisitBlinkFragment.newInstance(-1, paramBundle, str1)).commit();
     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
   }
   
@@ -36,7 +36,7 @@ public class VisitBlinkActivity
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/VisitBlinkActivity.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/activities/VisitBlinkActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

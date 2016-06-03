@@ -29,11 +29,10 @@ public class ClearEditSerialNumber
   {
     super.onTextChanged(paramEditText, paramString);
     if (this.mProgrammaticChange) {}
-    String str;
-    do
+    for (;;)
     {
       return;
-      str = paramString.replaceAll("-", "");
+      String str = paramString.replaceAll("-", "");
       paramString = str;
       if (str.length() > 3) {
         paramString = str.substring(0, 3) + "-" + str.substring(3);
@@ -46,8 +45,10 @@ public class ClearEditSerialNumber
       paramEditText.setText(str);
       paramEditText.setSelection(str.length());
       this.mProgrammaticChange = false;
-    } while (this.mChangeListener == null);
-    this.mChangeListener.onTextChanged(str);
+      if (this.mChangeListener != null) {
+        this.mChangeListener.onTextChanged(str);
+      }
+    }
   }
   
   public void setOnClearEditSerialNumberChangeListener(OnClearEditSerialNumberChangeListener paramOnClearEditSerialNumberChangeListener)
@@ -62,7 +63,7 @@ public class ClearEditSerialNumber
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/utils/ClearEditSerialNumber.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/utils/ClearEditSerialNumber.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

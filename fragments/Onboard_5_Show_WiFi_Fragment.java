@@ -39,18 +39,21 @@ public class Onboard_5_Show_WiFi_Fragment
   
   private String encrpytionType(int paramInt)
   {
+    String str = "";
     switch (paramInt)
     {
-    default: 
-      return "";
-    case 0: 
-      return "WPA2";
-    case 1: 
-      return "WPA";
-    case 2: 
-      return "WEP";
     }
-    return "none";
+    for (;;)
+    {
+      return str;
+      str = "WPA2";
+      continue;
+      str = "WPA";
+      continue;
+      str = "WEP";
+      continue;
+      str = "none";
+    }
   }
   
   public static Onboard_5_Show_WiFi_Fragment newInstance(int paramInt)
@@ -71,7 +74,7 @@ public class Onboard_5_Show_WiFi_Fragment
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131100000));
+    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131100003));
   }
   
   public void onCreate(Bundle paramBundle)
@@ -96,28 +99,28 @@ public class Onboard_5_Show_WiFi_Fragment
   
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
-    this.mView = paramLayoutInflater.inflate(2130903081, paramViewGroup, false);
-    this.mListView = ((ListView)this.mView.findViewById(2131558548));
+    this.mView = paramLayoutInflater.inflate(2130903085, paramViewGroup, false);
+    this.mListView = ((ListView)this.mView.findViewById(2131558551));
     if ((this.mAccessPoints != null) && (this.mAccessPoints.length > 0))
     {
-      this.mListView.setAdapter(new ArrayAdapter(getActivity(), 2130903124, this.mAccessPoints)
+      this.mListView.setAdapter(new ArrayAdapter(getActivity(), 2130903128, this.mAccessPoints)
       {
         public View getView(int paramAnonymousInt, View paramAnonymousView, ViewGroup paramAnonymousViewGroup)
         {
           if (paramAnonymousView == null) {
-            paramAnonymousView = View.inflate(Onboard_5_Show_WiFi_Fragment.this.getActivity(), 2130903124, null);
+            paramAnonymousView = View.inflate(Onboard_5_Show_WiFi_Fragment.this.getActivity(), 2130903128, null);
           }
           for (;;)
           {
-            paramAnonymousViewGroup = (TextView)paramAnonymousView.findViewById(2131558549);
-            TextView localTextView1 = (TextView)paramAnonymousView.findViewById(2131558724);
-            TextView localTextView2 = (TextView)paramAnonymousView.findViewById(2131558725);
-            TextView localTextView3 = (TextView)paramAnonymousView.findViewById(2131558726);
+            TextView localTextView3 = (TextView)paramAnonymousView.findViewById(2131558552);
+            paramAnonymousViewGroup = (TextView)paramAnonymousView.findViewById(2131558733);
+            TextView localTextView2 = (TextView)paramAnonymousView.findViewById(2131558734);
+            TextView localTextView1 = (TextView)paramAnonymousView.findViewById(2131558735);
             AccessPoint localAccessPoint = Onboard_5_Show_WiFi_Fragment.this.mAccessPoints[paramAnonymousInt];
-            paramAnonymousViewGroup.setText(localAccessPoint.getSsid());
-            localTextView1.setText(localAccessPoint.getQuality());
+            localTextView3.setText(localAccessPoint.getSsid());
+            paramAnonymousViewGroup.setText(localAccessPoint.getQuality());
             localTextView2.setText(localAccessPoint.getSignal());
-            localTextView3.setText(localAccessPoint.getEncryption());
+            localTextView1.setText(localAccessPoint.getEncryption());
             return paramAnonymousView;
           }
         }
@@ -136,7 +139,7 @@ public class Onboard_5_Show_WiFi_Fragment
         }
       });
     }
-    paramLayoutInflater = (Button)this.mView.findViewById(2131558547);
+    paramLayoutInflater = (Button)this.mView.findViewById(2131558550);
     if (!this.mSupportsManualSSID) {
       paramLayoutInflater.setVisibility(4);
     }
@@ -169,7 +172,7 @@ public class Onboard_5_Show_WiFi_Fragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/Onboard_5_Show_WiFi_Fragment.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/fragments/Onboard_5_Show_WiFi_Fragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

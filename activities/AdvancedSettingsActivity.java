@@ -19,12 +19,12 @@ public class AdvancedSettingsActivity
   
   private void setMenuItemVisibilty()
   {
-    TextView localTextView1 = (TextView)this.mActionBarView.findViewById(2131558536);
-    TextView localTextView2 = (TextView)this.mActionBarView.findViewById(2131558535);
+    TextView localTextView2 = (TextView)this.mActionBarView.findViewById(2131558539);
+    TextView localTextView1 = (TextView)this.mActionBarView.findViewById(2131558538);
     TextView localTextView3 = (TextView)this.mActionBarView.findViewById(2131558488);
-    localTextView1.setVisibility(0);
     localTextView2.setVisibility(0);
-    localTextView3.setText(getString(2131099994));
+    localTextView1.setVisibility(0);
+    localTextView3.setText(getString(2131099997));
   }
   
   public void onCancelAdvSettingsClicked(View paramView)
@@ -35,32 +35,36 @@ public class AdvancedSettingsActivity
   protected void onCreate(Bundle paramBundle)
   {
     super.onCreate(paramBundle);
-    setContentView(2130903071);
+    setContentView(2130903074);
     paramBundle = getSupportFragmentManager();
     if (getIntent().getExtras() != null) {}
-    paramBundle.beginTransaction().replace(2131558534, AdvancedSettingsFragment.newInstance(-1)).commit();
-    this.mActionBarView = getLayoutInflater().inflate(2130903073, null);
+    paramBundle.beginTransaction().replace(2131558537, AdvancedSettingsFragment.newInstance(-1)).commit();
+    this.mActionBarView = getLayoutInflater().inflate(2130903076, null);
     paramBundle = getSupportActionBar();
     paramBundle.setCustomView(this.mActionBarView);
     paramBundle.setDisplayOptions(16);
-    this.mActionBarView.findViewById(2131558535).setOnClickListener(new View.OnClickListener()
+    this.mActionBarView.findViewById(2131558538).setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
-        if (!OnClick.ok()) {
+        if (!OnClick.ok()) {}
+        for (;;)
+        {
           return;
+          AdvancedSettingsActivity.this.onCancelAdvSettingsClicked(paramAnonymousView);
         }
-        AdvancedSettingsActivity.this.onCancelAdvSettingsClicked(paramAnonymousView);
       }
     });
-    this.mActionBarView.findViewById(2131558536).setOnClickListener(new View.OnClickListener()
+    this.mActionBarView.findViewById(2131558539).setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
-        if (!OnClick.ok()) {
+        if (!OnClick.ok()) {}
+        for (;;)
+        {
           return;
+          AdvancedSettingsActivity.this.onDoneAdvSettingsClicked(paramAnonymousView);
         }
-        AdvancedSettingsActivity.this.onDoneAdvSettingsClicked(paramAnonymousView);
       }
     });
     setMenuItemVisibilty();
@@ -73,7 +77,7 @@ public class AdvancedSettingsActivity
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/AdvancedSettingsActivity.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/activities/AdvancedSettingsActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

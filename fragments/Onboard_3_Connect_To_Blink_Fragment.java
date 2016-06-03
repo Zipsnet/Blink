@@ -46,35 +46,40 @@ public class Onboard_3_Connect_To_Blink_Fragment
         {
           BlinkApp.getApp().setOnboardingUrl(null);
           if ((Onboard_3_Connect_To_Blink_Fragment.this.getActivity() == null) || (Onboard_3_Connect_To_Blink_Fragment.this.mListener == null) || (Onboard_3_Connect_To_Blink_Fragment.this.isDetached())) {}
-          do
+          for (;;)
           {
             return;
-            if (Onboard_3_Connect_To_Blink_Fragment.this.mRetryCounter > 0) {
-              break;
-            }
-          } while (Onboard_3_Connect_To_Blink_Fragment.this.getActivity() == null);
-          new AlertDialog.Builder(Onboard_3_Connect_To_Blink_Fragment.this.getActivity()).setTitle("Error").setMessage("Could not connect to Sync Module").setPositiveButton(2131099890, new DialogInterface.OnClickListener()
-          {
-            public void onClick(DialogInterface paramAnonymous3DialogInterface, int paramAnonymous3Int)
+            if (Onboard_3_Connect_To_Blink_Fragment.this.mRetryCounter <= 0)
             {
-              paramAnonymous3DialogInterface = Onboard_2_Wait_For_Blue_Light_Fragment.newInstance(2);
-              Onboard_3_Connect_To_Blink_Fragment.this.mListener.onFragmentInteraction(Onboard_3_Connect_To_Blink_Fragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymous3DialogInterface);
+              if (Onboard_3_Connect_To_Blink_Fragment.this.getActivity() != null) {
+                new AlertDialog.Builder(Onboard_3_Connect_To_Blink_Fragment.this.getActivity()).setTitle("Error").setMessage("Could not connect to Sync Module").setPositiveButton(2131099891, new DialogInterface.OnClickListener()
+                {
+                  public void onClick(DialogInterface paramAnonymous3DialogInterface, int paramAnonymous3Int)
+                  {
+                    paramAnonymous3DialogInterface = Onboard_2_Wait_For_Blue_Light_Fragment.newInstance(2);
+                    Onboard_3_Connect_To_Blink_Fragment.this.mListener.onFragmentInteraction(Onboard_3_Connect_To_Blink_Fragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymous3DialogInterface);
+                  }
+                }).create().show();
+              }
             }
-          }).create().show();
-          return;
-          Onboard_3_Connect_To_Blink_Fragment.this.handler.sendEmptyMessageDelayed(0, 3000L);
+            else {
+              Onboard_3_Connect_To_Blink_Fragment.this.handler.sendEmptyMessageDelayed(0, 3000L);
+            }
+          }
         }
         
         public void onResult(BlinkData paramAnonymous2BlinkData)
         {
           BlinkApp.getApp().setOnboardingUrl(null);
           if ((Onboard_3_Connect_To_Blink_Fragment.this.getActivity() == null) || (Onboard_3_Connect_To_Blink_Fragment.this.mListener == null) || (Onboard_3_Connect_To_Blink_Fragment.this.isDetached())) {}
-          do
+          for (;;)
           {
             return;
             Onboard_3_Connect_To_Blink_Fragment.access$102(Onboard_3_Connect_To_Blink_Fragment.this, (AccessPoints)paramAnonymous2BlinkData);
-          } while ((Onboard_3_Connect_To_Blink_Fragment.this.mPaused) || (Onboard_3_Connect_To_Blink_Fragment.this.mListener == null));
-          Onboard_3_Connect_To_Blink_Fragment.this.gotoNextScreen();
+            if ((!Onboard_3_Connect_To_Blink_Fragment.this.mPaused) && (Onboard_3_Connect_To_Blink_Fragment.this.mListener != null)) {
+              Onboard_3_Connect_To_Blink_Fragment.this.gotoNextScreen();
+            }
+          }
         }
       }, 3000);
     }
@@ -88,14 +93,16 @@ public class Onboard_3_Connect_To_Blink_Fragment
   
   private void gotoNextScreen()
   {
-    if (this.mListener == null) {
+    if (this.mListener == null) {}
+    for (;;)
+    {
       return;
+      Onboard_4_Successful_Connect_Fragment localOnboard_4_Successful_Connect_Fragment = Onboard_4_Successful_Connect_Fragment.newInstance(4);
+      SharedPreferences.Editor localEditor = PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext()).edit();
+      localEditor.putString("AccessPoints", new Gson().toJson(this.mAccessPoints));
+      localEditor.commit();
+      this.mListener.onFragmentInteraction(this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, localOnboard_4_Successful_Connect_Fragment);
     }
-    Onboard_4_Successful_Connect_Fragment localOnboard_4_Successful_Connect_Fragment = Onboard_4_Successful_Connect_Fragment.newInstance(4);
-    SharedPreferences.Editor localEditor = PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext()).edit();
-    localEditor.putString("AccessPoints", new Gson().toJson(this.mAccessPoints));
-    localEditor.commit();
-    this.mListener.onFragmentInteraction(this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, localOnboard_4_Successful_Connect_Fragment);
   }
   
   public static Onboard_3_Connect_To_Blink_Fragment newInstance(int paramInt)
@@ -116,7 +123,7 @@ public class Onboard_3_Connect_To_Blink_Fragment
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099987));
+    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099990));
     this.handler.sendEmptyMessageDelayed(0, 100L);
   }
   
@@ -132,8 +139,8 @@ public class Onboard_3_Connect_To_Blink_Fragment
   
   public View onCreateView(final LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
-    this.mView = paramLayoutInflater.inflate(2130903079, paramViewGroup, false);
-    paramLayoutInflater = (Button)this.mView.findViewById(2131558542);
+    this.mView = paramLayoutInflater.inflate(2130903083, paramViewGroup, false);
+    paramLayoutInflater = (Button)this.mView.findViewById(2131558545);
     paramLayoutInflater.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -165,15 +172,18 @@ public class Onboard_3_Connect_To_Blink_Fragment
     if (this.mAccessPoints != null) {
       gotoNextScreen();
     }
-    while ((getActivity() == null) || (this.mListener == null) || (isDetached())) {
+    for (;;)
+    {
       return;
+      if ((getActivity() != null) && (this.mListener != null) && (!isDetached())) {
+        this.handler.sendEmptyMessageDelayed(0, 3000L);
+      }
     }
-    this.handler.sendEmptyMessageDelayed(0, 3000L);
   }
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/Onboard_3_Connect_To_Blink_Fragment.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/fragments/Onboard_3_Connect_To_Blink_Fragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

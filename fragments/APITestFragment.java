@@ -38,7 +38,7 @@ public class APITestFragment
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099978));
+    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099981));
   }
   
   public void onCreate(Bundle paramBundle)
@@ -118,17 +118,17 @@ public class APITestFragment
   
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
-    paramLayoutInflater = paramLayoutInflater.inflate(2130903094, paramViewGroup, false);
-    paramViewGroup = (ListView)paramLayoutInflater.findViewById(16908298);
-    paramViewGroup.setOnItemClickListener(new AdapterView.OnItemClickListener()
+    paramViewGroup = paramLayoutInflater.inflate(2130903098, paramViewGroup, false);
+    paramLayoutInflater = (ListView)paramViewGroup.findViewById(16908298);
+    paramLayoutInflater.setOnItemClickListener(new AdapterView.OnItemClickListener()
     {
       public void onItemClick(AdapterView<?> paramAnonymousAdapterView, View paramAnonymousView, int paramAnonymousInt, long paramAnonymousLong)
       {
         APITestFragment.this.launchRequestForm((String)APITestFragment.this.mApiRequests.get(paramAnonymousInt));
       }
     });
-    paramViewGroup.setAdapter(new TestArrayAdapter(getActivity(), 17367043, 16908308, this.mApiRequests));
-    return paramLayoutInflater;
+    paramLayoutInflater.setAdapter(new TestArrayAdapter(getActivity(), 17367043, 16908308, this.mApiRequests));
+    return paramViewGroup;
   }
   
   static class TestArrayAdapter
@@ -147,7 +147,7 @@ public class APITestFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/APITestFragment.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/fragments/APITestFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

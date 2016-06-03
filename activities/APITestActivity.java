@@ -15,8 +15,8 @@ public class APITestActivity
   protected void onCreate(Bundle paramBundle)
   {
     super.onCreate(paramBundle);
-    setContentView(2130903071);
-    getSupportFragmentManager().beginTransaction().replace(2131558534, APITestFragment.newInstance(-1)).commit();
+    setContentView(2130903074);
+    getSupportFragmentManager().beginTransaction().replace(2131558537, APITestFragment.newInstance(-1)).commit();
     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
   }
   
@@ -29,15 +29,17 @@ public class APITestActivity
   {
     switch (paramInteractionAction)
     {
-    default: 
-      return;
     }
-    getSupportFragmentManager().beginTransaction().replace(2131558534, (Fragment)paramObject).commit();
+    for (;;)
+    {
+      return;
+      getSupportFragmentManager().beginTransaction().replace(2131558537, (Fragment)paramObject).commit();
+    }
   }
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/APITestActivity.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/activities/APITestActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

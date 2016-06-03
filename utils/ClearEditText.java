@@ -94,11 +94,17 @@ public class ClearEditText
   
   public boolean onTouch(final View paramView, MotionEvent paramMotionEvent)
   {
-    if (getCompoundDrawables()[2] != null)
-    {
-      if (paramMotionEvent.getX() > getWidth() - getPaddingRight() - this.xD.getIntrinsicWidth()) {}
-      for (int i = 1; i != 0; i = 0)
+    boolean bool2 = true;
+    int i;
+    boolean bool1;
+    if (getCompoundDrawables()[2] != null) {
+      if (paramMotionEvent.getX() > getWidth() - getPaddingRight() - this.xD.getIntrinsicWidth())
       {
+        i = 1;
+        if (i == 0) {
+          break label111;
+        }
+        bool1 = bool2;
         if (paramMotionEvent.getAction() == 1)
         {
           setText("");
@@ -116,14 +122,22 @@ public class ClearEditText
               }
             }
           }.sendEmptyMessageDelayed(0, 250L);
+          bool1 = bool2;
         }
-        return true;
       }
     }
-    if (this.l != null) {
-      return this.l.onTouch(paramView, paramMotionEvent);
+    for (;;)
+    {
+      return bool1;
+      i = 0;
+      break;
+      label111:
+      if (this.l != null) {
+        bool1 = this.l.onTouch(paramView, paramMotionEvent);
+      } else {
+        bool1 = false;
+      }
     }
-    return false;
   }
   
   protected void setClearIconVisible(boolean paramBoolean)
@@ -170,7 +184,7 @@ public class ClearEditText
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/utils/ClearEditText.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/utils/ClearEditText.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

@@ -50,24 +50,26 @@ public class BlinkDownloadVideoClip
             }
           }
         }
-        label125:
-        int i;
-        do
+        for (;;)
         {
           return;
-          i = paramAnonymousContext.getColumnIndex("reason");
-        } while (BlinkDownloadVideoClip.this.mError == null);
-        paramAnonymousIntent = paramAnonymousContext.getString(i);
-        if (paramAnonymousIntent.length() != 0)
-        {
-          paramAnonymousContext = paramAnonymousIntent;
-          if (!paramAnonymousIntent.equals("placeholder")) {}
+          label125:
+          int i = paramAnonymousContext.getColumnIndex("reason");
+          if (BlinkDownloadVideoClip.this.mError != null)
+          {
+            paramAnonymousIntent = paramAnonymousContext.getString(i);
+            if (paramAnonymousIntent.length() != 0)
+            {
+              paramAnonymousContext = paramAnonymousIntent;
+              if (!paramAnonymousIntent.equals("placeholder")) {}
+            }
+            else
+            {
+              paramAnonymousContext = "Unknown failure to download clip";
+            }
+            BlinkDownloadVideoClip.this.mError.error(paramAnonymousContext);
+          }
         }
-        else
-        {
-          paramAnonymousContext = "Unknown failure to download clip";
-        }
-        BlinkDownloadVideoClip.this.mError.error(paramAnonymousContext);
       }
     };
     BlinkApp.getApp().registerReceiver(paramUri, new IntentFilter("android.intent.action.DOWNLOAD_COMPLETE"));
@@ -131,7 +133,7 @@ public class BlinkDownloadVideoClip
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/api/requests/BlinkDownloadVideoClip.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/api/requests/BlinkDownloadVideoClip.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

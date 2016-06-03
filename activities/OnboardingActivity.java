@@ -13,7 +13,6 @@ import android.view.View;
 import com.immediasemi.blink.BlinkApp;
 import com.immediasemi.blink.api.BlinkAPI;
 import com.immediasemi.blink.api.BlinkAPI.BlinkAPICallback;
-import com.immediasemi.blink.api.requests.Accounts.LogoutRequest;
 import com.immediasemi.blink.api.requests.Onboarding.OnboardingDoneRequest;
 import com.immediasemi.blink.fragments.Onboard_1_Fragment;
 import com.immediasemi.blink.fragments.Onboard_2_Wait_For_Blue_Light_Fragment;
@@ -38,49 +37,33 @@ public class OnboardingActivity
   
   private void cancelSMSetup()
   {
-    int i = PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext()).getInt("onboard_sequence", -1);
-    Object localObject = getSupportFragmentManager();
-    switch (i)
-    {
-    default: 
-      setResult(-1);
-      localObject = new Intent(this, MainActivity.class);
-      ((Intent)localObject).setFlags(67108864);
-      startActivity((Intent)localObject);
-      if (i > 5) {
-        break;
-      }
-    }
-    while (i <= 6)
-    {
-      return;
-      BlinkAPI.BlinkAPIRequest(null, null, new LogoutRequest(), new BlinkAPI.BlinkAPICallback()
-      {
-        public void onError(BlinkError paramAnonymousBlinkError)
-        {
-          OnboardingActivity.this.logMeOut();
-        }
-        
-        public void onResult(BlinkData paramAnonymousBlinkData)
-        {
-          OnboardingActivity.this.logMeOut();
-        }
-      }, false);
-      break;
-      killSMAP();
-      this.mCurrentOnboardFragment = 2;
-      ((FragmentManager)localObject).beginTransaction().replace(2131558534, Onboard_2_Wait_For_Blue_Light_Fragment.newInstance(-1)).commit();
-      break;
-      this.mCurrentOnboardFragment = 5;
-      ((Onboard_6_Enter_WiFi_Credentials_Fragment)((FragmentManager)localObject).findFragmentById(2131558534)).hideKeyboard();
-      ((FragmentManager)localObject).beginTransaction().replace(2131558534, Onboard_5_Show_WiFi_Fragment.newInstance(-1)).commit();
-      break;
-    }
+    PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext()).getInt("onboard_sequence", -1);
+    getSupportFragmentManager();
+    goToHomeScreen();
+  }
+  
+  private void goToHomeScreen()
+  {
+    setResult(-1);
+    Intent localIntent = new Intent(this, MainActivity.class);
+    localIntent.setFlags(67108864);
+    startActivity(localIntent);
   }
   
   private void killSMAP()
   {
-    BlinkAPI.BlinkAPIRequest(null, null, new OnboardingDoneRequest(), null, false);
+    BlinkAPI.BlinkAPIRequest(null, null, new OnboardingDoneRequest(), new BlinkAPI.BlinkAPICallback()
+    {
+      public void onError(BlinkError paramAnonymousBlinkError)
+      {
+        OnboardingActivity.this.goToHomeScreen();
+      }
+      
+      public void onResult(BlinkData paramAnonymousBlinkData)
+      {
+        OnboardingActivity.this.goToHomeScreen();
+      }
+    }, false);
   }
   
   private void logMeOut()
@@ -108,7 +91,7 @@ public class OnboardingActivity
   protected void onCreate(Bundle paramBundle)
   {
     super.onCreate(paramBundle);
-    setContentView(2130903071);
+    setContentView(2130903074);
     paramBundle = getSupportFragmentManager();
     Object localObject = PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext());
     if (((SharedPreferences)localObject).contains("onboard_sequence")) {
@@ -124,31 +107,31 @@ public class OnboardingActivity
     switch (this.mCurrentOnboardFragment)
     {
     default: 
-      paramBundle.beginTransaction().replace(2131558534, Onboard_1_Fragment.newInstance(-1)).commit();
+      paramBundle.beginTransaction().replace(2131558537, Onboard_1_Fragment.newInstance(-1)).commit();
     }
     for (;;)
     {
       this.actionbar = getSupportActionBar();
       this.actionbar.setDisplayHomeAsUpEnabled(false);
       this.actionbar.setDisplayOptions(16);
-      paramBundle = getLayoutInflater().inflate(2130903077, null);
+      paramBundle = getLayoutInflater().inflate(2130903080, null);
       this.actionbar.setCustomView(paramBundle);
-      this.actionbar.setTitle(2131099987);
+      this.actionbar.setTitle(2131099990);
       setResult(0);
       return;
-      paramBundle.beginTransaction().replace(2131558534, Onboard_2_Wait_For_Blue_Light_Fragment.newInstance(-1)).commit();
+      paramBundle.beginTransaction().replace(2131558537, Onboard_2_Wait_For_Blue_Light_Fragment.newInstance(-1)).commit();
       continue;
-      paramBundle.beginTransaction().replace(2131558534, Onboard_3_Connect_To_Blink_Fragment.newInstance(-1)).commit();
+      paramBundle.beginTransaction().replace(2131558537, Onboard_3_Connect_To_Blink_Fragment.newInstance(-1)).commit();
       continue;
-      paramBundle.beginTransaction().replace(2131558534, Onboard_4_Successful_Connect_Fragment.newInstance(-1)).commit();
+      paramBundle.beginTransaction().replace(2131558537, Onboard_4_Successful_Connect_Fragment.newInstance(-1)).commit();
       continue;
-      paramBundle.beginTransaction().replace(2131558534, Onboard_5_Show_WiFi_Fragment.newInstance(-1)).commit();
+      paramBundle.beginTransaction().replace(2131558537, Onboard_5_Show_WiFi_Fragment.newInstance(-1)).commit();
       continue;
-      paramBundle.beginTransaction().replace(2131558534, Onboard_6_Enter_WiFi_Credentials_Fragment.newInstance(-1)).commit();
+      paramBundle.beginTransaction().replace(2131558537, Onboard_6_Enter_WiFi_Credentials_Fragment.newInstance(-1)).commit();
       continue;
-      paramBundle.beginTransaction().replace(2131558534, Onboard_7_Onboard_Network.newInstance(-1)).commit();
+      paramBundle.beginTransaction().replace(2131558537, Onboard_7_Onboard_Network.newInstance(-1)).commit();
       continue;
-      paramBundle.beginTransaction().replace(2131558534, Onboard_8_Setup_Complete.newInstance(-1)).commit();
+      paramBundle.beginTransaction().replace(2131558537, Onboard_8_Setup_Complete.newInstance(-1)).commit();
     }
   }
   
@@ -165,7 +148,7 @@ public class OnboardingActivity
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/OnboardingActivity.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/activities/OnboardingActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

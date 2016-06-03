@@ -26,34 +26,36 @@ public class BlinkGcmListenerService
   private void processPayload(Bundle paramBundle)
   {
     if (!BlinkApp.getApp().getLoggedIn()) {}
-    Bundle localBundle;
-    do
+    for (;;)
     {
       return;
-      localBundle = new Bundle();
-    } while (TextUtils.isEmpty(paramBundle.getString("thumbnail")));
-    localBundle.putString("network", paramBundle.getString("network"));
-    localBundle.putString("camera", paramBundle.getString("camera"));
-    localBundle.putString("video", paramBundle.getString("video"));
-    localBundle.putString("thumbnail", paramBundle.getString("thumbnail"));
-    if (paramBundle.containsKey("created_at")) {
-      localBundle.putString("created_at", paramBundle.getString("created_at"));
+      Bundle localBundle = new Bundle();
+      if (!TextUtils.isEmpty(paramBundle.getString("thumbnail")))
+      {
+        localBundle.putString("network", paramBundle.getString("network"));
+        localBundle.putString("camera", paramBundle.getString("camera"));
+        localBundle.putString("video", paramBundle.getString("video"));
+        localBundle.putString("thumbnail", paramBundle.getString("thumbnail"));
+        if (paramBundle.containsKey("created_at")) {
+          localBundle.putString("created_at", paramBundle.getString("created_at"));
+        }
+        if (paramBundle.containsKey("camera_name")) {
+          localBundle.putString("camera_name", paramBundle.getString("camera_name"));
+        }
+        Object localObject = new Intent(this, VideoPlayerActivity.class);
+        ((Intent)localObject).putExtra("video_dictionary", localBundle);
+        ((Intent)localObject).putExtra("start_alert_view", true);
+        localObject = TaskStackBuilder.create(this).addNextIntent((Intent)localObject).getPendingIntent(0, 134217728);
+        Uri localUri = RingtoneManager.getDefaultUri(2);
+        paramBundle = new NotificationCompat.Builder(this).setSmallIcon(2130837685).setContentTitle(paramBundle.getString("title")).setContentText(paramBundle.getString("message")).setAutoCancel(true).setSound(localUri).setContentIntent((PendingIntent)localObject);
+        ((NotificationManager)getSystemService("notification")).notify(1, paramBundle.build());
+        localObject = LocalBroadcastManager.getInstance(BlinkApp.getApp().getApplicationContext());
+        paramBundle = new Intent();
+        paramBundle.setAction("new_video_notification");
+        paramBundle.putExtras(localBundle);
+        ((LocalBroadcastManager)localObject).sendBroadcast(paramBundle);
+      }
     }
-    if (paramBundle.containsKey("camera_name")) {
-      localBundle.putString("camera_name", paramBundle.getString("camera_name"));
-    }
-    Object localObject = new Intent(this, VideoPlayerActivity.class);
-    ((Intent)localObject).putExtra("video_dictionary", localBundle);
-    ((Intent)localObject).putExtra("start_alert_view", true);
-    localObject = TaskStackBuilder.create(this).addNextIntent((Intent)localObject).getPendingIntent(0, 134217728);
-    Uri localUri = RingtoneManager.getDefaultUri(2);
-    paramBundle = new NotificationCompat.Builder(this).setSmallIcon(2130837685).setContentTitle(paramBundle.getString("title")).setContentText(paramBundle.getString("message")).setAutoCancel(true).setSound(localUri).setContentIntent((PendingIntent)localObject);
-    ((NotificationManager)getSystemService("notification")).notify(1, paramBundle.build());
-    paramBundle = LocalBroadcastManager.getInstance(BlinkApp.getApp().getApplicationContext());
-    localObject = new Intent();
-    ((Intent)localObject).setAction("new_video_notification");
-    ((Intent)localObject).putExtras(localBundle);
-    paramBundle.sendBroadcast((Intent)localObject);
   }
   
   private void sendNotification(String paramString)
@@ -76,7 +78,7 @@ public class BlinkGcmListenerService
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/gcm/BlinkGcmListenerService.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/gcm/BlinkGcmListenerService.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

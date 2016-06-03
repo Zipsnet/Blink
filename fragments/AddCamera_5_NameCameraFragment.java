@@ -59,8 +59,8 @@ public class AddCamera_5_NameCameraFragment
   
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
-    this.mView = paramLayoutInflater.inflate(2130903090, paramViewGroup, false);
-    this.mCamName = ((EditText)this.mView.findViewById(2131558589));
+    this.mView = paramLayoutInflater.inflate(2130903094, paramViewGroup, false);
+    this.mCamName = ((EditText)this.mView.findViewById(2131558592));
     if ((this.mCameraName != null) && (this.mCameraName.length() > 0)) {
       this.mCamName.setText(this.mCameraName);
     }
@@ -87,53 +87,57 @@ public class AddCamera_5_NameCameraFragment
         AddCamera_5_NameCameraFragment.this.mCamName.setSelection(AddCamera_5_NameCameraFragment.this.mCamName.getText().length());
       }
     }.sendEmptyMessageDelayed(0, 250L);
-    ((Button)this.mView.findViewById(2131558551)).setOnClickListener(new View.OnClickListener()
+    ((Button)this.mView.findViewById(2131558554)).setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
-        if (!OnClick.ok()) {
-          return;
-        }
-        AddCamera_5_NameCameraFragment.this.mCamName.clearFocus();
-        ((InputMethodManager)AddCamera_5_NameCameraFragment.this.getActivity().getSystemService("input_method")).hideSoftInputFromWindow(AddCamera_5_NameCameraFragment.this.mCamName.getWindowToken(), 0);
-        if (AddCamera_5_NameCameraFragment.this.mCameraName.length() > 0)
+        if (!OnClick.ok()) {}
+        for (;;)
         {
-          BlinkApp.getApp().setLastCameraName(AddCamera_5_NameCameraFragment.this.mCameraName);
-          paramAnonymousView = new UpdateCameraRequest();
-          paramAnonymousView.setCamera(Integer.valueOf(Integer.parseInt(BlinkApp.getApp().getLastCameraId())));
-          paramAnonymousView.setId(Integer.valueOf(Integer.parseInt(BlinkApp.getApp().getLastCameraId())));
-          paramAnonymousView.setNetwork(Integer.valueOf(Integer.parseInt(BlinkApp.getApp().getLastNetworkId())));
-          paramAnonymousView.setName(AddCamera_5_NameCameraFragment.this.mCameraName);
-          BlinkAPI.BlinkAPIRequest(null, null, paramAnonymousView, new BlinkAPI.BlinkAPICallback()
+          return;
+          AddCamera_5_NameCameraFragment.this.mCamName.clearFocus();
+          ((InputMethodManager)AddCamera_5_NameCameraFragment.this.getActivity().getSystemService("input_method")).hideSoftInputFromWindow(AddCamera_5_NameCameraFragment.this.mCamName.getWindowToken(), 0);
+          if (AddCamera_5_NameCameraFragment.this.mCameraName.length() > 0)
           {
-            public void onError(BlinkError paramAnonymous2BlinkError)
+            BlinkApp.getApp().setLastCameraName(AddCamera_5_NameCameraFragment.this.mCameraName);
+            paramAnonymousView = new UpdateCameraRequest();
+            paramAnonymousView.setCamera(Integer.valueOf(Integer.parseInt(BlinkApp.getApp().getLastCameraId())));
+            paramAnonymousView.setId(Integer.valueOf(Integer.parseInt(BlinkApp.getApp().getLastCameraId())));
+            paramAnonymousView.setNetwork(Integer.valueOf(Integer.parseInt(BlinkApp.getApp().getLastNetworkId())));
+            paramAnonymousView.setName(AddCamera_5_NameCameraFragment.this.mCameraName);
+            BlinkAPI.BlinkAPIRequest(null, null, paramAnonymousView, new BlinkAPI.BlinkAPICallback()
             {
-              if (AddCamera_5_NameCameraFragment.this.getActivity() != null) {
-                if (paramAnonymous2BlinkError.response == null) {
-                  break label74;
+              public void onError(BlinkError paramAnonymous2BlinkError)
+              {
+                if (AddCamera_5_NameCameraFragment.this.getActivity() != null) {
+                  if (paramAnonymous2BlinkError.response == null) {
+                    break label74;
+                  }
+                }
+                label74:
+                for (paramAnonymous2BlinkError = (String)paramAnonymous2BlinkError.response.get("message");; paramAnonymous2BlinkError = paramAnonymous2BlinkError.getErrorMessage())
+                {
+                  new AlertDialog.Builder(AddCamera_5_NameCameraFragment.this.getActivity()).setMessage(paramAnonymous2BlinkError).setPositiveButton(2131099891, new DialogInterface.OnClickListener()
+                  {
+                    public void onClick(DialogInterface paramAnonymous3DialogInterface, int paramAnonymous3Int) {}
+                  }).create().show();
+                  return;
                 }
               }
-              label74:
-              for (paramAnonymous2BlinkError = (String)paramAnonymous2BlinkError.response.get("message");; paramAnonymous2BlinkError = paramAnonymous2BlinkError.getErrorMessage())
+              
+              public void onResult(BlinkData paramAnonymous2BlinkData)
               {
-                new AlertDialog.Builder(AddCamera_5_NameCameraFragment.this.getActivity()).setMessage(paramAnonymous2BlinkError).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
-                {
-                  public void onClick(DialogInterface paramAnonymous3DialogInterface, int paramAnonymous3Int) {}
-                }).create().show();
-                return;
+                paramAnonymous2BlinkData = AddCamera_6_TakeSnapshotFragment.newInstance(-1);
+                AddCamera_5_NameCameraFragment.this.mListener.onFragmentInteraction(AddCamera_5_NameCameraFragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymous2BlinkData);
               }
-            }
-            
-            public void onResult(BlinkData paramAnonymous2BlinkData)
-            {
-              paramAnonymous2BlinkData = AddCamera_6_TakeSnapshotFragment.newInstance(-1);
-              AddCamera_5_NameCameraFragment.this.mListener.onFragmentInteraction(AddCamera_5_NameCameraFragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymous2BlinkData);
-            }
-          }, false);
-          return;
+            }, false);
+          }
+          else
+          {
+            paramAnonymousView = AddCamera_6_TakeSnapshotFragment.newInstance(-1);
+            AddCamera_5_NameCameraFragment.this.mListener.onFragmentInteraction(AddCamera_5_NameCameraFragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymousView);
+          }
         }
-        paramAnonymousView = AddCamera_6_TakeSnapshotFragment.newInstance(-1);
-        AddCamera_5_NameCameraFragment.this.mListener.onFragmentInteraction(AddCamera_5_NameCameraFragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymousView);
       }
     });
     return this.mView;
@@ -141,7 +145,7 @@ public class AddCamera_5_NameCameraFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/AddCamera_5_NameCameraFragment.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/fragments/AddCamera_5_NameCameraFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

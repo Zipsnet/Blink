@@ -20,10 +20,10 @@ public class ManageAccountActivity
   protected void onCreate(Bundle paramBundle)
   {
     super.onCreate(paramBundle);
-    setContentView(2130903118);
-    ((TextView)findViewById(2131558698)).setText(BlinkApp.getApp().getUserName());
-    this.emailView = ((RelativeLayout)findViewById(2131558696));
-    this.passwordView = ((RelativeLayout)findViewById(2131558699));
+    setContentView(2130903122);
+    ((TextView)findViewById(2131558704)).setText(BlinkApp.getApp().getUserName());
+    this.emailView = ((RelativeLayout)findViewById(2131558702));
+    this.passwordView = ((RelativeLayout)findViewById(2131558705));
     this.emailView.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
@@ -31,7 +31,7 @@ public class ManageAccountActivity
         ManageAccountActivity.this.emailView.setVisibility(8);
         ManageAccountActivity.this.passwordView.setVisibility(8);
         paramAnonymousView = new ManageEmailFragment();
-        ManageAccountActivity.this.getSupportFragmentManager().beginTransaction().add(2131558701, paramAnonymousView).commit();
+        ManageAccountActivity.this.getSupportFragmentManager().beginTransaction().add(2131558707, paramAnonymousView).commit();
       }
     });
     this.passwordView.setOnClickListener(new View.OnClickListener()
@@ -41,14 +41,14 @@ public class ManageAccountActivity
         ManageAccountActivity.this.emailView.setVisibility(8);
         ManageAccountActivity.this.passwordView.setVisibility(8);
         paramAnonymousView = new ManagePasswordFragment();
-        ManageAccountActivity.this.getSupportFragmentManager().beginTransaction().add(2131558701, paramAnonymousView).commit();
+        ManageAccountActivity.this.getSupportFragmentManager().beginTransaction().add(2131558707, paramAnonymousView).commit();
       }
     });
   }
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/ManageAccountActivity.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/activities/ManageAccountActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

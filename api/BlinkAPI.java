@@ -139,24 +139,24 @@ public class BlinkAPI
         if (j < 0)
         {
           localObject = arrayOfString[i];
-          label57:
+          label56:
           paramString = null;
           if (paramMap != null) {
             paramString = (String)paramMap.get(localObject);
           }
           if (paramString == null) {
-            break label129;
+            break label128;
           }
           paramString = str.replace(":" + (String)localObject, paramString);
         }
         for (;;)
         {
-          i += 1;
+          i++;
           str = paramString;
           break;
           localObject = arrayOfString[i].substring(0, j);
-          break label57;
-          label129:
+          break label56;
+          label128:
           if (((String)localObject).equals("network"))
           {
             paramString = str.replace(":" + (String)localObject, BlinkApp.getApp().getLastNetworkId());
@@ -199,7 +199,7 @@ public class BlinkAPI
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/api/BlinkAPI.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/api/BlinkAPI.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

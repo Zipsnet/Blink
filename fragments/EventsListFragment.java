@@ -53,14 +53,16 @@ public class EventsListFragment
       {
       default: 
         super.handleMessage(paramAnonymousMessage);
-        return;
       }
-      if (EventsListFragment.this.mPaused)
+      for (;;)
       {
-        sendMessageDelayed(obtainMessage(1, paramAnonymousMessage.arg1, paramAnonymousMessage.arg2), 2000L);
         return;
+        if (EventsListFragment.this.mPaused) {
+          sendMessageDelayed(obtainMessage(1, paramAnonymousMessage.arg1, paramAnonymousMessage.arg2), 2000L);
+        } else {
+          EventsListFragment.this.getEvents(paramAnonymousMessage.arg1, paramAnonymousMessage.arg2, EventsListFragment.this.hourInterval);
+        }
       }
-      EventsListFragment.this.getEvents(paramAnonymousMessage.arg1, paramAnonymousMessage.arg2, EventsListFragment.this.hourInterval);
     }
   };
   private int hourInterval = 12;
@@ -96,9 +98,12 @@ public class EventsListFragment
     }
     catch (Exception paramString)
     {
-      paramString.printStackTrace();
+      for (;;)
+      {
+        paramString.printStackTrace();
+        paramString = Integer.valueOf(0);
+      }
     }
-    return Integer.valueOf(0);
   }
   
   private void getEvents(int paramInt1, int paramInt2, int paramInt3)
@@ -129,7 +134,7 @@ public class EventsListFragment
             {
               paramAnonymousBlinkError = EventsListFragment.this.handler.obtainMessage(1, EventsListFragment.this.mLastDate, 24 - EventsListFragment.this.hourInterval);
               EventsListFragment.this.handler.sendMessageDelayed(paramAnonymousBlinkError, 100L);
-              return;
+              break;
               EventsListFragment.access$202(EventsListFragment.this, 1);
             }
           }
@@ -137,11 +142,11 @@ public class EventsListFragment
         if (paramAnonymousBlinkError.response != null) {}
         for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = paramAnonymousBlinkError.getErrorMessage())
         {
-          new AlertDialog.Builder(EventsListFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
+          new AlertDialog.Builder(EventsListFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099891, new DialogInterface.OnClickListener()
           {
             public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
           }).create().show();
-          return;
+          break;
         }
       }
       
@@ -166,7 +171,7 @@ public class EventsListFragment
             }
             for (;;)
             {
-              i += 1;
+              i++;
               break;
               if (localEvent.getCamera_name() != null) {
                 EventsListFragment.this.mEvents.add(localEvent);
@@ -182,7 +187,7 @@ public class EventsListFragment
         for (paramAnonymousBlinkData = EventsListFragment.this.handler.obtainMessage(1, EventsListFragment.this.mLastDate, 24 - EventsListFragment.this.hourInterval);; paramAnonymousBlinkData = EventsListFragment.this.handler.obtainMessage(1, EventsListFragment.this.mLastDate, j - i))
         {
           EventsListFragment.this.handler.sendMessageDelayed(paramAnonymousBlinkData, 1L);
-          return;
+          break;
         }
       }
     }, false);
@@ -210,53 +215,77 @@ public class EventsListFragment
   
   private Integer userDateStringToInt(String paramString)
   {
-    SimpleDateFormat localSimpleDateFormat1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ssZ", Locale.getDefault());
-    SimpleDateFormat localSimpleDateFormat2 = new SimpleDateFormat("EEE MMM dd h:mm:ss zzz yyyy", Locale.getDefault());
+    SimpleDateFormat localSimpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ssZ", Locale.getDefault());
+    SimpleDateFormat localSimpleDateFormat1 = new SimpleDateFormat("EEE MMM dd h:mm:ss zzz yyyy", Locale.getDefault());
     try
     {
-      paramString = dateStringToInt(localSimpleDateFormat2.format(localSimpleDateFormat1.parse(paramString)));
+      paramString = dateStringToInt(localSimpleDateFormat1.format(localSimpleDateFormat2.parse(paramString)));
       return paramString;
     }
     catch (Exception paramString)
     {
-      paramString.printStackTrace();
+      for (;;)
+      {
+        paramString.printStackTrace();
+        paramString = Integer.valueOf(0);
+      }
     }
-    return Integer.valueOf(0);
   }
   
   public boolean isAllActivity()
   {
-    return (this.mFilterMask & 0x8) != 0;
+    if ((this.mFilterMask & 0x8) != 0) {}
+    for (boolean bool = true;; bool = false) {
+      return bool;
+    }
   }
   
   public boolean isAllCameras()
   {
-    return (this.mFilterMask & 0x4) != 0;
+    if ((this.mFilterMask & 0x4) != 0) {}
+    for (boolean bool = true;; bool = false) {
+      return bool;
+    }
   }
   
   public boolean isAnytime()
   {
-    return (this.mFilterMask & 0x1) != 0;
+    if ((this.mFilterMask & 0x1) != 0) {}
+    for (boolean bool = true;; bool = false) {
+      return bool;
+    }
   }
   
   public boolean isBattery()
   {
-    return (this.mFilterMask & 0x80) != 0;
+    if ((this.mFilterMask & 0x80) != 0) {}
+    for (boolean bool = true;; bool = false) {
+      return bool;
+    }
   }
   
   public boolean isMotionRecordings()
   {
-    return (this.mFilterMask & 0x10) != 0;
+    if ((this.mFilterMask & 0x10) != 0) {}
+    for (boolean bool = true;; bool = false) {
+      return bool;
+    }
   }
   
   public boolean isSystemArmDisarm()
   {
-    return (this.mFilterMask & 0x40) != 0;
+    if ((this.mFilterMask & 0x40) != 0) {}
+    for (boolean bool = true;; bool = false) {
+      return bool;
+    }
   }
   
   public boolean isTemperatureAlerts()
   {
-    return (this.mFilterMask & 0x20) != 0;
+    if ((this.mFilterMask & 0x20) != 0) {}
+    for (boolean bool = true;; bool = false) {
+      return bool;
+    }
   }
   
   public void onAttach(Activity paramActivity)
@@ -265,7 +294,7 @@ public class EventsListFragment
     try
     {
       this.mListener = ((BaseFragment.OnFragmentInteractionListener)paramActivity);
-      ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099981));
+      ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099984));
       return;
     }
     catch (ClassCastException localClassCastException)
@@ -288,7 +317,7 @@ public class EventsListFragment
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
     this.mInflater = paramLayoutInflater;
-    paramLayoutInflater = paramLayoutInflater.inflate(2130903098, paramViewGroup, false);
+    paramLayoutInflater = paramLayoutInflater.inflate(2130903102, paramViewGroup, false);
     this.mEvents = new TreeSet(new Comparator()
     {
       public int compare(Event paramAnonymousEvent1, Event paramAnonymousEvent2)
@@ -296,7 +325,7 @@ public class EventsListFragment
         return -Integer.compare(paramAnonymousEvent1.getId(), paramAnonymousEvent2.getId());
       }
     });
-    this.mListView = ((ListView)paramLayoutInflater.findViewById(2131558626));
+    this.mListView = ((ListView)paramLayoutInflater.findViewById(2131558629));
     this.mListView.setAdapter(new EventsSectionAdapter(null));
     kickOffRequest();
     return paramLayoutInflater;
@@ -328,17 +357,19 @@ public class EventsListFragment
   
   public void setFilterMask(int paramInt)
   {
-    if (paramInt == this.mFilterMask) {
-      return;
-    }
-    this.mFilterMask = paramInt;
-    if (isAnytime())
+    if (paramInt == this.mFilterMask) {}
+    for (;;)
     {
-      this.mLastDate = 0;
-      this.mStartDate = -7;
-      kickOffRequest();
+      return;
+      this.mFilterMask = paramInt;
+      if (isAnytime())
+      {
+        this.mLastDate = 0;
+        this.mStartDate = -7;
+        kickOffRequest();
+      }
+      ((EventsSectionAdapter)this.mListView.getAdapter()).notifyDataSetChanged();
     }
-    ((EventsSectionAdapter)this.mListView.getAdapter()).notifyDataSetChanged();
   }
   
   public void setStartTime(String paramString)
@@ -356,15 +387,19 @@ public class EventsListFragment
     {
       paramInt1 = 0;
       Iterator localIterator = EventsListFragment.this.mEvents.iterator();
-      while (localIterator.hasNext())
+      Event localEvent;
+      if (localIterator.hasNext())
       {
-        Event localEvent = (Event)localIterator.next();
-        if (paramInt1 == paramInt2) {
-          return localEvent;
-        }
-        paramInt1 += 1;
+        localEvent = (Event)localIterator.next();
+        if (paramInt1 != paramInt2) {}
       }
-      return null;
+      for (;;)
+      {
+        return localEvent;
+        paramInt1++;
+        break;
+        localEvent = null;
+      }
     }
     
     public View getRowView(int paramInt1, int paramInt2, View paramView, ViewGroup paramViewGroup)
@@ -383,9 +418,9 @@ public class EventsListFragment
         if (paramViewGroup == null) {
           paramView = Event.EVENT_TYPE.unknown;
         }
-        paramViewGroup = (TextView)localView.findViewById(2131558628);
+        paramViewGroup = (TextView)localView.findViewById(2131558631);
         localTextView = (TextView)localView.findViewById(2131558488);
-        localImageView = (ImageView)localView.findViewById(2131558627);
+        localImageView = (ImageView)localView.findViewById(2131558630);
         localObject = Util.reformatDate(Util.getLocalDateYearTime(localEvent.getCreated_at())).split("%");
         paramViewGroup.setText(localObject[0] + "\n" + localObject[1]);
         paramViewGroup = "";
@@ -404,13 +439,13 @@ public class EventsListFragment
         paramView.setColorFilter(new LightingColorFilter(0, paramInt1));
         localImageView.setImageDrawable(paramView);
         return localView;
-        localView = EventsListFragment.this.mInflater.inflate(2130903100, null, true);
+        localView = EventsListFragment.this.mInflater.inflate(2130903104, null, true);
         break;
-        paramViewGroup = EventsListFragment.this.getString(2131099816);
+        paramViewGroup = EventsListFragment.this.getString(2131099817);
         paramView = EventsListFragment.this.getResources().getDrawable(2130837603);
         paramInt1 = EventsListFragment.this.getResources().getColor(2131492875);
         continue;
-        paramViewGroup = EventsListFragment.this.getString(2131099819);
+        paramViewGroup = EventsListFragment.this.getString(2131099820);
         paramView = EventsListFragment.this.getResources().getDrawable(2130837604);
         paramInt1 = EventsListFragment.this.getResources().getColor(2131492875);
         continue;
@@ -466,7 +501,7 @@ public class EventsListFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/EventsListFragment.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/fragments/EventsListFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

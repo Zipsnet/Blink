@@ -25,7 +25,7 @@ public class AdvancedSettingsFragment
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099994));
+    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099997));
   }
   
   public void onCreate(Bundle paramBundle)
@@ -38,13 +38,13 @@ public class AdvancedSettingsFragment
   
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
-    this.mView = paramLayoutInflater.inflate(2130903093, paramViewGroup, false);
+    this.mView = paramLayoutInflater.inflate(2130903097, paramViewGroup, false);
     return this.mView;
   }
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/AdvancedSettingsFragment.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/fragments/AdvancedSettingsFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

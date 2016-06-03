@@ -22,19 +22,22 @@ public class EventsActivity
   
   private void setMenuItemVisibilty(boolean paramBoolean)
   {
-    TextView localTextView1 = (TextView)this.mActionBarView.findViewById(2131558536);
-    TextView localTextView2 = (TextView)this.mActionBarView.findViewById(2131558535);
-    TextView localTextView3 = (TextView)this.mActionBarView.findViewById(2131558488);
+    TextView localTextView1 = (TextView)this.mActionBarView.findViewById(2131558539);
+    TextView localTextView3 = (TextView)this.mActionBarView.findViewById(2131558538);
+    TextView localTextView2 = (TextView)this.mActionBarView.findViewById(2131558488);
     if (paramBoolean)
     {
       localTextView1.setVisibility(0);
-      localTextView2.setVisibility(0);
-      localTextView3.setText(getString(2131099982));
-      return;
+      localTextView3.setVisibility(0);
+      localTextView2.setText(getString(2131099985));
     }
-    localTextView1.setVisibility(4);
-    localTextView2.setVisibility(4);
-    localTextView3.setText(getString(2131099981));
+    for (;;)
+    {
+      return;
+      localTextView1.setVisibility(4);
+      localTextView3.setVisibility(4);
+      localTextView2.setText(getString(2131099984));
+    }
   }
   
   public void onCancelClicked(View paramView)
@@ -47,32 +50,36 @@ public class EventsActivity
   protected void onCreate(Bundle paramBundle)
   {
     super.onCreate(paramBundle);
-    setContentView(2130903071);
-    getSupportFragmentManager().beginTransaction().replace(2131558534, EventsListFragment.newInstance(-1), "event_list_tag").commit();
+    setContentView(2130903074);
+    getSupportFragmentManager().beginTransaction().replace(2131558537, EventsListFragment.newInstance(-1), "event_list_tag").commit();
     paramBundle = getSupportActionBar();
     paramBundle.setDisplayHomeAsUpEnabled(false);
-    this.mActionBarView = getLayoutInflater().inflate(2130903075, null);
+    this.mActionBarView = getLayoutInflater().inflate(2130903078, null);
     paramBundle.setCustomView(this.mActionBarView);
     paramBundle.setDisplayOptions(16);
     setMenuItemVisibilty(false);
-    this.mActionBarView.findViewById(2131558535).setOnClickListener(new View.OnClickListener()
+    this.mActionBarView.findViewById(2131558538).setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
-        if (!OnClick.ok()) {
+        if (!OnClick.ok()) {}
+        for (;;)
+        {
           return;
+          EventsActivity.this.onCancelClicked(paramAnonymousView);
         }
-        EventsActivity.this.onCancelClicked(paramAnonymousView);
       }
     });
-    this.mActionBarView.findViewById(2131558536).setOnClickListener(new View.OnClickListener()
+    this.mActionBarView.findViewById(2131558539).setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
-        if (!OnClick.ok()) {
+        if (!OnClick.ok()) {}
+        for (;;)
+        {
           return;
+          EventsActivity.this.onDoneClicked(paramAnonymousView);
         }
-        EventsActivity.this.onDoneClicked(paramAnonymousView);
       }
     });
   }
@@ -96,7 +103,7 @@ public class EventsActivity
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/EventsActivity.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/activities/EventsActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

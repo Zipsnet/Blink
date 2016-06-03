@@ -67,7 +67,6 @@ public final class DiskLruCache
           DiskLruCache.this.rebuildJournal();
           DiskLruCache.access$402(DiskLruCache.this, 0);
         }
-        return null;
       }
     }
   };
@@ -105,84 +104,90 @@ public final class DiskLruCache
   private void completeEdit(Editor paramEditor, boolean paramBoolean)
     throws IOException
   {
-    Entry localEntry;
+    Object localObject1;
     try
     {
-      localEntry = paramEditor.entry;
-      if (localEntry.currentEditor != paramEditor) {
-        throw new IllegalStateException();
+      localObject1 = paramEditor.entry;
+      if (((Entry)localObject1).currentEditor != paramEditor)
+      {
+        paramEditor = new java/lang/IllegalStateException;
+        paramEditor.<init>();
+        throw paramEditor;
       }
     }
     finally {}
-    if ((paramBoolean) && (!localEntry.readable))
-    {
-      i = 0;
-      while (i < this.valueCount)
+    if ((paramBoolean) && (!((Entry)localObject1).readable)) {
+      for (i = 0; i < this.valueCount; i++)
       {
         if (paramEditor.written[i] == 0)
         {
           paramEditor.abort();
-          throw new IllegalStateException("Newly created entry didn't create value for index " + i);
+          paramEditor = new java/lang/IllegalStateException;
+          localObject1 = new java/lang/StringBuilder;
+          ((StringBuilder)localObject1).<init>();
+          paramEditor.<init>("Newly created entry didn't create value for index " + i);
+          throw paramEditor;
         }
-        if (!localEntry.getDirtyFile(i).exists())
+        if (!((Entry)localObject1).getDirtyFile(i).exists())
         {
           paramEditor.abort();
           return;
         }
-        i += 1;
       }
     }
     int i = 0;
+    Object localObject2;
+    long l1;
+    if (i < this.valueCount)
+    {
+      paramEditor = ((Entry)localObject1).getDirtyFile(i);
+      if (paramBoolean) {
+        if (paramEditor.exists())
+        {
+          localObject2 = ((Entry)localObject1).getCleanFile(i);
+          paramEditor.renameTo((File)localObject2);
+          long l2 = localObject1.lengths[i];
+          l1 = ((File)localObject2).length();
+          ((Entry)localObject1).lengths[i] = l1;
+          this.size = (this.size - l2 + l1);
+        }
+      }
+      for (;;)
+      {
+        i++;
+        break;
+        deleteIfExists(paramEditor);
+      }
+    }
+    this.redundantOpCount += 1;
+    Entry.access$702((Entry)localObject1, null);
+    if ((((Entry)localObject1).readable | paramBoolean))
+    {
+      Entry.access$602((Entry)localObject1, true);
+      paramEditor = this.journalWriter;
+      localObject2 = new java/lang/StringBuilder;
+      ((StringBuilder)localObject2).<init>();
+      paramEditor.write("CLEAN " + ((Entry)localObject1).key + ((Entry)localObject1).getLengths() + '\n');
+      if (paramBoolean)
+      {
+        l1 = this.nextSequenceNumber;
+        this.nextSequenceNumber = (1L + l1);
+        Entry.access$1202((Entry)localObject1, l1);
+      }
+    }
     for (;;)
     {
-      long l1;
-      if (i < this.valueCount)
-      {
-        paramEditor = localEntry.getDirtyFile(i);
-        if (paramBoolean)
-        {
-          if (paramEditor.exists())
-          {
-            File localFile = localEntry.getCleanFile(i);
-            paramEditor.renameTo(localFile);
-            l1 = localEntry.lengths[i];
-            long l2 = localFile.length();
-            localEntry.lengths[i] = l2;
-            this.size = (this.size - l1 + l2);
-          }
-        }
-        else {
-          deleteIfExists(paramEditor);
-        }
+      this.journalWriter.flush();
+      if ((this.size <= this.maxSize) && (!journalRebuildRequired())) {
+        break;
       }
-      else
-      {
-        this.redundantOpCount += 1;
-        Entry.access$702(localEntry, null);
-        if ((localEntry.readable | paramBoolean))
-        {
-          Entry.access$602(localEntry, true);
-          this.journalWriter.write("CLEAN " + localEntry.key + localEntry.getLengths() + '\n');
-          if (paramBoolean)
-          {
-            l1 = this.nextSequenceNumber;
-            this.nextSequenceNumber = (1L + l1);
-            Entry.access$1202(localEntry, l1);
-          }
-        }
-        for (;;)
-        {
-          this.journalWriter.flush();
-          if ((this.size <= this.maxSize) && (!journalRebuildRequired())) {
-            break;
-          }
-          this.executorService.submit(this.cleanupCallable);
-          break;
-          this.lruEntries.remove(localEntry.key);
-          this.journalWriter.write("REMOVE " + localEntry.key + '\n');
-        }
-      }
-      i += 1;
+      this.executorService.submit(this.cleanupCallable);
+      break;
+      this.lruEntries.remove(((Entry)localObject1).key);
+      localObject2 = this.journalWriter;
+      paramEditor = new java/lang/StringBuilder;
+      paramEditor.<init>();
+      ((Writer)localObject2).write("REMOVE " + ((Entry)localObject1).key + '\n');
     }
   }
   
@@ -200,45 +205,50 @@ public final class DiskLruCache
     Editor localEditor1 = null;
     for (;;)
     {
-      Entry localEntry;
+      Object localObject2;
       try
       {
         checkNotClosed();
         validateKey(paramString);
-        localEntry = (Entry)this.lruEntries.get(paramString);
+        localObject2 = (Entry)this.lruEntries.get(paramString);
         if (paramLong != -1L)
         {
-          localObject = localEditor1;
-          if (localEntry != null)
+          localObject1 = localEditor1;
+          if (localObject2 != null)
           {
-            long l = localEntry.sequenceNumber;
+            long l = ((Entry)localObject2).sequenceNumber;
             if (l != paramLong) {
-              localObject = localEditor1;
+              localObject1 = localEditor1;
             }
           }
           else
           {
-            return (Editor)localObject;
+            return (Editor)localObject1;
           }
         }
-        if (localEntry == null)
+        if (localObject2 == null)
         {
-          localObject = new Entry(paramString, null);
-          this.lruEntries.put(paramString, localObject);
-          localEditor1 = new Editor((Entry)localObject, null);
-          Entry.access$702((Entry)localObject, localEditor1);
-          this.journalWriter.write("DIRTY " + paramString + '\n');
+          localObject1 = new com/immediasemi/blink/utils/DiskLruCache$Entry;
+          ((Entry)localObject1).<init>(this, paramString, null);
+          this.lruEntries.put(paramString, localObject1);
+          localEditor1 = new com/immediasemi/blink/utils/DiskLruCache$Editor;
+          localEditor1.<init>(this, (Entry)localObject1, null);
+          Entry.access$702((Entry)localObject1, localEditor1);
+          localObject1 = this.journalWriter;
+          localObject2 = new java/lang/StringBuilder;
+          ((StringBuilder)localObject2).<init>();
+          ((Writer)localObject1).write("DIRTY " + paramString + '\n');
           this.journalWriter.flush();
-          localObject = localEditor1;
+          localObject1 = localEditor1;
           continue;
         }
-        localEditor2 = localEntry.currentEditor;
+        localEditor2 = ((Entry)localObject2).currentEditor;
       }
       finally {}
       Editor localEditor2;
-      Object localObject = localEntry;
+      Object localObject1 = localObject2;
       if (localEditor2 != null) {
-        localObject = localEditor1;
+        localObject1 = localEditor1;
       }
     }
   }
@@ -251,7 +261,10 @@ public final class DiskLruCache
   
   private boolean journalRebuildRequired()
   {
-    return (this.redundantOpCount >= 2000) && (this.redundantOpCount >= this.lruEntries.size());
+    if ((this.redundantOpCount >= 2000) && (this.redundantOpCount >= this.lruEntries.size())) {}
+    for (boolean bool = true;; bool = false) {
+      return bool;
+    }
   }
   
   public static DiskLruCache open(File paramFile, int paramInt1, int paramInt2, long paramLong)
@@ -268,36 +281,38 @@ public final class DiskLruCache
     if (((File)localObject).exists())
     {
       localFile = new File(paramFile, "journal");
-      if (!localFile.exists()) {
-        break label115;
+      if (localFile.exists()) {
+        ((File)localObject).delete();
       }
-      ((File)localObject).delete();
     }
-    for (;;)
+    else
     {
       localObject = new DiskLruCache(paramFile, paramInt1, paramInt2, paramLong);
       if (!((DiskLruCache)localObject).journalFile.exists()) {
-        break label179;
+        break label181;
       }
+    }
+    for (;;)
+    {
       try
       {
         ((DiskLruCache)localObject).readJournal();
         ((DiskLruCache)localObject).processJournal();
-        return (DiskLruCache)localObject;
+        paramFile = (File)localObject;
+        return paramFile;
       }
       catch (IOException localIOException)
       {
-        label115:
         System.out.println("DiskLruCache " + paramFile + " is corrupt: " + localIOException.getMessage() + ", removing");
         ((DiskLruCache)localObject).delete();
       }
       renameTo((File)localObject, localFile, false);
+      break;
+      label181:
+      paramFile.mkdirs();
+      paramFile = new DiskLruCache(paramFile, paramInt1, paramInt2, paramLong);
+      paramFile.rebuildJournal();
     }
-    label179:
-    paramFile.mkdirs();
-    paramFile = new DiskLruCache(paramFile, paramInt1, paramInt2, paramLong);
-    paramFile.rebuildJournal();
-    return paramFile;
   }
   
   private void processJournal()
@@ -311,22 +326,17 @@ public final class DiskLruCache
       int i;
       if (localEntry.currentEditor == null)
       {
-        i = 0;
-        while (i < this.valueCount)
-        {
+        for (i = 0; i < this.valueCount; i++) {
           this.size += localEntry.lengths[i];
-          i += 1;
         }
       }
       else
       {
         Entry.access$702(localEntry, null);
-        i = 0;
-        while (i < this.valueCount)
+        for (i = 0; i < this.valueCount; i++)
         {
           deleteIfExists(localEntry.getCleanFile(i));
           deleteIfExists(localEntry.getDirtyFile(i));
-          i += 1;
         }
         localIterator.remove();
       }
@@ -337,60 +347,73 @@ public final class DiskLruCache
     throws IOException
   {
     StrictLineReader localStrictLineReader = new StrictLineReader(new FileInputStream(this.journalFile), Util.US_ASCII);
-    label233:
+    Object localObject2;
+    Object localObject3;
     try
     {
-      String str1 = localStrictLineReader.readLine();
       String str2 = localStrictLineReader.readLine();
-      String str3 = localStrictLineReader.readLine();
-      String str4 = localStrictLineReader.readLine();
-      String str5 = localStrictLineReader.readLine();
-      if ((!"libcore.io.DiskLruCache".equals(str1)) || (!"1".equals(str2)) || (!Integer.toString(this.appVersion).equals(str3)) || (!Integer.toString(this.valueCount).equals(str4)) || (!"".equals(str5))) {
-        throw new IOException("unexpected journal header: [" + str1 + ", " + str2 + ", " + str4 + ", " + str5 + "]");
+      localObject2 = localStrictLineReader.readLine();
+      Object localObject4 = localStrictLineReader.readLine();
+      localObject3 = localStrictLineReader.readLine();
+      String str1 = localStrictLineReader.readLine();
+      if ((!"libcore.io.DiskLruCache".equals(str2)) || (!"1".equals(localObject2)) || (!Integer.toString(this.appVersion).equals(localObject4)) || (!Integer.toString(this.valueCount).equals(localObject3)) || (!"".equals(str1)))
+      {
+        IOException localIOException = new java/io/IOException;
+        localObject4 = new java/lang/StringBuilder;
+        ((StringBuilder)localObject4).<init>();
+        localIOException.<init>("unexpected journal header: [" + str2 + ", " + (String)localObject2 + ", " + (String)localObject3 + ", " + str1 + "]");
+        throw localIOException;
       }
     }
     finally
     {
       Util.closeQuietly(localStrictLineReader);
-      throw ((Throwable)localObject);
-      int i = 0;
-      try
+    }
+    int i = 0;
+    try
+    {
+      for (;;)
       {
-        for (;;)
-        {
-          readJournalLine(localStrictLineReader.readLine());
-          i += 1;
-        }
-        rebuildJournal();
+        readJournalLine(localStrictLineReader.readLine());
+        i++;
       }
-      catch (EOFException localEOFException)
-      {
-        this.redundantOpCount = (i - this.lruEntries.size());
-        if (!localStrictLineReader.hasUnterminatedLine()) {
-          break label233;
-        }
-      }
+      rebuildJournal();
+    }
+    catch (EOFException localEOFException)
+    {
+      this.redundantOpCount = (i - this.lruEntries.size());
+      if (!localStrictLineReader.hasUnterminatedLine()) {}
+    }
+    for (;;)
+    {
       Util.closeQuietly(localStrictLineReader);
       return;
+      localObject3 = new java/io/BufferedWriter;
+      localObject2 = new java/io/OutputStreamWriter;
+      FileOutputStream localFileOutputStream = new java/io/FileOutputStream;
+      localFileOutputStream.<init>(this.journalFile, true);
+      ((OutputStreamWriter)localObject2).<init>(localFileOutputStream, Util.US_ASCII);
+      ((BufferedWriter)localObject3).<init>((Writer)localObject2);
+      this.journalWriter = ((Writer)localObject3);
     }
   }
   
   private void readJournalLine(String paramString)
     throws IOException
   {
-    int i = paramString.indexOf(' ');
-    if (i == -1) {
+    int k = paramString.indexOf(' ');
+    if (k == -1) {
       throw new IOException("unexpected journal line: " + paramString);
     }
-    int j = i + 1;
-    int k = paramString.indexOf(' ', j);
+    int j = k + 1;
+    int i = paramString.indexOf(' ', j);
     Object localObject2;
     Object localObject1;
-    if (k == -1)
+    if (i == -1)
     {
       localObject2 = paramString.substring(j);
       localObject1 = localObject2;
-      if (i != "REMOVE".length()) {
+      if (k != "REMOVE".length()) {
         break label113;
       }
       localObject1 = localObject2;
@@ -402,29 +425,33 @@ public final class DiskLruCache
     label113:
     do
     {
-      return;
-      localObject1 = paramString.substring(j, k);
-      Entry localEntry = (Entry)this.lruEntries.get(localObject1);
-      localObject2 = localEntry;
-      if (localEntry == null)
+      for (;;)
       {
-        localObject2 = new Entry((String)localObject1, null);
-        this.lruEntries.put(localObject1, localObject2);
-      }
-      if ((k != -1) && (i == "CLEAN".length()) && (paramString.startsWith("CLEAN")))
-      {
-        paramString = paramString.substring(k + 1).split(" ");
-        Entry.access$602((Entry)localObject2, true);
-        Entry.access$702((Entry)localObject2, null);
-        ((Entry)localObject2).setLengths(paramString);
         return;
+        localObject1 = paramString.substring(j, i);
+        Entry localEntry = (Entry)this.lruEntries.get(localObject1);
+        localObject2 = localEntry;
+        if (localEntry == null)
+        {
+          localObject2 = new Entry((String)localObject1, null);
+          this.lruEntries.put(localObject1, localObject2);
+        }
+        if ((i != -1) && (k == "CLEAN".length()) && (paramString.startsWith("CLEAN")))
+        {
+          paramString = paramString.substring(i + 1).split(" ");
+          Entry.access$602((Entry)localObject2, true);
+          Entry.access$702((Entry)localObject2, null);
+          ((Entry)localObject2).setLengths(paramString);
+        }
+        else
+        {
+          if ((i != -1) || (k != "DIRTY".length()) || (!paramString.startsWith("DIRTY"))) {
+            break;
+          }
+          Entry.access$702((Entry)localObject2, new Editor((Entry)localObject2, null));
+        }
       }
-      if ((k == -1) && (i == "DIRTY".length()) && (paramString.startsWith("DIRTY")))
-      {
-        Entry.access$702((Entry)localObject2, new Editor((Entry)localObject2, null));
-        return;
-      }
-    } while ((k == -1) && (i == "READ".length()) && (paramString.startsWith("READ")));
+    } while ((i == -1) && (k == "READ".length()) && (paramString.startsWith("READ")));
     throw new IOException("unexpected journal line: " + paramString);
   }
   
@@ -433,13 +460,18 @@ public final class DiskLruCache
   {
     for (;;)
     {
+      StringBuilder localStringBuilder;
       try
       {
         if (this.journalWriter != null) {
           this.journalWriter.close();
         }
-        BufferedWriter localBufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(this.journalFileTmp), Util.US_ASCII));
-        Entry localEntry;
+        BufferedWriter localBufferedWriter = new java/io/BufferedWriter;
+        localObject4 = new java/io/OutputStreamWriter;
+        Object localObject2 = new java/io/FileOutputStream;
+        ((FileOutputStream)localObject2).<init>(this.journalFileTmp);
+        ((OutputStreamWriter)localObject4).<init>((OutputStream)localObject2, Util.US_ASCII);
+        localBufferedWriter.<init>((Writer)localObject4);
         try
         {
           localBufferedWriter.write("libcore.io.DiskLruCache");
@@ -451,14 +483,16 @@ public final class DiskLruCache
           localBufferedWriter.write(Integer.toString(this.valueCount));
           localBufferedWriter.write("\n");
           localBufferedWriter.write("\n");
-          Iterator localIterator = this.lruEntries.values().iterator();
-          if (!localIterator.hasNext()) {
+          localObject2 = this.lruEntries.values().iterator();
+          if (!((Iterator)localObject2).hasNext()) {
             break;
           }
-          localEntry = (Entry)localIterator.next();
-          if (localEntry.currentEditor != null)
+          localObject4 = (Entry)((Iterator)localObject2).next();
+          if (((Entry)localObject4).currentEditor != null)
           {
-            localBufferedWriter.write("DIRTY " + localEntry.key + '\n');
+            localStringBuilder = new java/lang/StringBuilder;
+            localStringBuilder.<init>();
+            localBufferedWriter.write("DIRTY " + ((Entry)localObject4).key + '\n');
             continue;
             localObject1 = finally;
           }
@@ -467,9 +501,11 @@ public final class DiskLruCache
         {
           localBufferedWriter.close();
         }
-        ((Writer)localObject1).write("CLEAN " + localEntry.key + localEntry.getLengths() + '\n');
+        localStringBuilder = new java/lang/StringBuilder;
       }
       finally {}
+      localStringBuilder.<init>();
+      ((Writer)localObject1).write("CLEAN " + ((Entry)localObject4).key + ((Entry)localObject4).getLengths() + '\n');
     }
     ((Writer)localObject1).close();
     if (this.journalFile.exists()) {
@@ -477,7 +513,13 @@ public final class DiskLruCache
     }
     renameTo(this.journalFileTmp, this.journalFile, false);
     this.journalFileBackup.delete();
-    this.journalWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(this.journalFile, true), Util.US_ASCII));
+    Object localObject4 = new java/io/BufferedWriter;
+    OutputStreamWriter localOutputStreamWriter = new java/io/OutputStreamWriter;
+    FileOutputStream localFileOutputStream = new java/io/FileOutputStream;
+    localFileOutputStream.<init>(this.journalFile, true);
+    localOutputStreamWriter.<init>(localFileOutputStream, Util.US_ASCII);
+    ((BufferedWriter)localObject4).<init>(localOutputStreamWriter);
+    this.journalWriter = ((Writer)localObject4);
   }
   
   private static void renameTo(File paramFile1, File paramFile2, boolean paramBoolean)
@@ -517,14 +559,16 @@ public final class DiskLruCache
         if (localObject1 == null) {
           return;
         }
-        localObject1 = new ArrayList(this.lruEntries.values()).iterator();
-        if (((Iterator)localObject1).hasNext())
+        localObject1 = new java/util/ArrayList;
+        ((ArrayList)localObject1).<init>(this.lruEntries.values());
+        Iterator localIterator = ((ArrayList)localObject1).iterator();
+        if (localIterator.hasNext())
         {
-          Entry localEntry = (Entry)((Iterator)localObject1).next();
-          if (localEntry.currentEditor == null) {
+          localObject1 = (Entry)localIterator.next();
+          if (((Entry)localObject1).currentEditor == null) {
             continue;
           }
-          localEntry.currentEditor.abort();
+          ((Entry)localObject1).currentEditor.abort();
           continue;
         }
         trimToSize();
@@ -571,147 +615,145 @@ public final class DiskLruCache
   {
     // Byte code:
     //   0: aconst_null
-    //   1: astore_3
-    //   2: aload_0
-    //   3: monitorenter
-    //   4: aload_0
-    //   5: invokespecial 317	com/immediasemi/blink/utils/DiskLruCache:checkNotClosed	()V
-    //   8: aload_0
-    //   9: aload_1
-    //   10: invokespecial 320	com/immediasemi/blink/utils/DiskLruCache:validateKey	(Ljava/lang/String;)V
-    //   13: aload_0
-    //   14: getfield 107	com/immediasemi/blink/utils/DiskLruCache:lruEntries	Ljava/util/LinkedHashMap;
-    //   17: aload_1
-    //   18: invokevirtual 323	java/util/LinkedHashMap:get	(Ljava/lang/Object;)Ljava/lang/Object;
-    //   21: checkcast 18	com/immediasemi/blink/utils/DiskLruCache$Entry
-    //   24: astore 5
-    //   26: aload 5
-    //   28: ifnonnull +9 -> 37
-    //   31: aload_3
-    //   32: astore_2
-    //   33: aload_0
-    //   34: monitorexit
-    //   35: aload_2
-    //   36: areturn
+    //   1: astore 4
+    //   3: aload_0
+    //   4: monitorenter
+    //   5: aload_0
+    //   6: invokespecial 317	com/immediasemi/blink/utils/DiskLruCache:checkNotClosed	()V
+    //   9: aload_0
+    //   10: aload_1
+    //   11: invokespecial 320	com/immediasemi/blink/utils/DiskLruCache:validateKey	(Ljava/lang/String;)V
+    //   14: aload_0
+    //   15: getfield 107	com/immediasemi/blink/utils/DiskLruCache:lruEntries	Ljava/util/LinkedHashMap;
+    //   18: aload_1
+    //   19: invokevirtual 323	java/util/LinkedHashMap:get	(Ljava/lang/Object;)Ljava/lang/Object;
+    //   22: checkcast 18	com/immediasemi/blink/utils/DiskLruCache$Entry
+    //   25: astore 6
+    //   27: aload 6
+    //   29: ifnonnull +10 -> 39
+    //   32: aload 4
+    //   34: astore_3
+    //   35: aload_0
+    //   36: monitorexit
     //   37: aload_3
-    //   38: astore_2
-    //   39: aload 5
-    //   41: invokestatic 220	com/immediasemi/blink/utils/DiskLruCache$Entry:access$600	(Lcom/immediasemi/blink/utils/DiskLruCache$Entry;)Z
-    //   44: ifeq -11 -> 33
-    //   47: aload_0
-    //   48: getfield 149	com/immediasemi/blink/utils/DiskLruCache:valueCount	I
-    //   51: anewarray 566	java/io/InputStream
-    //   54: astore 4
-    //   56: iconst_0
-    //   57: istore 6
-    //   59: iload 6
-    //   61: aload_0
-    //   62: getfield 149	com/immediasemi/blink/utils/DiskLruCache:valueCount	I
-    //   65: if_icmpge +73 -> 138
-    //   68: aload 4
-    //   70: iload 6
+    //   38: areturn
+    //   39: aload 4
+    //   41: astore_3
+    //   42: aload 6
+    //   44: invokestatic 220	com/immediasemi/blink/utils/DiskLruCache$Entry:access$600	(Lcom/immediasemi/blink/utils/DiskLruCache$Entry;)Z
+    //   47: ifeq -12 -> 35
+    //   50: aload_0
+    //   51: getfield 149	com/immediasemi/blink/utils/DiskLruCache:valueCount	I
+    //   54: anewarray 566	java/io/InputStream
+    //   57: astore 5
+    //   59: iconst_0
+    //   60: istore_2
+    //   61: iload_2
+    //   62: aload_0
+    //   63: getfield 149	com/immediasemi/blink/utils/DiskLruCache:valueCount	I
+    //   66: if_icmpge +63 -> 129
+    //   69: aload 5
+    //   71: iload_2
     //   72: new 432	java/io/FileInputStream
     //   75: dup
-    //   76: aload 5
-    //   78: iload 6
-    //   80: invokevirtual 253	com/immediasemi/blink/utils/DiskLruCache$Entry:getCleanFile	(I)Ljava/io/File;
-    //   83: invokespecial 434	java/io/FileInputStream:<init>	(Ljava/io/File;)V
-    //   86: aastore
-    //   87: iload 6
-    //   89: iconst_1
-    //   90: iadd
-    //   91: istore 6
-    //   93: goto -34 -> 59
-    //   96: astore_1
-    //   97: iconst_0
-    //   98: istore 6
-    //   100: aload_3
-    //   101: astore_2
-    //   102: iload 6
-    //   104: aload_0
-    //   105: getfield 149	com/immediasemi/blink/utils/DiskLruCache:valueCount	I
-    //   108: if_icmpge -75 -> 33
-    //   111: aload_3
-    //   112: astore_2
-    //   113: aload 4
-    //   115: iload 6
-    //   117: aaload
-    //   118: ifnull -85 -> 33
-    //   121: aload 4
-    //   123: iload 6
-    //   125: aaload
-    //   126: invokestatic 465	com/immediasemi/blink/utils/Util:closeQuietly	(Ljava/io/Closeable;)V
-    //   129: iload 6
-    //   131: iconst_1
-    //   132: iadd
-    //   133: istore 6
-    //   135: goto -35 -> 100
-    //   138: aload_0
+    //   76: aload 6
+    //   78: iload_2
+    //   79: invokevirtual 253	com/immediasemi/blink/utils/DiskLruCache$Entry:getCleanFile	(I)Ljava/io/File;
+    //   82: invokespecial 434	java/io/FileInputStream:<init>	(Ljava/io/File;)V
+    //   85: aastore
+    //   86: iinc 2 1
+    //   89: goto -28 -> 61
+    //   92: astore_1
+    //   93: iconst_0
+    //   94: istore_2
+    //   95: aload 4
+    //   97: astore_3
+    //   98: iload_2
+    //   99: aload_0
+    //   100: getfield 149	com/immediasemi/blink/utils/DiskLruCache:valueCount	I
+    //   103: if_icmpge -68 -> 35
+    //   106: aload 4
+    //   108: astore_3
+    //   109: aload 5
+    //   111: iload_2
+    //   112: aaload
+    //   113: ifnull -78 -> 35
+    //   116: aload 5
+    //   118: iload_2
+    //   119: aaload
+    //   120: invokestatic 465	com/immediasemi/blink/utils/Util:closeQuietly	(Ljava/io/Closeable;)V
+    //   123: iinc 2 1
+    //   126: goto -31 -> 95
+    //   129: aload_0
+    //   130: aload_0
+    //   131: getfield 199	com/immediasemi/blink/utils/DiskLruCache:redundantOpCount	I
+    //   134: iconst_1
+    //   135: iadd
+    //   136: putfield 199	com/immediasemi/blink/utils/DiskLruCache:redundantOpCount	I
     //   139: aload_0
-    //   140: getfield 199	com/immediasemi/blink/utils/DiskLruCache:redundantOpCount	I
-    //   143: iconst_1
-    //   144: iadd
-    //   145: putfield 199	com/immediasemi/blink/utils/DiskLruCache:redundantOpCount	I
-    //   148: aload_0
-    //   149: getfield 155	com/immediasemi/blink/utils/DiskLruCache:journalWriter	Ljava/io/Writer;
-    //   152: new 229	java/lang/StringBuilder
-    //   155: dup
-    //   156: invokespecial 230	java/lang/StringBuilder:<init>	()V
-    //   159: ldc_w 568
-    //   162: invokevirtual 236	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
-    //   165: aload_1
-    //   166: invokevirtual 236	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
-    //   169: bipush 10
-    //   171: invokevirtual 289	java/lang/StringBuilder:append	(C)Ljava/lang/StringBuilder;
-    //   174: invokevirtual 243	java/lang/StringBuilder:toString	()Ljava/lang/String;
-    //   177: invokevirtual 571	java/io/Writer:append	(Ljava/lang/CharSequence;)Ljava/io/Writer;
-    //   180: pop
-    //   181: aload_0
-    //   182: invokespecial 183	com/immediasemi/blink/utils/DiskLruCache:journalRebuildRequired	()Z
-    //   185: ifeq +15 -> 200
-    //   188: aload_0
-    //   189: getfield 127	com/immediasemi/blink/utils/DiskLruCache:executorService	Ljava/util/concurrent/ThreadPoolExecutor;
-    //   192: aload_0
-    //   193: getfield 132	com/immediasemi/blink/utils/DiskLruCache:cleanupCallable	Ljava/util/concurrent/Callable;
-    //   196: invokevirtual 305	java/util/concurrent/ThreadPoolExecutor:submit	(Ljava/util/concurrent/Callable;)Ljava/util/concurrent/Future;
-    //   199: pop
-    //   200: new 21	com/immediasemi/blink/utils/DiskLruCache$Snapshot
-    //   203: dup
-    //   204: aload_0
-    //   205: aload_1
-    //   206: aload 5
-    //   208: invokestatic 327	com/immediasemi/blink/utils/DiskLruCache$Entry:access$1200	(Lcom/immediasemi/blink/utils/DiskLruCache$Entry;)J
-    //   211: aload 4
-    //   213: aload 5
-    //   215: invokestatic 261	com/immediasemi/blink/utils/DiskLruCache$Entry:access$1000	(Lcom/immediasemi/blink/utils/DiskLruCache$Entry;)[J
-    //   218: aconst_null
-    //   219: invokespecial 574	com/immediasemi/blink/utils/DiskLruCache$Snapshot:<init>	(Lcom/immediasemi/blink/utils/DiskLruCache;Ljava/lang/String;J[Ljava/io/InputStream;[JLcom/immediasemi/blink/utils/DiskLruCache$1;)V
-    //   222: astore_2
-    //   223: goto -190 -> 33
-    //   226: astore_1
-    //   227: aload_0
-    //   228: monitorexit
-    //   229: aload_1
-    //   230: athrow
+    //   140: getfield 155	com/immediasemi/blink/utils/DiskLruCache:journalWriter	Ljava/io/Writer;
+    //   143: astore 4
+    //   145: new 229	java/lang/StringBuilder
+    //   148: astore_3
+    //   149: aload_3
+    //   150: invokespecial 230	java/lang/StringBuilder:<init>	()V
+    //   153: aload 4
+    //   155: aload_3
+    //   156: ldc_w 568
+    //   159: invokevirtual 236	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   162: aload_1
+    //   163: invokevirtual 236	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    //   166: bipush 10
+    //   168: invokevirtual 289	java/lang/StringBuilder:append	(C)Ljava/lang/StringBuilder;
+    //   171: invokevirtual 243	java/lang/StringBuilder:toString	()Ljava/lang/String;
+    //   174: invokevirtual 571	java/io/Writer:append	(Ljava/lang/CharSequence;)Ljava/io/Writer;
+    //   177: pop
+    //   178: aload_0
+    //   179: invokespecial 183	com/immediasemi/blink/utils/DiskLruCache:journalRebuildRequired	()Z
+    //   182: ifeq +15 -> 197
+    //   185: aload_0
+    //   186: getfield 127	com/immediasemi/blink/utils/DiskLruCache:executorService	Ljava/util/concurrent/ThreadPoolExecutor;
+    //   189: aload_0
+    //   190: getfield 132	com/immediasemi/blink/utils/DiskLruCache:cleanupCallable	Ljava/util/concurrent/Callable;
+    //   193: invokevirtual 305	java/util/concurrent/ThreadPoolExecutor:submit	(Ljava/util/concurrent/Callable;)Ljava/util/concurrent/Future;
+    //   196: pop
+    //   197: new 21	com/immediasemi/blink/utils/DiskLruCache$Snapshot
+    //   200: dup
+    //   201: aload_0
+    //   202: aload_1
+    //   203: aload 6
+    //   205: invokestatic 327	com/immediasemi/blink/utils/DiskLruCache$Entry:access$1200	(Lcom/immediasemi/blink/utils/DiskLruCache$Entry;)J
+    //   208: aload 5
+    //   210: aload 6
+    //   212: invokestatic 261	com/immediasemi/blink/utils/DiskLruCache$Entry:access$1000	(Lcom/immediasemi/blink/utils/DiskLruCache$Entry;)[J
+    //   215: aconst_null
+    //   216: invokespecial 574	com/immediasemi/blink/utils/DiskLruCache$Snapshot:<init>	(Lcom/immediasemi/blink/utils/DiskLruCache;Ljava/lang/String;J[Ljava/io/InputStream;[JLcom/immediasemi/blink/utils/DiskLruCache$1;)V
+    //   219: astore_3
+    //   220: goto -185 -> 35
+    //   223: astore_1
+    //   224: aload_0
+    //   225: monitorexit
+    //   226: aload_1
+    //   227: athrow
     // Local variable table:
     //   start	length	slot	name	signature
-    //   0	231	0	this	DiskLruCache
-    //   0	231	1	paramString	String
-    //   32	191	2	localObject1	Object
-    //   1	111	3	localObject2	Object
-    //   54	158	4	arrayOfInputStream	InputStream[]
-    //   24	190	5	localEntry	Entry
-    //   57	77	6	i	int
+    //   0	228	0	this	DiskLruCache
+    //   0	228	1	paramString	String
+    //   60	64	2	i	int
+    //   34	186	3	localObject	Object
+    //   1	153	4	localWriter	Writer
+    //   57	152	5	arrayOfInputStream	InputStream[]
+    //   25	186	6	localEntry	Entry
     // Exception table:
     //   from	to	target	type
-    //   59	87	96	java/io/FileNotFoundException
-    //   4	26	226	finally
-    //   39	56	226	finally
-    //   59	87	226	finally
-    //   102	111	226	finally
-    //   121	129	226	finally
-    //   138	200	226	finally
-    //   200	223	226	finally
+    //   61	86	92	java/io/FileNotFoundException
+    //   5	27	223	finally
+    //   42	59	223	finally
+    //   61	86	223	finally
+    //   98	106	223	finally
+    //   116	123	223	finally
+    //   129	197	223	finally
+    //   197	220	223	finally
   }
   
   public File getDirectory()
@@ -741,29 +783,29 @@ public final class DiskLruCache
     //   1: monitorenter
     //   2: aload_0
     //   3: getfield 155	com/immediasemi/blink/utils/DiskLruCache:journalWriter	Ljava/io/Writer;
-    //   6: astore_1
-    //   7: aload_1
+    //   6: astore_2
+    //   7: aload_2
     //   8: ifnonnull +9 -> 17
     //   11: iconst_1
-    //   12: istore_2
+    //   12: istore_1
     //   13: aload_0
     //   14: monitorexit
-    //   15: iload_2
+    //   15: iload_1
     //   16: ireturn
     //   17: iconst_0
-    //   18: istore_2
+    //   18: istore_1
     //   19: goto -6 -> 13
-    //   22: astore_1
+    //   22: astore_2
     //   23: aload_0
     //   24: monitorexit
-    //   25: aload_1
+    //   25: aload_2
     //   26: athrow
     // Local variable table:
     //   start	length	slot	name	signature
     //   0	27	0	this	DiskLruCache
-    //   6	2	1	localWriter	Writer
-    //   22	4	1	localObject	Object
-    //   12	7	2	bool	boolean
+    //   12	7	1	bool	boolean
+    //   6	2	2	localWriter	Writer
+    //   22	4	2	localObject	Object
     // Exception table:
     //   from	to	target	type
     //   2	7	22	finally
@@ -774,17 +816,16 @@ public final class DiskLruCache
   {
     for (;;)
     {
-      Entry localEntry;
       int i;
       try
       {
         checkNotClosed();
         validateKey(paramString);
-        localEntry = (Entry)this.lruEntries.get(paramString);
-        if (localEntry != null)
+        localObject2 = (Entry)this.lruEntries.get(paramString);
+        if (localObject2 != null)
         {
-          localObject = localEntry.currentEditor;
-          if (localObject == null) {}
+          localObject1 = ((Entry)localObject2).currentEditor;
+          if (localObject1 == null) {}
         }
         else
         {
@@ -793,21 +834,29 @@ public final class DiskLruCache
         }
         i = 0;
         if (i >= this.valueCount) {
-          break label143;
+          break label152;
         }
-        Object localObject = localEntry.getCleanFile(i);
-        if ((((File)localObject).exists()) && (!((File)localObject).delete())) {
-          throw new IOException("failed to delete " + localObject);
+        localObject1 = ((Entry)localObject2).getCleanFile(i);
+        if ((((File)localObject1).exists()) && (!((File)localObject1).delete()))
+        {
+          paramString = new java/io/IOException;
+          localObject2 = new java/lang/StringBuilder;
+          ((StringBuilder)localObject2).<init>();
+          paramString.<init>("failed to delete " + localObject1);
+          throw paramString;
         }
       }
       finally {}
-      this.size -= localEntry.lengths[i];
-      localEntry.lengths[i] = 0L;
-      i += 1;
+      this.size -= localObject2.lengths[i];
+      ((Entry)localObject2).lengths[i] = 0L;
+      i++;
       continue;
-      label143:
+      label152:
       this.redundantOpCount += 1;
-      this.journalWriter.append("REMOVE " + paramString + '\n');
+      Object localObject1 = this.journalWriter;
+      Object localObject2 = new java/lang/StringBuilder;
+      ((StringBuilder)localObject2).<init>();
+      ((Writer)localObject1).append("REMOVE " + paramString + '\n');
       this.lruEntries.remove(paramString);
       if (journalRebuildRequired()) {
         this.executorService.submit(this.cleanupCallable);
@@ -877,7 +926,10 @@ public final class DiskLruCache
         abort();
         return;
       }
-      catch (IOException localIOException) {}
+      catch (IOException localIOException)
+      {
+        for (;;) {}
+      }
     }
     
     public void commit()
@@ -899,32 +951,38 @@ public final class DiskLruCache
     public String getString(int paramInt)
       throws IOException
     {
-      InputStream localInputStream = newInputStream(paramInt);
-      if (localInputStream != null) {
-        return DiskLruCache.inputStreamToString(localInputStream);
+      Object localObject = newInputStream(paramInt);
+      if (localObject != null) {}
+      for (localObject = DiskLruCache.inputStreamToString((InputStream)localObject);; localObject = null) {
+        return (String)localObject;
       }
-      return null;
     }
     
     public InputStream newInputStream(int paramInt)
       throws IOException
     {
+      IllegalStateException localIllegalStateException = null;
       synchronized (DiskLruCache.this)
       {
-        if (DiskLruCache.Entry.access$700(this.entry) != this) {
-          throw new IllegalStateException();
+        if (DiskLruCache.Entry.access$700(this.entry) != this)
+        {
+          localIllegalStateException = new java/lang/IllegalStateException;
+          localIllegalStateException.<init>();
+          throw localIllegalStateException;
         }
       }
-      if (!DiskLruCache.Entry.access$600(this.entry)) {
-        return null;
-      }
-      try
+      if (!DiskLruCache.Entry.access$600(this.entry)) {}
+      for (;;)
       {
-        FileInputStream localFileInputStream = new FileInputStream(this.entry.getCleanFile(paramInt));
-        return localFileInputStream;
+        return localInputStream;
+        try
+        {
+          FileInputStream localFileInputStream = new java/io/FileInputStream;
+          localFileInputStream.<init>(this.entry.getCleanFile(paramInt));
+          Object localObject = localFileInputStream;
+        }
+        catch (FileNotFoundException localFileNotFoundException) {}
       }
-      catch (FileNotFoundException localFileNotFoundException) {}
-      return null;
     }
     
     public OutputStream newOutputStream(int paramInt)
@@ -935,18 +993,24 @@ public final class DiskLruCache
       }
       synchronized (DiskLruCache.this)
       {
-        if (DiskLruCache.Entry.access$700(this.entry) != this) {
-          throw new IllegalStateException();
+        if (DiskLruCache.Entry.access$700(this.entry) != this)
+        {
+          IllegalStateException localIllegalStateException = new java/lang/IllegalStateException;
+          localIllegalStateException.<init>();
+          throw localIllegalStateException;
         }
       }
       if (!DiskLruCache.Entry.access$600(this.entry)) {
         this.written[paramInt] = true;
       }
-      File localFile = this.entry.getDirtyFile(paramInt);
+      Object localObject3 = this.entry.getDirtyFile(paramInt);
       try
       {
-        Object localObject2 = new FileOutputStream(localFile);
-        localObject2 = new FaultHidingOutputStream((OutputStream)localObject2, null);
+        Object localObject2 = new java/io/FileOutputStream;
+        ((FileOutputStream)localObject2).<init>((File)localObject3);
+        localObject3 = new com/immediasemi/blink/utils/DiskLruCache$Editor$FaultHidingOutputStream;
+        ((FaultHidingOutputStream)localObject3).<init>(this, (OutputStream)localObject2, null);
+        localObject2 = localObject3;
         return (OutputStream)localObject2;
       }
       catch (FileNotFoundException localFileNotFoundException1)
@@ -956,43 +1020,57 @@ public final class DiskLruCache
           DiskLruCache.this.directory.mkdirs();
           try
           {
-            FileOutputStream localFileOutputStream = new FileOutputStream(localFile);
+            FileOutputStream localFileOutputStream = new FileOutputStream((File)localObject3);
           }
           catch (FileNotFoundException localFileNotFoundException2)
           {
             OutputStream localOutputStream = DiskLruCache.NULL_OUTPUT_STREAM;
-            return localOutputStream;
           }
         }
       }
     }
     
+    /* Error */
     public void set(int paramInt, String paramString)
       throws IOException
     {
-      Object localObject3 = null;
-      try
-      {
-        OutputStreamWriter localOutputStreamWriter = new OutputStreamWriter(newOutputStream(paramInt), Util.UTF_8);
-        Util.closeQuietly(paramString);
-      }
-      finally
-      {
-        try
-        {
-          localOutputStreamWriter.write(paramString);
-          Util.closeQuietly(localOutputStreamWriter);
-          return;
-        }
-        finally
-        {
-          paramString = (String)localObject1;
-          Object localObject2 = localObject4;
-        }
-        localObject1 = finally;
-        paramString = (String)localObject3;
-      }
-      throw ((Throwable)localObject1);
+      // Byte code:
+      //   0: aconst_null
+      //   1: astore_3
+      //   2: new 158	java/io/OutputStreamWriter
+      //   5: astore 4
+      //   7: aload 4
+      //   9: aload_0
+      //   10: iload_1
+      //   11: invokevirtual 160	com/immediasemi/blink/utils/DiskLruCache$Editor:newOutputStream	(I)Ljava/io/OutputStream;
+      //   14: getstatic 166	com/immediasemi/blink/utils/Util:UTF_8	Ljava/nio/charset/Charset;
+      //   17: invokespecial 169	java/io/OutputStreamWriter:<init>	(Ljava/io/OutputStream;Ljava/nio/charset/Charset;)V
+      //   20: aload 4
+      //   22: aload_2
+      //   23: invokevirtual 174	java/io/Writer:write	(Ljava/lang/String;)V
+      //   26: aload 4
+      //   28: invokestatic 178	com/immediasemi/blink/utils/Util:closeQuietly	(Ljava/io/Closeable;)V
+      //   31: return
+      //   32: astore_2
+      //   33: aload_3
+      //   34: invokestatic 178	com/immediasemi/blink/utils/Util:closeQuietly	(Ljava/io/Closeable;)V
+      //   37: aload_2
+      //   38: athrow
+      //   39: astore_2
+      //   40: aload 4
+      //   42: astore_3
+      //   43: goto -10 -> 33
+      // Local variable table:
+      //   start	length	slot	name	signature
+      //   0	46	0	this	Editor
+      //   0	46	1	paramInt	int
+      //   0	46	2	paramString	String
+      //   1	42	3	localObject	Object
+      //   5	36	4	localOutputStreamWriter	OutputStreamWriter
+      // Exception table:
+      //   from	to	target	type
+      //   2	20	32	finally
+      //   20	26	39	finally
     }
     
     private class FaultHidingOutputStream
@@ -1012,7 +1090,10 @@ public final class DiskLruCache
         }
         catch (IOException localIOException)
         {
-          DiskLruCache.Editor.access$2302(DiskLruCache.Editor.this, true);
+          for (;;)
+          {
+            DiskLruCache.Editor.access$2302(DiskLruCache.Editor.this, true);
+          }
         }
       }
       
@@ -1025,7 +1106,10 @@ public final class DiskLruCache
         }
         catch (IOException localIOException)
         {
-          DiskLruCache.Editor.access$2302(DiskLruCache.Editor.this, true);
+          for (;;)
+          {
+            DiskLruCache.Editor.access$2302(DiskLruCache.Editor.this, true);
+          }
         }
       }
       
@@ -1038,7 +1122,10 @@ public final class DiskLruCache
         }
         catch (IOException localIOException)
         {
-          DiskLruCache.Editor.access$2302(DiskLruCache.Editor.this, true);
+          for (;;)
+          {
+            DiskLruCache.Editor.access$2302(DiskLruCache.Editor.this, true);
+          }
         }
       }
       
@@ -1051,7 +1138,10 @@ public final class DiskLruCache
         }
         catch (IOException paramArrayOfByte)
         {
-          DiskLruCache.Editor.access$2302(DiskLruCache.Editor.this, true);
+          for (;;)
+          {
+            DiskLruCache.Editor.access$2302(DiskLruCache.Editor.this, true);
+          }
         }
       }
     }
@@ -1089,7 +1179,7 @@ public final class DiskLruCache
         while (i < paramArrayOfString.length)
         {
           this.lengths[i] = Long.parseLong(paramArrayOfString[i]);
-          i += 1;
+          i++;
         }
         return;
       }
@@ -1113,14 +1203,8 @@ public final class DiskLruCache
       throws IOException
     {
       StringBuilder localStringBuilder = new StringBuilder();
-      long[] arrayOfLong = this.lengths;
-      int j = arrayOfLong.length;
-      int i = 0;
-      while (i < j)
-      {
-        long l = arrayOfLong[i];
+      for (long l : this.lengths) {
         localStringBuilder.append(' ').append(l);
-        i += 1;
       }
       return localStringBuilder.toString();
     }
@@ -1146,11 +1230,8 @@ public final class DiskLruCache
     {
       InputStream[] arrayOfInputStream = this.ins;
       int j = arrayOfInputStream.length;
-      int i = 0;
-      while (i < j)
-      {
+      for (int i = 0; i < j; i++) {
         Util.closeQuietly(arrayOfInputStream[i]);
-        i += 1;
       }
     }
     
@@ -1179,7 +1260,7 @@ public final class DiskLruCache
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/utils/DiskLruCache.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/utils/DiskLruCache.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

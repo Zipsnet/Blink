@@ -6,12 +6,12 @@ import com.immediasemi.blink.models.HomescreenSummaryStatus;
 public class HomescreenRequest
   extends BlinkRequest
 {
-  private static final String path = "/homescreen";
+  private static final String path = "/network/:network/homescreen";
   private static final long serialVersionUID = 7218049732725760121L;
   
   public String getPath()
   {
-    return "/homescreen";
+    return "/network/:network/homescreen";
   }
   
   public int getRequestType()
@@ -26,7 +26,7 @@ public class HomescreenRequest
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/api/requests/Homescreen/HomescreenRequest.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/api/requests/Homescreen/HomescreenRequest.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

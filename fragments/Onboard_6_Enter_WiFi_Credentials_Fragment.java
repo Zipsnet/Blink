@@ -53,13 +53,13 @@ public class Onboard_6_Enter_WiFi_Credentials_Fragment
   {
     Onboard_6_Enter_WiFi_Credentials_Fragment localOnboard_6_Enter_WiFi_Credentials_Fragment = new Onboard_6_Enter_WiFi_Credentials_Fragment();
     Object localObject = PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext());
-    String str = ((SharedPreferences)localObject).getString("arg_ssid", "");
-    localObject = ((SharedPreferences)localObject).getString("arg_encryption", "");
-    Bundle localBundle = new Bundle();
-    localBundle.putInt("arg_section_number", paramInt);
-    localBundle.putString("arg_ssid", str);
-    localBundle.putString("arg_encryption", (String)localObject);
-    localOnboard_6_Enter_WiFi_Credentials_Fragment.setArguments(localBundle);
+    String str1 = ((SharedPreferences)localObject).getString("arg_ssid", "");
+    String str2 = ((SharedPreferences)localObject).getString("arg_encryption", "");
+    localObject = new Bundle();
+    ((Bundle)localObject).putInt("arg_section_number", paramInt);
+    ((Bundle)localObject).putString("arg_ssid", str1);
+    ((Bundle)localObject).putString("arg_encryption", str2);
+    localOnboard_6_Enter_WiFi_Credentials_Fragment.setArguments((Bundle)localObject);
     return localOnboard_6_Enter_WiFi_Credentials_Fragment;
   }
   
@@ -69,10 +69,8 @@ public class Onboard_6_Enter_WiFi_Credentials_Fragment
     this.mPassPhrase = this.mPassPhraseEntry.getText().toString();
     SetSSIDRequest localSetSSIDRequest = new SetSSIDRequest();
     localSetSSIDRequest.setDns("name");
-    Object localObject = BlinkApp.getApp().getServerUrl();
-    localObject = ((String)localObject).substring(((String)localObject).indexOf("//") + 2);
-    localSetSSIDRequest.setDomain(((String)localObject).substring(0, ((String)localObject).indexOf(".")));
-    localObject = new SetSSIDRequest.SSId[1];
+    localSetSSIDRequest.setDomain(BlinkApp.getApp().getDnsSubdomain());
+    Object localObject = new SetSSIDRequest.SSId[1];
     localObject[0] = new SetSSIDRequest.SSId();
     localObject[0].setSsid(this.mSSID);
     localObject[0].setPassword(this.mPassPhrase);
@@ -87,30 +85,35 @@ public class Onboard_6_Enter_WiFi_Credentials_Fragment
       {
         BlinkApp.getApp().setOnboardingUrl(null);
         if ((Onboard_6_Enter_WiFi_Credentials_Fragment.this.getActivity() == null) || (Onboard_6_Enter_WiFi_Credentials_Fragment.this.mListener == null) || (Onboard_6_Enter_WiFi_Credentials_Fragment.this.isDetached())) {}
-        while (Onboard_6_Enter_WiFi_Credentials_Fragment.this.getActivity() == null) {
-          return;
-        }
-        new AlertDialog.Builder(Onboard_6_Enter_WiFi_Credentials_Fragment.this.getActivity()).setTitle("Error").setMessage("Could not connect to WiFi").setPositiveButton(2131099890, new DialogInterface.OnClickListener()
+        for (;;)
         {
-          public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
-          {
-            paramAnonymous2DialogInterface = Onboard_5_Show_WiFi_Fragment.newInstance(5);
-            Onboard_6_Enter_WiFi_Credentials_Fragment.this.mListener.onFragmentInteraction(Onboard_6_Enter_WiFi_Credentials_Fragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymous2DialogInterface);
+          return;
+          if (Onboard_6_Enter_WiFi_Credentials_Fragment.this.getActivity() != null) {
+            new AlertDialog.Builder(Onboard_6_Enter_WiFi_Credentials_Fragment.this.getActivity()).setTitle("Error").setMessage("Could not connect to WiFi").setPositiveButton(2131099891, new DialogInterface.OnClickListener()
+            {
+              public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
+              {
+                paramAnonymous2DialogInterface = Onboard_5_Show_WiFi_Fragment.newInstance(5);
+                Onboard_6_Enter_WiFi_Credentials_Fragment.this.mListener.onFragmentInteraction(Onboard_6_Enter_WiFi_Credentials_Fragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymous2DialogInterface);
+              }
+            }).create().show();
           }
-        }).create().show();
+        }
       }
       
       public void onResult(BlinkData paramAnonymousBlinkData)
       {
         BlinkApp.getApp().setOnboardingUrl(null);
         if (Onboard_6_Enter_WiFi_Credentials_Fragment.this.isDetached()) {}
-        do
+        for (;;)
         {
           return;
           ((InputMethodManager)Onboard_6_Enter_WiFi_Credentials_Fragment.this.getActivity().getSystemService("input_method")).hideSoftInputFromWindow(Onboard_6_Enter_WiFi_Credentials_Fragment.this.mSSIDEntry.getWindowToken(), 0);
           paramAnonymousBlinkData = Onboard_7_Onboard_Network.newInstance(7);
-        } while ((Onboard_6_Enter_WiFi_Credentials_Fragment.this.getActivity() == null) || (Onboard_6_Enter_WiFi_Credentials_Fragment.this.mListener == null) || (Onboard_6_Enter_WiFi_Credentials_Fragment.this.isDetached()));
-        Onboard_6_Enter_WiFi_Credentials_Fragment.this.mListener.onFragmentInteraction(Onboard_6_Enter_WiFi_Credentials_Fragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymousBlinkData);
+          if ((Onboard_6_Enter_WiFi_Credentials_Fragment.this.getActivity() != null) && (Onboard_6_Enter_WiFi_Credentials_Fragment.this.mListener != null) && (!Onboard_6_Enter_WiFi_Credentials_Fragment.this.isDetached())) {
+            Onboard_6_Enter_WiFi_Credentials_Fragment.this.mListener.onFragmentInteraction(Onboard_6_Enter_WiFi_Credentials_Fragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymousBlinkData);
+          }
+        }
       }
     }, 25000);
     BlinkApp.getApp().setOnboardingUrl(null);
@@ -124,7 +127,7 @@ public class Onboard_6_Enter_WiFi_Credentials_Fragment
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099987));
+    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099990));
   }
   
   public void onCreate(Bundle paramBundle)
@@ -141,11 +144,11 @@ public class Onboard_6_Enter_WiFi_Credentials_Fragment
   
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
-    this.mView = paramLayoutInflater.inflate(2130903082, paramViewGroup, false);
-    this.mSSIDEntry = ((EditText)this.mView.findViewById(2131558549));
+    this.mView = paramLayoutInflater.inflate(2130903086, paramViewGroup, false);
+    this.mSSIDEntry = ((EditText)this.mView.findViewById(2131558552));
     this.mSSIDEntry.setText(this.mSSID);
     this.mSSIDEntry.setFocusable(this.mSSID.equals(""));
-    this.mPassPhraseEntry = ((EditText)this.mView.findViewById(2131558550));
+    this.mPassPhraseEntry = ((EditText)this.mView.findViewById(2131558553));
     this.mPassPhraseEntry.setTransformationMethod(null);
     this.mPassPhraseEntry.requestFocus();
     ((InputMethodManager)getActivity().getSystemService("input_method")).toggleSoftInput(2, 1);
@@ -153,12 +156,12 @@ public class Onboard_6_Enter_WiFi_Credentials_Fragment
     {
       public boolean onEditorAction(TextView paramAnonymousTextView, int paramAnonymousInt, KeyEvent paramAnonymousKeyEvent)
       {
-        if (((paramAnonymousKeyEvent != null) && (paramAnonymousKeyEvent.getKeyCode() == 66)) || (paramAnonymousInt == 6))
-        {
+        if (((paramAnonymousKeyEvent != null) && (paramAnonymousKeyEvent.getKeyCode() == 66)) || (paramAnonymousInt == 6)) {
           Onboard_6_Enter_WiFi_Credentials_Fragment.this.setAccessPoint();
-          return true;
         }
-        return false;
+        for (boolean bool = true;; bool = false) {
+          return bool;
+        }
       }
     });
     if (this.mEncryption.equalsIgnoreCase("none")) {
@@ -167,14 +170,16 @@ public class Onboard_6_Enter_WiFi_Credentials_Fragment
     for (;;)
     {
       return this.mView;
-      ((Button)this.mView.findViewById(2131558551)).setOnClickListener(new View.OnClickListener()
+      ((Button)this.mView.findViewById(2131558554)).setOnClickListener(new View.OnClickListener()
       {
         public void onClick(View paramAnonymousView)
         {
-          if (!OnClick.ok()) {
+          if (!OnClick.ok()) {}
+          for (;;)
+          {
             return;
+            Onboard_6_Enter_WiFi_Credentials_Fragment.this.setAccessPoint();
           }
-          Onboard_6_Enter_WiFi_Credentials_Fragment.this.setAccessPoint();
         }
       });
       this.mSSIDEntry.clearFocus();
@@ -194,7 +199,7 @@ public class Onboard_6_Enter_WiFi_Credentials_Fragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/Onboard_6_Enter_WiFi_Credentials_Fragment.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/fragments/Onboard_6_Enter_WiFi_Credentials_Fragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

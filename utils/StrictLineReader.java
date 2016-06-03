@@ -67,7 +67,10 @@ class StrictLineReader
   
   public boolean hasUnterminatedLine()
   {
-    return this.end == -1;
+    if (this.end == -1) {}
+    for (boolean bool = true;; bool = false) {
+      return bool;
+    }
   }
   
   public String readLine()
@@ -75,78 +78,58 @@ class StrictLineReader
   {
     synchronized (this.in)
     {
-      if (this.buf == null) {
-        throw new IOException("LineReader is closed");
+      if (this.buf == null)
+      {
+        IOException localIOException = new java/io/IOException;
+        localIOException.<init>("LineReader is closed");
+        throw localIOException;
       }
     }
     if (this.pos >= this.end) {
       fillBuf();
     }
-    int i = this.pos;
+    for (int i = this.pos; i != this.end; i++) {
+      if (this.buf[i] == 10)
+      {
+        if ((i != this.pos) && (this.buf[(i - 1)] == 13)) {}
+        for (int j = i - 1;; j = i)
+        {
+          localObject2 = new java/lang/String;
+          ((String)localObject2).<init>(this.buf, this.pos, j - this.pos, this.charset.name());
+          this.pos = (i + 1);
+          return (String)localObject2;
+        }
+      }
+    }
+    Object localObject2 = new com/immediasemi/blink/utils/StrictLineReader$1;
+    ((1)localObject2).<init>(this, this.end - this.pos + 80);
+    label273:
     for (;;)
     {
-      if (i != this.end)
+      ((ByteArrayOutputStream)localObject2).write(this.buf, this.pos, this.end - this.pos);
+      this.end = -1;
+      fillBuf();
+      for (i = this.pos;; i++)
       {
-        if (this.buf[i] != 10) {
-          break label265;
+        if (i == this.end) {
+          break label273;
         }
-        if ((i == this.pos) || (this.buf[(i - 1)] != 13)) {
-          break label259;
+        if (this.buf[i] == 10)
+        {
+          if (i != this.pos) {
+            ((ByteArrayOutputStream)localObject2).write(this.buf, this.pos, i - this.pos);
+          }
+          this.pos = (i + 1);
+          localObject2 = ((ByteArrayOutputStream)localObject2).toString();
+          break;
         }
       }
-      label259:
-      for (int j = i - 1;; j = i)
-      {
-        Object localObject2 = new String(this.buf, this.pos, j - this.pos, this.charset.name());
-        this.pos = (i + 1);
-        return (String)localObject2;
-        localObject2 = new ByteArrayOutputStream(this.end - this.pos + 80)
-        {
-          public String toString()
-          {
-            if ((this.count > 0) && (this.buf[(this.count - 1)] == 13)) {}
-            for (int i = this.count - 1;; i = this.count) {
-              try
-              {
-                String str = new String(this.buf, 0, i, StrictLineReader.this.charset.name());
-                return str;
-              }
-              catch (UnsupportedEncodingException localUnsupportedEncodingException)
-              {
-                throw new AssertionError(localUnsupportedEncodingException);
-              }
-            }
-          }
-        };
-        for (;;)
-        {
-          ((ByteArrayOutputStream)localObject2).write(this.buf, this.pos, this.end - this.pos);
-          this.end = -1;
-          fillBuf();
-          i = this.pos;
-          while (i != this.end)
-          {
-            if (this.buf[i] == 10)
-            {
-              if (i != this.pos) {
-                ((ByteArrayOutputStream)localObject2).write(this.buf, this.pos, i - this.pos);
-              }
-              this.pos = (i + 1);
-              localObject2 = ((ByteArrayOutputStream)localObject2).toString();
-              return (String)localObject2;
-            }
-            i += 1;
-          }
-        }
-      }
-      label265:
-      i += 1;
     }
   }
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/utils/StrictLineReader.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/utils/StrictLineReader.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */
