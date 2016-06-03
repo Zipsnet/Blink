@@ -33,8 +33,10 @@ public final class Util
   
   public static String applyHash(String paramString1, String paramString2)
   {
-    if (paramString2.length() == 0) {
-      return paramString2;
+    if (paramString2.length() == 0)
+    {
+      paramString1 = paramString2;
+      return paramString1;
     }
     String str = paramString2;
     if (paramString2.length() > 38) {
@@ -43,8 +45,10 @@ public final class Util
     for (paramString2 = str; paramString2.length() < 38; paramString2 = paramString2 + paramString2) {}
     paramString2 = paramString2.substring(paramString2.length() - 38);
     if (str.length() < 10) {}
-    for (paramString2 = paramString2 + "0";; paramString2 = paramString2 + String.valueOf(str.length() / 10)) {
-      return xorHash(paramString1, convertToHex((paramString2 + String.valueOf(str.length() % 10)).getBytes()));
+    for (paramString2 = paramString2 + "0";; paramString2 = paramString2 + String.valueOf(str.length() / 10))
+    {
+      paramString1 = xorHash(paramString1, convertToHex((paramString2 + String.valueOf(str.length() % 10)).getBytes()));
+      break;
     }
   }
   
@@ -60,39 +64,44 @@ public final class Util
     {
       throw paramCloseable;
     }
-    catch (Exception paramCloseable) {}
+    catch (Exception paramCloseable)
+    {
+      for (;;) {}
+    }
   }
   
   private static String convertFromHex(String paramString)
   {
     paramString = paramString.getBytes();
-    if ((paramString.length & 0x1) != 0) {
-      return "";
-    }
-    StringBuilder localStringBuilder = new StringBuilder();
-    int i = 0;
-    if (i < paramString.length)
+    if ((paramString.length & 0x1) != 0) {}
+    StringBuilder localStringBuilder;
+    for (paramString = "";; paramString = localStringBuilder.toString())
     {
-      int j;
-      if (paramString[i] <= 57)
+      return paramString;
+      localStringBuilder = new StringBuilder();
+      int i = 0;
+      if (i < paramString.length)
       {
-        j = paramString[i] - 48;
-        label46:
-        if (paramString[(i + 1)] > 57) {
-          break label105;
+        int j;
+        if (paramString[i] <= 57)
+        {
+          j = paramString[i] - 48;
+          label49:
+          if (paramString[(i + 1)] > 57) {
+            break label106;
+          }
+        }
+        label106:
+        for (int k = paramString[(i + 1)] - 48;; k = paramString[(i + 1)] - 97 + 10)
+        {
+          localStringBuilder.append((char)(j << 4 & 0xF0 | k & 0xF));
+          i += 2;
+          break;
+          j = paramString[i] - 97 + 10;
+          break label49;
         }
       }
-      label105:
-      for (int k = paramString[(i + 1)] - 48;; k = paramString[(i + 1)] - 97 + 10)
-      {
-        localStringBuilder.append((char)(j << 4 & 0xF0 | k & 0xF));
-        i += 2;
-        break;
-        j = paramString[i] - 97 + 10;
-        break label46;
-      }
     }
-    return localStringBuilder.toString();
   }
   
   private static String convertToHex(byte[] paramArrayOfByte)
@@ -102,14 +111,13 @@ public final class Util
     int i = 0;
     int n;
     int k;
-    int j;
     if (i < m)
     {
       n = paramArrayOfByte[i];
       k = n >>> 4 & 0xF;
-      j = 0;
     }
-    for (;;)
+    label100:
+    for (int j = 0;; j++)
     {
       if ((k >= 0) && (k <= 9)) {}
       for (char c = (char)(k + 48);; c = (char)(k - 10 + 97))
@@ -119,12 +127,10 @@ public final class Util
         if (j < 1) {
           break label100;
         }
-        i += 1;
+        i++;
         break;
       }
       return localStringBuilder.toString();
-      label100:
-      j += 1;
     }
   }
   
@@ -136,8 +142,7 @@ public final class Util
       throw new IOException("not a readable directory: " + paramFile);
     }
     int j = arrayOfFile.length;
-    int i = 0;
-    while (i < j)
+    for (int i = 0; i < j; i++)
     {
       paramFile = arrayOfFile[i];
       if (paramFile.isDirectory()) {
@@ -146,7 +151,6 @@ public final class Util
       if (!paramFile.delete()) {
         throw new IOException("failed to delete file: " + paramFile);
       }
-      i += 1;
     }
   }
   
@@ -160,9 +164,12 @@ public final class Util
       localObject2 = ((SimpleDateFormat)localObject2).parse(paramString);
       ((DateFormat)localObject1).setTimeZone(Calendar.getInstance().getTimeZone());
       localObject1 = ((DateFormat)localObject1).format((Date)localObject2);
-      return (String)localObject1;
+      paramString = (String)localObject1;
     }
-    catch (Exception localException) {}
+    catch (Exception localException)
+    {
+      for (;;) {}
+    }
     return paramString;
   }
   
@@ -176,9 +183,12 @@ public final class Util
       localObject2 = ((SimpleDateFormat)localObject2).parse(paramString);
       ((DateFormat)localObject1).setTimeZone(Calendar.getInstance().getTimeZone());
       localObject1 = ((DateFormat)localObject1).format((Date)localObject2);
-      return (String)localObject1;
+      paramString = (String)localObject1;
     }
-    catch (Exception localException) {}
+    catch (Exception localException)
+    {
+      for (;;) {}
+    }
     return paramString;
   }
   
@@ -201,7 +211,8 @@ public final class Util
   {
     try
     {
-      StringWriter localStringWriter = new StringWriter();
+      StringWriter localStringWriter = new java/io/StringWriter;
+      localStringWriter.<init>();
       char[] arrayOfChar = new char['Ѐ'];
       for (;;)
       {
@@ -228,47 +239,62 @@ public final class Util
     Object localObject3 = new SimpleDateFormat("MMM dd yyyy hh:mm:ss aa");
     Object localObject1 = new SimpleDateFormat("h:mm aa", Locale.getDefault());
     paramString = new SimpleDateFormat("MMM dd yyyy", Locale.getDefault());
-    try
+    for (;;)
     {
-      localObject2 = ((SimpleDateFormat)localObject3).parse((String)localObject2);
-      localObject1 = ((DateFormat)localObject1).format((Date)localObject2);
-      localObject3 = new GregorianCalendar();
-      ((GregorianCalendar)localObject3).setTime((Date)localObject2);
-      ((GregorianCalendar)localObject3).set(10, 0);
-      ((GregorianCalendar)localObject3).set(12, 0);
-      ((GregorianCalendar)localObject3).set(13, 0);
-      ((GregorianCalendar)localObject3).set(14, 0);
-      GregorianCalendar localGregorianCalendar = new GregorianCalendar();
-      localGregorianCalendar.set(10, 0);
-      localGregorianCalendar.set(12, 0);
-      localGregorianCalendar.set(13, 0);
-      localGregorianCalendar.set(14, 0);
-      if ((((GregorianCalendar)localObject3).get(1) == localGregorianCalendar.get(1)) && (((GregorianCalendar)localObject3).get(6) == localGregorianCalendar.get(6))) {
-        paramString = "Today%";
-      }
-      for (;;)
+      try
       {
-        return paramString + (String)localObject1;
-        localGregorianCalendar.add(6, -1);
-        if ((((GregorianCalendar)localObject3).get(1) == localGregorianCalendar.get(1)) && (((GregorianCalendar)localObject3).get(6) == localGregorianCalendar.get(6)))
+        localObject2 = ((SimpleDateFormat)localObject3).parse((String)localObject2);
+        localObject1 = ((DateFormat)localObject1).format((Date)localObject2);
+        localObject3 = new java/util/GregorianCalendar;
+        ((GregorianCalendar)localObject3).<init>();
+        ((GregorianCalendar)localObject3).setTime((Date)localObject2);
+        ((GregorianCalendar)localObject3).set(10, 0);
+        ((GregorianCalendar)localObject3).set(12, 0);
+        ((GregorianCalendar)localObject3).set(13, 0);
+        ((GregorianCalendar)localObject3).set(14, 0);
+        localGregorianCalendar = new java/util/GregorianCalendar;
+        localGregorianCalendar.<init>();
+        localGregorianCalendar.set(10, 0);
+        localGregorianCalendar.set(12, 0);
+        localGregorianCalendar.set(13, 0);
+        localGregorianCalendar.set(14, 0);
+        if ((((GregorianCalendar)localObject3).get(1) != localGregorianCalendar.get(1)) || (((GregorianCalendar)localObject3).get(6) != localGregorianCalendar.get(6))) {
+          continue;
+        }
+        paramString = "Today%";
+        localObject2 = new java/lang/StringBuilder;
+        ((StringBuilder)localObject2).<init>();
+        paramString = paramString + (String)localObject1;
+      }
+      catch (ParseException paramString)
+      {
+        GregorianCalendar localGregorianCalendar;
+        paramString.printStackTrace();
+        paramString = "";
+        continue;
+      }
+      return paramString;
+      localGregorianCalendar.add(6, -1);
+      if ((((GregorianCalendar)localObject3).get(1) == localGregorianCalendar.get(1)) && (((GregorianCalendar)localObject3).get(6) == localGregorianCalendar.get(6)))
+      {
+        paramString = "Yesterday%";
+      }
+      else
+      {
+        localGregorianCalendar.add(6, -6);
+        if (((GregorianCalendar)localObject3).after(localGregorianCalendar))
         {
-          paramString = "Yesterday%";
+          paramString = new java/lang/StringBuilder;
+          paramString.<init>();
+          paramString = getWeekday(((GregorianCalendar)localObject3).get(7) - 1) + "%";
         }
         else
         {
-          localGregorianCalendar.add(6, -6);
-          if (((GregorianCalendar)localObject3).after(localGregorianCalendar)) {
-            paramString = getWeekday(((GregorianCalendar)localObject3).get(7) - 1) + "%";
-          } else {
-            paramString = paramString.format((Date)localObject2) + "%";
-          }
+          localObject3 = new java/lang/StringBuilder;
+          ((StringBuilder)localObject3).<init>();
+          paramString = paramString.format((Date)localObject2) + "%";
         }
       }
-      return "";
-    }
-    catch (ParseException paramString)
-    {
-      paramString.printStackTrace();
     }
   }
   
@@ -276,60 +302,67 @@ public final class Util
   {
     paramString1 = xorHash(paramString1, paramString2);
     if (paramString1.length() == 0) {
-      return "";
+      paramString1 = "";
     }
-    paramString1 = convertFromHex(paramString1);
-    int i = Integer.valueOf(paramString1.substring(paramString1.length() - 2)).intValue();
-    if ((i < 1) || (i > 38)) {
-      return "";
+    for (;;)
+    {
+      return paramString1;
+      paramString1 = convertFromHex(paramString1);
+      int i = Integer.valueOf(paramString1.substring(paramString1.length() - 2)).intValue();
+      if ((i < 1) || (i > 38)) {
+        paramString1 = "";
+      } else {
+        paramString1 = paramString1.substring(paramString1.length() - i - 2, paramString1.length() - 2);
+      }
     }
-    return paramString1.substring(paramString1.length() - i - 2, paramString1.length() - 2);
   }
   
   private static String xorHash(String paramString1, String paramString2)
   {
-    if (paramString1.length() != paramString2.length()) {
-      return "";
-    }
-    StringBuilder localStringBuilder = new StringBuilder();
-    int i = 0;
-    if (i < paramString1.length())
+    if (paramString1.length() != paramString2.length()) {}
+    StringBuilder localStringBuilder;
+    for (paramString1 = "";; paramString1 = localStringBuilder.toString())
     {
-      int j;
-      label59:
-      int k;
-      if (paramString1.charAt(i) > '9')
+      return paramString1;
+      localStringBuilder = new StringBuilder();
+      int i = 0;
+      if (i < paramString1.length())
       {
-        j = paramString1.charAt(i) - 'a' + 10;
-        if (paramString2.charAt(i) <= '9') {
-          break label142;
+        int j;
+        label58:
+        int k;
+        if (paramString1.charAt(i) > '9')
+        {
+          j = paramString1.charAt(i) - 'a' + 10;
+          if (paramString2.charAt(i) <= '9') {
+            break label136;
+          }
+          k = paramString2.charAt(i) - 'a' + 10;
+          label81:
+          j = (j ^ k) & 0xF;
+          if ((j < 0) || (j > 9)) {
+            break label149;
+          }
         }
-        k = paramString2.charAt(i) - 'a' + 10;
-        label84:
-        j = (j ^ k) & 0xF;
-        if ((j < 0) || (j > 9)) {
-          break label156;
+        label136:
+        label149:
+        for (char c = (char)(j + 48);; c = (char)(j - 10 + 97))
+        {
+          localStringBuilder.append(c);
+          i++;
+          break;
+          j = paramString1.charAt(i) - '0';
+          break label58;
+          k = paramString2.charAt(i) - '0';
+          break label81;
         }
-      }
-      label142:
-      label156:
-      for (char c = (char)(j + 48);; c = (char)(j - 10 + 97))
-      {
-        localStringBuilder.append(c);
-        i += 1;
-        break;
-        j = paramString1.charAt(i) - '0';
-        break label59;
-        k = paramString2.charAt(i) - '0';
-        break label84;
       }
     }
-    return localStringBuilder.toString();
   }
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/utils/Util.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/utils/Util.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

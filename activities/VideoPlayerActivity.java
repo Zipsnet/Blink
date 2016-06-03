@@ -1,6 +1,9 @@
 package com.immediasemi.blink.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,12 +12,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.TextView;
 import com.immediasemi.blink.BlinkApp;
@@ -22,7 +25,6 @@ import com.immediasemi.blink.fragments.BaseFragment.OnFragmentInteractionListene
 import com.immediasemi.blink.fragments.VideoPlayerFragment;
 import com.immediasemi.blink.models.Video;
 import com.immediasemi.blink.utils.BlinkClipArray;
-import com.immediasemi.blink.utils.OnClick;
 import com.immediasemi.blink.utils.Util;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -48,6 +50,18 @@ public class VideoPlayerActivity
   public static final String VIDEO_DICT_ENTRY_NETWORK = "network";
   public static final String VIDEO_DICT_ENTRY_THUMBNAIL = "thumbnail";
   public static final String VIDEO_DICT_ENTRY_VIDEO = "video";
+  private BroadcastReceiver backbuttonReceiver = new BroadcastReceiver()
+  {
+    public void onReceive(Context paramAnonymousContext, Intent paramAnonymousIntent)
+    {
+      if (VideoPlayerActivity.this.getApplicationContext() == null) {}
+      for (;;)
+      {
+        return;
+        VideoPlayerActivity.this.onBackButtonTapped();
+      }
+    }
+  };
   private boolean firstClip = true;
   private ThisHandler handler;
   private boolean hasNext;
@@ -82,31 +96,36 @@ public class VideoPlayerActivity
       localObject1 = Util.reformatDate(Util.getLocalDateYearTime((String)localObject1)).split("%");
       localObject2 = getSupportFragmentManager();
       if (!this.firstClip) {
-        break label249;
+        break label261;
       }
       this.firstClip = false;
       localObject2 = ((FragmentManager)localObject2).beginTransaction();
       if (!this.mDeeplinked) {
-        break label243;
+        break label256;
       }
-      label196:
-      ((FragmentTransaction)localObject2).replace(2131558534, VideoPlayerFragment.newInstance(i, localVideo, this.mClipName, (String[])localObject1)).commit();
+      label198:
+      ((FragmentTransaction)localObject2).replace(2131558537, VideoPlayerFragment.newInstance(i, localVideo, this.mClipName, (String[])localObject1)).commit();
     }
-    label243:
-    label249:
+    label256:
+    label261:
     do
     {
       return;
       localVideo = getListRowItem(this.mCurrentSelection);
-      this.mClipName = localVideo.getCamera_name();
-      localObject1 = localVideo.getCreated_at();
+      if (localVideo != null)
+      {
+        this.mClipName = localVideo.getCamera_name();
+        localObject1 = localVideo.getCreated_at();
+        break;
+      }
+      localObject1 = Util.getTodayFormatted();
       break;
       i = -1;
-      break label196;
+      break label198;
       localObject2 = ((FragmentManager)localObject2).getFragments();
     } while (localObject2 == null);
     Object localObject2 = ((List)localObject2).iterator();
-    label265:
+    label282:
     Object localObject3;
     while (((Iterator)localObject2).hasNext())
     {
@@ -115,85 +134,109 @@ public class VideoPlayerActivity
       {
         localObject3 = (VideoPlayerFragment)localObject3;
         if (!this.mDeeplinked) {
-          break label331;
+          break label348;
         }
       }
     }
-    label331:
+    label348:
     for (i = 0;; i = -1)
     {
       ((VideoPlayerFragment)localObject3).playClip(i, localVideo, this.mClipName, (String[])localObject1);
-      break label265;
+      break label282;
       break;
     }
   }
   
   private void deleteCurrent()
   {
-    int i = Integer.valueOf(BlinkApp.getApp().getLastVideoId()).intValue();
-    if (i == 0) {
-      return;
-    }
-    if (i > 0)
+    if (this.mVideos == null) {}
+    for (;;)
     {
-      this.mNumberOfClipsDeleted += 1;
-      playPrevious();
+      return;
+      int i = Integer.valueOf(BlinkApp.getApp().getLastVideoId()).intValue();
+      if (i != 0)
+      {
+        if (i > 0)
+        {
+          this.mNumberOfClipsDeleted += 1;
+          playPrevious();
+        }
+        ArrayList localArrayList = new ArrayList();
+        localArrayList.add(Integer.valueOf(i));
+        this.mVideos.deleteVideoIDs(localArrayList);
+      }
     }
-    ArrayList localArrayList = new ArrayList();
-    localArrayList.add(Integer.valueOf(i));
-    this.mVideos.deleteVideoIDs(localArrayList);
   }
   
   private void dispatchMessage(Message paramMessage)
   {
     switch (paramMessage.what)
     {
+    default: 
+      ;;
     }
-    do
+    for (;;)
     {
-      return;
       delayedLaunchPlayerFragment();
-      return;
-    } while (!this.mIsLandscape);
-    paramMessage = getSupportFragmentManager().getFragments();
-    if (paramMessage != null)
-    {
-      paramMessage = paramMessage.iterator();
-      while (paramMessage.hasNext()) {
-        if (((Fragment)paramMessage.next()).getClass().equals(VideoPlayerFragment.class))
+      continue;
+      if (this.mIsLandscape)
+      {
+        paramMessage = getSupportFragmentManager();
+        if (paramMessage != null)
         {
-          hideBars();
-          return;
+          paramMessage = paramMessage.getFragments();
+          if (paramMessage != null)
+          {
+            paramMessage = paramMessage.iterator();
+            if (paramMessage.hasNext())
+            {
+              Fragment localFragment = (Fragment)paramMessage.next();
+              if (localFragment != null)
+              {
+                if (!localFragment.getClass().equals(VideoPlayerFragment.class)) {
+                  break;
+                }
+                hideBars();
+              }
+            }
+          }
         }
       }
     }
-    paramMessage = this.handler.obtainMessage(1, this);
-    this.handler.sendMessageDelayed(paramMessage, 2000L);
   }
   
   private Video getListRowItem(int paramInt)
   {
-    return this.mVideos.objectAtIndex(paramInt);
+    if (this.mVideos == null) {}
+    for (Video localVideo = null;; localVideo = this.mVideos.objectAtIndex(paramInt)) {
+      return localVideo;
+    }
   }
   
   private void hideBars()
   {
-    Object localObject = findViewById(2131558679);
+    Object localObject = findViewById(2131558685);
     if (localObject != null) {
       ((View)localObject).setVisibility(8);
     }
     if (this.mActionBarView != null) {
       this.mActionBarView.setVisibility(4);
     }
-    localObject = getSupportFragmentManager().getFragments();
-    if (localObject != null)
+    localObject = getSupportFragmentManager();
+    if (localObject == null) {}
+    for (;;)
     {
-      localObject = ((List)localObject).iterator();
-      while (((Iterator)localObject).hasNext())
+      return;
+      localObject = ((FragmentManager)localObject).getFragments();
+      if (localObject != null)
       {
-        Fragment localFragment = (Fragment)((Iterator)localObject).next();
-        if (localFragment.getClass().equals(VideoPlayerFragment.class)) {
-          ((VideoPlayerFragment)localFragment).setMediaControllerIsHidden(true);
+        Iterator localIterator = ((List)localObject).iterator();
+        while (localIterator.hasNext())
+        {
+          localObject = (Fragment)localIterator.next();
+          if ((localObject != null) && (localObject.getClass().equals(VideoPlayerFragment.class))) {
+            ((VideoPlayerFragment)localObject).setMediaControllerIsHidden(true);
+          }
         }
       }
     }
@@ -205,91 +248,97 @@ public class VideoPlayerActivity
     this.handler.sendMessageDelayed(localMessage, 300L);
   }
   
-  private void onDoneClicked(View paramView)
+  private void onBackButtonTapped()
   {
     setResult(this.mNumberOfClipsDeleted);
-    paramView = findViewById(2131558538);
-    if (paramView != null) {
-      paramView.setVisibility(4);
+    View localView = findViewById(2131558541);
+    if (localView != null) {
+      localView.setVisibility(4);
     }
     super.onBackPressed();
   }
   
   private void playNext()
   {
-    if (this.mCurrentSelection < this.mVideos.count() - 1)
+    Video localVideo;
+    if ((this.mVideos != null) && (this.mCurrentSelection < this.mVideos.count() - 1))
     {
       this.mCurrentSelection += 1;
       this.mVideos.setCurrentIndex(this.mCurrentSelection);
-      this.mVideos.objectAtIndex(this.mCurrentSelection).setViewed(Util.getTodayFormatted());
-      launchPlayerFragment();
-      if (this.mCurrentSelection == this.mVideos.count() - 1) {
-        break label86;
-      }
+      localVideo = this.mVideos.objectAtIndex(this.mCurrentSelection);
+      if (localVideo != null) {}
     }
-    label86:
+    else
+    {
+      return;
+    }
+    localVideo.setViewed(Util.getTodayFormatted());
+    launchPlayerFragment();
+    if (this.mCurrentSelection != this.mVideos.count() - 1) {}
     for (boolean bool = true;; bool = false)
     {
       this.hasNext = bool;
       updateMediaControllerButtons();
-      return;
+      break;
     }
   }
   
   private void playPrevious()
   {
-    if (this.mCurrentSelection > 0)
+    Video localVideo;
+    if ((this.mCurrentSelection > 0) && (this.mVideos != null))
     {
       this.mCurrentSelection -= 1;
       this.mVideos.setCurrentIndex(this.mCurrentSelection);
-      this.mVideos.objectAtIndex(this.mCurrentSelection).setViewed(Util.getTodayFormatted());
-      launchPlayerFragment();
-      if (this.mCurrentSelection == 0) {
-        break label68;
-      }
+      localVideo = this.mVideos.objectAtIndex(this.mCurrentSelection);
+      if (localVideo != null) {}
     }
-    label68:
+    else
+    {
+      return;
+    }
+    localVideo.setViewed(Util.getTodayFormatted());
+    launchPlayerFragment();
+    if (this.mCurrentSelection != 0) {}
     for (boolean bool = true;; bool = false)
     {
       this.hasPrevious = bool;
       updateMediaControllerButtons();
-      return;
+      break;
     }
   }
   
   private void showBars()
   {
-    Object localObject = findViewById(2131558679);
+    Object localObject = findViewById(2131558685);
     if (localObject != null) {
       ((View)localObject).setVisibility(8);
     }
-    if (this.mActionBarView != null) {
-      this.mActionBarView.setVisibility(0);
-    }
-    localObject = getSupportFragmentManager().getFragments();
-    if (localObject != null)
+    if (this.mActionBarView != null)
     {
-      localObject = ((List)localObject).iterator();
-      while (((Iterator)localObject).hasNext())
+      this.mActionBarView.setVisibility(0);
+      if (!this.mIsLandscape) {
+        break label118;
+      }
+      this.mActionBarView.setBackgroundColor(ContextCompat.getColor(getBaseContext(), 2131492878));
+    }
+    for (;;)
+    {
+      localObject = getSupportFragmentManager().getFragments();
+      if (localObject == null) {
+        break;
+      }
+      Iterator localIterator = ((List)localObject).iterator();
+      while (localIterator.hasNext())
       {
-        Fragment localFragment = (Fragment)((Iterator)localObject).next();
-        if (localFragment.getClass().equals(VideoPlayerFragment.class)) {
-          ((VideoPlayerFragment)localFragment).setMediaControllerIsHidden(false);
+        localObject = (Fragment)localIterator.next();
+        if (localObject.getClass().equals(VideoPlayerFragment.class)) {
+          ((VideoPlayerFragment)localObject).setMediaControllerIsHidden(false);
         }
       }
+      label118:
+      this.mActionBarView.setBackgroundColor(ContextCompat.getColor(getBaseContext(), 2131492875));
     }
-  }
-  
-  private void showHideDoneButton()
-  {
-    if (this.mIsLandscape)
-    {
-      this.mActionBarView.findViewById(2131558683).setVisibility(4);
-      this.mActionBarView.setBackgroundColor(ContextCompat.getColor(getBaseContext(), 2131492877));
-      return;
-    }
-    this.mActionBarView.findViewById(2131558683).setVisibility(0);
-    this.mActionBarView.setBackgroundColor(ContextCompat.getColor(getBaseContext(), 2131492875));
   }
   
   private void updateMediaControllerButtons()
@@ -297,12 +346,12 @@ public class VideoPlayerActivity
     Object localObject = getSupportFragmentManager().getFragments();
     if (localObject != null)
     {
-      localObject = ((List)localObject).iterator();
-      while (((Iterator)localObject).hasNext())
+      Iterator localIterator = ((List)localObject).iterator();
+      while (localIterator.hasNext())
       {
-        Fragment localFragment = (Fragment)((Iterator)localObject).next();
-        if (localFragment.getClass().equals(VideoPlayerFragment.class)) {
-          ((VideoPlayerFragment)localFragment).setMediaPrevNextButtons(this.hasPrevious, this.hasNext);
+        localObject = (Fragment)localIterator.next();
+        if (localObject.getClass().equals(VideoPlayerFragment.class)) {
+          ((VideoPlayerFragment)localObject).setMediaPrevNextButtons(this.hasPrevious, this.hasNext);
         }
       }
     }
@@ -310,28 +359,21 @@ public class VideoPlayerActivity
   
   public void initActionBar(View paramView)
   {
-    this.mActionBarView = paramView.findViewById(2131558682);
-    ((TextView)this.mActionBarView.findViewById(2131558684)).setText(this.mClipName);
-    this.mActionBarView.findViewById(2131558683).setOnClickListener(new View.OnClickListener()
-    {
-      public void onClick(View paramAnonymousView)
-      {
-        if (!OnClick.ok()) {
-          return;
-        }
-        VideoPlayerActivity.this.onDoneClicked(paramAnonymousView);
-      }
-    });
+    this.mActionBarView = paramView.findViewById(2131558688);
+    ((TextView)this.mActionBarView.findViewById(2131558689)).setText(this.mClipName);
   }
   
   public boolean isPortrait()
   {
-    return !this.mIsLandscape;
+    if (!this.mIsLandscape) {}
+    for (boolean bool = true;; bool = false) {
+      return bool;
+    }
   }
   
   public void onBackPressed()
   {
-    onDoneClicked(null);
+    onBackButtonTapped();
   }
   
   public void onConfigurationChanged(Configuration paramConfiguration)
@@ -346,7 +388,6 @@ public class VideoPlayerActivity
     for (;;)
     {
       showBars();
-      showHideDoneButton();
       return;
       if (paramConfiguration.orientation == 1) {
         this.mIsLandscape = false;
@@ -357,7 +398,7 @@ public class VideoPlayerActivity
   protected void onCreate(Bundle paramBundle)
   {
     super.onCreate(paramBundle);
-    setContentView(2130903071);
+    setContentView(2130903074);
     this.handler = new ThisHandler();
     ActionBar localActionBar = getSupportActionBar();
     if (localActionBar != null)
@@ -372,16 +413,17 @@ public class VideoPlayerActivity
       {
         this.mDeeplinked = true;
         this.mVideoDict = paramBundle.getBundle("video_dictionary");
-      }
-      for (;;)
-      {
         launchPlayerFragment();
-        return;
-        this.mVideos = BlinkClipArray.instance();
-        this.mCurrentSelection = paramBundle.getInt("current_selection");
       }
     }
-    this.mCurrentSelection = paramBundle.getInt("current_selection");
+    for (;;)
+    {
+      return;
+      this.mVideos = BlinkClipArray.instance();
+      this.mCurrentSelection = paramBundle.getInt("current_selection");
+      break;
+      this.mCurrentSelection = paramBundle.getInt("current_selection");
+    }
   }
   
   public boolean onCreateOptionsMenu(Menu paramMenu)
@@ -395,34 +437,49 @@ public class VideoPlayerActivity
     {
     default: 
       super.onFragmentInteraction(paramInt, paramInteractionAction, paramObject);
-    case ???: 
-    case ???: 
-      do
-      {
-        do
-        {
-          return;
-        } while (this.mDeeplinked);
-        playNext();
-        return;
-      } while (this.mDeeplinked);
-      playPrevious();
-      return;
     }
-    if (this.mDeeplinked)
+    for (;;)
     {
-      this.mVideos = BlinkClipArray.instance();
-      deleteCurrent();
-      finish();
       return;
+      if (!this.mDeeplinked)
+      {
+        playNext();
+        continue;
+        if (!this.mDeeplinked)
+        {
+          playPrevious();
+          continue;
+          if (this.mDeeplinked)
+          {
+            this.mVideos = BlinkClipArray.instance();
+            deleteCurrent();
+            finish();
+          }
+          else
+          {
+            deleteCurrent();
+          }
+        }
+      }
     }
-    deleteCurrent();
+  }
+  
+  protected void onPause()
+  {
+    super.onPause();
+    LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(this.backbuttonReceiver);
   }
   
   protected void onRestoreInstanceState(Bundle paramBundle)
   {
     super.onRestoreInstanceState(paramBundle);
     this.mCurrentSelection = paramBundle.getInt("current_selection");
+  }
+  
+  protected void onResume()
+  {
+    super.onResume();
+    LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(this.backbuttonReceiver, new IntentFilter("media_backbutton_notification"));
   }
   
   protected void onSaveInstanceState(Bundle paramBundle)
@@ -433,11 +490,9 @@ public class VideoPlayerActivity
   
   public void onStop()
   {
-    if (this.mVideos != null)
-    {
-      this.mVideos.stop();
-      this.mVideos = null;
-    }
+    this.handler.removeMessages(1);
+    this.handler.removeMessages(0);
+    this.mVideos = null;
     super.onStop();
   }
   
@@ -462,7 +517,7 @@ public class VideoPlayerActivity
       bool = false;
       break;
       label74:
-      localObject = findViewById(2131558679);
+      localObject = findViewById(2131558685);
       if (localObject != null)
       {
         ((View)localObject).setVisibility(0);
@@ -484,7 +539,7 @@ public class VideoPlayerActivity
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/VideoPlayerActivity.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/activities/VideoPlayerActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

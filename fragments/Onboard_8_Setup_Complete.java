@@ -43,7 +43,7 @@ public class Onboard_8_Setup_Complete
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099987));
+    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099990));
   }
   
   public void onCreate(Bundle paramBundle)
@@ -57,7 +57,7 @@ public class Onboard_8_Setup_Complete
   
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
-    this.mView = paramLayoutInflater.inflate(2130903084, paramViewGroup, false);
+    this.mView = paramLayoutInflater.inflate(2130903088, paramViewGroup, false);
     BlinkApp.getApp().setOnboardingUrl("http://172.16.97.199");
     BlinkAPI.BlinkOnboardingRequest(null, null, new OnboardingDoneRequest(), new BlinkAPI.BlinkAPICallback()
     {
@@ -66,21 +66,23 @@ public class Onboard_8_Setup_Complete
       public void onResult(BlinkData paramAnonymousBlinkData) {}
     }, 2000);
     BlinkApp.getApp().setOnboardingUrl(null);
-    paramLayoutInflater = (Button)this.mView.findViewById(2131558556);
+    paramLayoutInflater = (Button)this.mView.findViewById(2131558559);
     if (this.mSMConnectedSuccessfully) {
       paramLayoutInflater.setOnClickListener(new View.OnClickListener()
       {
         public void onClick(View paramAnonymousView)
         {
-          if (!OnClick.ok()) {
+          if (!OnClick.ok()) {}
+          for (;;)
+          {
             return;
+            PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext()).edit().remove("onboard_reason").commit();
+            Onboard_8_Setup_Complete.this.getActivity().setResult(-1);
+            paramAnonymousView = new Intent(Onboard_8_Setup_Complete.this.getActivity(), MainActivity.class);
+            paramAnonymousView.setFlags(67108864);
+            Onboard_8_Setup_Complete.this.startActivity(paramAnonymousView);
+            Onboard_8_Setup_Complete.this.getActivity().finish();
           }
-          PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext()).edit().remove("onboard_reason").commit();
-          Onboard_8_Setup_Complete.this.getActivity().setResult(-1);
-          paramAnonymousView = new Intent(Onboard_8_Setup_Complete.this.getActivity(), MainActivity.class);
-          paramAnonymousView.setFlags(67108864);
-          Onboard_8_Setup_Complete.this.startActivity(paramAnonymousView);
-          Onboard_8_Setup_Complete.this.getActivity().finish();
         }
       });
     }
@@ -88,16 +90,18 @@ public class Onboard_8_Setup_Complete
     {
       return this.mView;
       paramLayoutInflater.setText("Retry");
-      ((TextView)this.mView.findViewById(2131558555)).setText(2131099904);
+      ((TextView)this.mView.findViewById(2131558558)).setText(2131099905);
       paramLayoutInflater.setOnClickListener(new View.OnClickListener()
       {
         public void onClick(View paramAnonymousView)
         {
-          if (!OnClick.ok()) {
+          if (!OnClick.ok()) {}
+          for (;;)
+          {
             return;
+            paramAnonymousView = Onboard_2_Wait_For_Blue_Light_Fragment.newInstance(2);
+            Onboard_8_Setup_Complete.this.mListener.onFragmentInteraction(Onboard_8_Setup_Complete.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymousView);
           }
-          paramAnonymousView = Onboard_2_Wait_For_Blue_Light_Fragment.newInstance(2);
-          Onboard_8_Setup_Complete.this.mListener.onFragmentInteraction(Onboard_8_Setup_Complete.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymousView);
         }
       });
     }
@@ -105,7 +109,7 @@ public class Onboard_8_Setup_Complete
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/Onboard_8_Setup_Complete.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/fragments/Onboard_8_Setup_Complete.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

@@ -103,21 +103,23 @@ public class CustomSwitch
   {
     public void run()
     {
-      float f1 = Math.min(1.0F, (float)(System.currentTimeMillis() - CustomSwitch.this.mStartTime) / CustomSwitch.this.mAnimDuration);
-      float f2 = CustomSwitch.this.mInterpolator.getInterpolation(f1);
-      CustomSwitch.this.setThumbPosition(CustomSwitch.this.mStartPosition * (1.0F - f2) + f2);
-      if (f1 == 1.0F) {
+      float f2 = Math.min(1.0F, (float)(System.currentTimeMillis() - CustomSwitch.this.mStartTime) / CustomSwitch.this.mAnimDuration);
+      float f1 = CustomSwitch.this.mInterpolator.getInterpolation(f2);
+      CustomSwitch.this.setThumbPosition(CustomSwitch.this.mStartPosition * (1.0F - f1) + f1);
+      if (f2 == 1.0F) {
         CustomSwitch.this.stopAnimation();
       }
-      while (!CustomSwitch.this.mRunning) {
-        return;
-      }
-      if (CustomSwitch.this.getHandler() != null)
+      for (;;)
       {
-        CustomSwitch.this.getHandler().post(CustomSwitch.this.mUpdater);
         return;
+        if (CustomSwitch.this.mRunning) {
+          if (CustomSwitch.this.getHandler() != null) {
+            CustomSwitch.this.getHandler().post(CustomSwitch.this.mUpdater);
+          } else {
+            CustomSwitch.this.stopAnimation();
+          }
+        }
       }
-      CustomSwitch.this.stopAnimation();
     }
   };
   private VelocityTracker mVelocityTracker = VelocityTracker.obtain();
@@ -170,79 +172,79 @@ public class CustomSwitch
     GradientDrawable localGradientDrawable2;
     if (this.mThumbDrawable == null)
     {
-      paramAttributeSet = new StateListDrawable();
+      StateListDrawable localStateListDrawable = new StateListDrawable();
       localGradientDrawable1 = new GradientDrawable();
       localGradientDrawable1.setColor(52224);
       localGradientDrawable1.setCornerRadius(12.0F * ((Resources)localObject).getDisplayMetrics().scaledDensity);
+      paramAttributeSet = new GradientDrawable();
+      paramAttributeSet.setColor(-16777216);
+      paramAttributeSet.setCornerRadius(12.0F * ((Resources)localObject).getDisplayMetrics().scaledDensity);
+      paramAttributeSet.setAlpha(255);
       localGradientDrawable2 = new GradientDrawable();
-      localGradientDrawable2.setColor(-16777216);
+      localGradientDrawable2.setColor(52224);
       localGradientDrawable2.setCornerRadius(12.0F * ((Resources)localObject).getDisplayMetrics().scaledDensity);
-      localGradientDrawable2.setAlpha(255);
-      GradientDrawable localGradientDrawable3 = new GradientDrawable();
-      localGradientDrawable3.setColor(52224);
-      localGradientDrawable3.setCornerRadius(12.0F * ((Resources)localObject).getDisplayMetrics().scaledDensity);
-      localGradientDrawable3.setAlpha(96);
-      paramAttributeSet.addState(new int[] { -16842910 }, localGradientDrawable3);
-      paramAttributeSet.addState(new int[] { -16842912 }, localGradientDrawable2);
-      paramAttributeSet.addState(new int[] { 16842919, 16842912 }, localGradientDrawable1);
-      paramAttributeSet.addState(StateSet.WILD_CARD, localGradientDrawable1);
-      this.mThumbDrawable = paramAttributeSet;
+      localGradientDrawable2.setAlpha(96);
+      localStateListDrawable.addState(new int[] { -16842910 }, localGradientDrawable2);
+      localStateListDrawable.addState(new int[] { -16842912 }, paramAttributeSet);
+      localStateListDrawable.addState(new int[] { 16842919, 16842912 }, localGradientDrawable1);
+      localStateListDrawable.addState(StateSet.WILD_CARD, localGradientDrawable1);
+      this.mThumbDrawable = localStateListDrawable;
     }
     if (this.mTrackDrawable == null)
     {
       paramAttributeSet = new StateListDrawable();
-      localGradientDrawable1 = new GradientDrawable();
-      localGradientDrawable1.setColor(52224);
-      localGradientDrawable1.setCornerRadius(10.0F * f);
-      localGradientDrawable1.setAlpha(128);
       localGradientDrawable2 = new GradientDrawable();
-      localGradientDrawable2.setColor(-16777216);
-      localGradientDrawable2.setCornerRadius(12.0F * ((Resources)localObject).getDisplayMetrics().scaledDensity);
-      localGradientDrawable2.setAlpha(192);
-      paramAttributeSet.addState(new int[] { -16842912 }, localGradientDrawable2);
-      paramAttributeSet.addState(StateSet.WILD_CARD, localGradientDrawable1);
+      localGradientDrawable2.setColor(52224);
+      localGradientDrawable2.setCornerRadius(10.0F * f);
+      localGradientDrawable2.setAlpha(128);
+      localGradientDrawable1 = new GradientDrawable();
+      localGradientDrawable1.setColor(-16777216);
+      localGradientDrawable1.setCornerRadius(12.0F * ((Resources)localObject).getDisplayMetrics().scaledDensity);
+      localGradientDrawable1.setAlpha(192);
+      paramAttributeSet.addState(new int[] { -16842912 }, localGradientDrawable1);
+      paramAttributeSet.addState(StateSet.WILD_CARD, localGradientDrawable2);
       this.mTrackDrawable = new InsetDrawable(paramAttributeSet, 0, (int)f, 0, (int)f);
     }
     this.mTrackDrawable.getPadding(this.mTrackPaddingRect);
     this.mThumbDrawable.getPadding(this.mThPad);
     this.mMaskDrawable = localTypedArray.getDrawable(18);
-    localObject = null;
+    paramAttributeSet = null;
     if (this.mLeftBackground == null)
     {
-      paramAttributeSet = (AttributeSet)localObject;
+      localObject = paramAttributeSet;
       if (this.mRightBackground == null) {}
     }
     else
     {
-      paramAttributeSet = (AttributeSet)localObject;
+      localObject = paramAttributeSet;
       if (this.mMaskDrawable == null) {
-        paramAttributeSet = new IllegalArgumentException(localTypedArray.getPositionDescription() + " if left/right background is given, then a mask has to be there");
+        localObject = new IllegalArgumentException(localTypedArray.getPositionDescription() + " if left/right background is given, then a mask has to be there");
       }
     }
     if (this.mLeftBackground != null)
     {
       paramInt = 1;
       if (this.mRightBackground == null) {
-        break label1012;
+        break label1015;
       }
     }
-    label1012:
+    label1015:
     for (int i = 1;; i = 0)
     {
-      localObject = paramAttributeSet;
+      paramAttributeSet = (AttributeSet)localObject;
       if ((paramInt ^ i) != 0)
       {
-        localObject = paramAttributeSet;
+        paramAttributeSet = (AttributeSet)localObject;
         if (this.mMaskDrawable == null) {
-          localObject = new IllegalArgumentException(localTypedArray.getPositionDescription() + " left and right background both should be there. only one is not allowed ");
+          paramAttributeSet = new IllegalArgumentException(localTypedArray.getPositionDescription() + " left and right background both should be there. only one is not allowed ");
         }
       }
-      paramAttributeSet = (AttributeSet)localObject;
+      localObject = paramAttributeSet;
       if (this.mTextOnThumb)
       {
-        paramAttributeSet = (AttributeSet)localObject;
+        localObject = paramAttributeSet;
         if (this.mPushStyle) {
-          paramAttributeSet = new IllegalArgumentException(localTypedArray.getPositionDescription() + " Text On Thumb and Push Style are mutually exclusive. Only one can be present ");
+          localObject = new IllegalArgumentException(localTypedArray.getPositionDescription() + " Text On Thumb and Push Style are mutually exclusive. Only one can be present ");
         }
       }
       this.xferPaint = new Paint(1);
@@ -252,14 +254,14 @@ public class CustomSwitch
         setSwitchTextAppearance(paramContext, paramInt);
       }
       localTypedArray.recycle();
-      if (paramAttributeSet == null) {
-        break label1018;
+      if (localObject == null) {
+        break label1021;
       }
-      throw paramAttributeSet;
+      throw ((Throwable)localObject);
       paramInt = 0;
       break;
     }
-    label1018:
+    label1021:
     paramContext = ViewConfiguration.get(paramContext);
     this.mTouchSlop = paramContext.getScaledTouchSlop();
     this.mMinFlingVelocity = paramContext.getScaledMinimumFlingVelocity();
@@ -284,7 +286,10 @@ public class CustomSwitch
   
   private boolean getTargetCheckedState()
   {
-    return this.mThumbPosition >= getThumbScrollRange() / 2;
+    if (this.mThumbPosition >= getThumbScrollRange() / 2) {}
+    for (boolean bool = true;; bool = false) {
+      return bool;
+    }
   }
   
   private float getThumbPosition()
@@ -311,66 +316,71 @@ public class CustomSwitch
   
   private int getThumbScrollRange()
   {
-    int j;
-    if (this.mTrackDrawable == null) {
-      j = 0;
-    }
     int i;
-    do
-    {
-      return j;
+    if (this.mTrackDrawable == null) {
       i = 0;
+    }
+    for (;;)
+    {
+      return i;
+      int j = 0;
       if (this.mOrientation == 0) {
-        i = this.mSwitchHeight - this.mThumbHeight - this.mTrackPaddingRect.top - this.mTrackPaddingRect.bottom + this.mThumbExtraMovement * 2;
+        j = this.mSwitchHeight - this.mThumbHeight - this.mTrackPaddingRect.top - this.mTrackPaddingRect.bottom + this.mThumbExtraMovement * 2;
       }
       if (this.mOrientation == 1) {
-        i = this.mSwitchWidth - this.mThumbWidth - this.mTrackPaddingRect.left - this.mTrackPaddingRect.right + this.mThumbExtraMovement * 2;
+        j = this.mSwitchWidth - this.mThumbWidth - this.mTrackPaddingRect.left - this.mTrackPaddingRect.right + this.mThumbExtraMovement * 2;
       }
-      j = i;
-    } while (!this.mPushStyle);
-    return i + this.mTrackTextPadding * 2;
+      i = j;
+      if (this.mPushStyle) {
+        i = j + this.mTrackTextPadding * 2;
+      }
+    }
   }
   
   private boolean hitThumb(float paramFloat1, float paramFloat2)
   {
-    int i;
-    int j;
-    int k;
+    boolean bool = true;
     int m;
     int n;
+    int k;
     int i1;
+    int i;
     int i2;
+    int j;
     if (this.mOrientation == 1)
     {
-      i = this.mSwitchTop;
-      j = this.mTouchSlop;
-      k = this.mSwitchLeft + (int)(this.mThumbPosition + 0.5F) - this.mTouchSlop;
-      m = this.mThumbWidth;
+      m = this.mSwitchTop;
       n = this.mTouchSlop;
-      i1 = this.mSwitchBottom;
-      i2 = this.mTouchSlop;
-      if ((paramFloat1 <= k) || (paramFloat1 >= m + k + n) || (paramFloat2 <= i - j) || (paramFloat2 >= i1 + i2)) {}
+      k = this.mSwitchLeft + (int)(this.mThumbPosition + 0.5F) - this.mTouchSlop;
+      i1 = this.mThumbWidth;
+      i = this.mTouchSlop;
+      i2 = this.mSwitchBottom;
+      j = this.mTouchSlop;
+      if ((paramFloat1 <= k) || (paramFloat1 >= i1 + k + i) || (paramFloat2 <= m - n) || (paramFloat2 >= i2 + j)) {}
     }
-    do
+    for (;;)
     {
-      do
+      return bool;
+      bool = false;
+      continue;
+      if (this.mSwitchHeight > 150)
       {
-        return true;
-        return false;
-        if (this.mSwitchHeight <= 150) {
-          break;
-        }
         i = this.mSwitchLeft;
-        j = this.mTouchSlop;
-        k = this.mSwitchTop + (int)(this.mThumbPosition + 0.5F) - this.mTouchSlop;
-        m = this.mThumbHeight;
         n = this.mTouchSlop;
+        i2 = this.mSwitchTop + (int)(this.mThumbPosition + 0.5F) - this.mTouchSlop;
+        m = this.mThumbHeight;
+        k = this.mTouchSlop;
         i1 = this.mSwitchRight;
-        i2 = this.mTouchSlop;
-      } while ((paramFloat1 > i - j) && (paramFloat1 < i1 + i2) && (paramFloat2 > k) && (paramFloat2 < m + k + n));
-      return false;
-    } while ((paramFloat1 > this.mSwitchLeft) && (paramFloat1 < this.mSwitchRight) && (paramFloat2 > this.mSwitchTop) && (paramFloat2 < this.mSwitchBottom));
-    return false;
+        j = this.mTouchSlop;
+        if ((paramFloat1 <= i - n) || (paramFloat1 >= i1 + j) || (paramFloat2 <= i2) || (paramFloat2 >= m + i2 + k)) {
+          bool = false;
+        }
+      }
+      else if ((paramFloat1 <= this.mSwitchLeft) || (paramFloat1 >= this.mSwitchRight) || (paramFloat2 <= this.mSwitchTop) || (paramFloat2 >= this.mSwitchBottom))
+      {
+        bool = false;
+      }
+    }
   }
   
   private Layout makeLayout(CharSequence paramCharSequence)
@@ -489,23 +499,21 @@ public class CustomSwitch
       label105:
       animateThumbToCheckedState(i ^ bool);
     }
-    label119:
-    label124:
-    label130:
-    label139:
-    label187:
-    label192:
-    do
+    for (;;)
     {
       return;
       i = 0;
       break;
+      label119:
       i = 0;
       break label38;
+      label124:
       bool = false;
       break label95;
+      label130:
       bool = getTargetCheckedState();
       break label95;
+      label139:
       f = this.mVelocityTracker.getYVelocity();
       if (Math.abs(f) > this.mMinFlingVelocity)
       {
@@ -516,11 +524,15 @@ public class CustomSwitch
       }
       bool = getTargetCheckedState();
       break label95;
+      label187:
       i = 0;
       break label105;
+      label192:
       animateThumbToCheckedState(isChecked());
-    } while ((!this.fixed) || (this.mOnChangeAttemptListener == null));
-    this.mOnChangeAttemptListener.onChangeAttempted(isChecked());
+      if ((this.fixed) && (this.mOnChangeAttemptListener != null)) {
+        this.mOnChangeAttemptListener.onChangeAttempted(isChecked());
+      }
+    }
   }
   
   public void disableClick()
@@ -582,18 +594,18 @@ public class CustomSwitch
   
   public CharSequence getCurrentText()
   {
-    if (isChecked()) {
-      return this.mTextOn;
+    if (isChecked()) {}
+    for (CharSequence localCharSequence = this.mTextOn;; localCharSequence = this.mTextOff) {
+      return localCharSequence;
     }
-    return this.mTextOff;
   }
   
   public CharSequence getText(boolean paramBoolean)
   {
-    if (paramBoolean) {
-      return this.mTextOn;
+    if (paramBoolean) {}
+    for (CharSequence localCharSequence = this.mTextOn;; localCharSequence = this.mTextOff) {
+      return localCharSequence;
     }
-    return this.mTextOff;
   }
   
   public CharSequence getTextOff()
@@ -623,12 +635,12 @@ public class CustomSwitch
   protected void onDraw(Canvas paramCanvas)
   {
     int i3 = this.mSwitchLeft + this.mTrackPaddingRect.left;
-    int k = this.mSwitchTop + this.mTrackPaddingRect.top;
+    int i2 = this.mSwitchTop + this.mTrackPaddingRect.top;
     int i4 = this.mSwitchRight - this.mTrackPaddingRect.right;
-    int m = this.mSwitchBottom - this.mTrackPaddingRect.bottom;
-    int n = getThumbScrollRange();
-    int i1 = (int)(this.mThumbPosition + 0.5F);
-    int i2 = this.mTextPaint.getAlpha();
+    int k = this.mSwitchBottom - this.mTrackPaddingRect.bottom;
+    int m = getThumbScrollRange();
+    int n = (int)(this.mThumbPosition + 0.5F);
+    int i1 = this.mTextPaint.getAlpha();
     this.mTextPaint.drawableState = getDrawableState();
     int i;
     int j;
@@ -640,11 +652,11 @@ public class CustomSwitch
       j = this.mThumbExtraMovement;
       j = this.mThumbHeight;
       if (!this.mPushStyle) {
-        break label1195;
+        break label1189;
       }
       j = Math.max(this.mOnLayout.getHeight(), this.mOffLayout.getHeight());
       this.backingLayer.save();
-      this.backingLayer.translate(0.0F, -n + i1);
+      this.backingLayer.translate(0.0F, -m + n);
       this.backingLayer.drawBitmap(this.pushBitmap, 0.0F, 0.0F, null);
       this.backingLayer.restore();
       this.backingLayer.drawBitmap(this.maskBitmap, 0.0F, 0.0F, this.xferPaint);
@@ -652,7 +664,7 @@ public class CustomSwitch
       this.mTrackDrawable.draw(paramCanvas);
       this.backingLayer.drawColor(16777216, PorterDuff.Mode.DST_IN);
       this.backingLayer.save();
-      this.backingLayer.translate(0.0F, -n + i1);
+      this.backingLayer.translate(0.0F, -m + n);
       this.backingLayer.translate(0.0F, this.mTrackPaddingRect.top);
       this.backingLayer.save();
       this.backingLayer.translate(0.0F, (j - this.mOffLayout.getHeight()) / 2);
@@ -671,29 +683,29 @@ public class CustomSwitch
       this.backingLayer.restore();
       this.backingLayer.drawBitmap(this.maskBitmap, 0.0F, 0.0F, this.xferPaint);
       paramCanvas.drawBitmap(this.tempBitmap, 0.0F, 0.0F, null);
-      i = k + i1 - this.mThumbExtraMovement;
-      j = k + i1 - this.mThumbExtraMovement + this.mThumbHeight;
-      this.mThumbDrawable.setBounds(this.mSwitchLeft, i, this.mSwitchRight, j);
+      j = i2 + n - this.mThumbExtraMovement;
+      i = i2 + n - this.mThumbExtraMovement + this.mThumbHeight;
+      this.mThumbDrawable.setBounds(this.mSwitchLeft, j, this.mSwitchRight, i);
       this.mThumbDrawable.draw(paramCanvas);
-      this.mTextPaint.setAlpha(i2);
+      this.mTextPaint.setAlpha(i1);
       if (this.mTextOnThumb)
       {
         if (!getTargetCheckedState()) {
-          break label1811;
+          break label1810;
         }
         localObject = this.mOnLayout;
-        label575:
+        label567:
         paramCanvas.save();
-        paramCanvas.translate((this.mSwitchLeft + this.mSwitchRight) / 2 - ((Layout)localObject).getWidth() / 2, (i + j) / 2 - ((Layout)localObject).getHeight() / 2);
+        paramCanvas.translate((this.mSwitchLeft + this.mSwitchRight) / 2 - ((Layout)localObject).getWidth() / 2, (j + i) / 2 - ((Layout)localObject).getHeight() / 2);
         ((Layout)localObject).draw(paramCanvas);
         paramCanvas.restore();
       }
     }
-    label678:
-    label710:
-    int i5;
-    int i6;
+    label670:
+    label700:
     int i7;
+    int i6;
+    int i5;
     if (this.mOrientation == 1)
     {
       j = i3 + this.mThumbWidth;
@@ -704,16 +716,16 @@ public class CustomSwitch
       if (!this.mTextOnThumb) {
         break label1830;
       }
-      j = (i3 + n + (j + n)) / 2 - this.mOnLayout.getWidth() / 2;
-      i5 = (k + m) / 2;
-      i6 = i3 + i1 - this.mThumbExtraMovement;
-      i7 = i3 + i1 + this.mThumbWidth - this.mThumbExtraMovement;
+      j = (i3 + m + (j + m)) / 2 - this.mOnLayout.getWidth() / 2;
+      i7 = (i2 + k) / 2;
+      i6 = i3 + n - this.mThumbExtraMovement;
+      i5 = i3 + n + this.mThumbWidth - this.mThumbExtraMovement;
       if (!this.mPushStyle) {
-        break label1850;
+        break label1849;
       }
       i = Math.max(this.mOnLayout.getWidth(), this.mOffLayout.getWidth());
       this.backingLayer.save();
-      this.backingLayer.translate(-n + i1, 0.0F);
+      this.backingLayer.translate(-m + n, 0.0F);
       this.backingLayer.drawBitmap(this.pushBitmap, 0.0F, 0.0F, null);
       this.backingLayer.restore();
       this.backingLayer.drawBitmap(this.maskBitmap, 0.0F, 0.0F, this.xferPaint);
@@ -721,16 +733,16 @@ public class CustomSwitch
       this.mTrackDrawable.draw(paramCanvas);
       this.backingLayer.drawColor(16777216, PorterDuff.Mode.DST_IN);
       this.backingLayer.save();
-      this.backingLayer.translate(-n + i1, 0.0F);
+      this.backingLayer.translate(-m + n, 0.0F);
       this.backingLayer.translate(this.mTrackPaddingRect.left, 0.0F);
       this.backingLayer.save();
-      this.backingLayer.translate((i - this.mOffLayout.getWidth()) / 2, i5 - this.mOffLayout.getHeight() / 2);
+      this.backingLayer.translate((i - this.mOffLayout.getWidth()) / 2, i7 - this.mOffLayout.getHeight() / 2);
       this.mOffLayout.draw(this.backingLayer);
       if (this.mDrawableOff != null) {
         this.mDrawableOff.draw(this.backingLayer);
       }
       this.backingLayer.restore();
-      this.backingLayer.translate(this.mTrackTextPadding * 2 + i + (i - this.mOnLayout.getWidth()) / 2 + this.mThumbWidth, i5 - this.mOnLayout.getHeight() / 2);
+      this.backingLayer.translate(this.mTrackTextPadding * 2 + i + (i - this.mOnLayout.getWidth()) / 2 + this.mThumbWidth, i7 - this.mOnLayout.getHeight() / 2);
       this.mOnLayout.draw(this.backingLayer);
       if (this.mDrawableOn != null) {
         this.mDrawableOn.draw(this.backingLayer);
@@ -738,28 +750,28 @@ public class CustomSwitch
       this.backingLayer.restore();
       this.backingLayer.drawBitmap(this.maskBitmap, 0.0F, 0.0F, this.xferPaint);
       paramCanvas.drawBitmap(this.tempBitmap, 0.0F, 0.0F, null);
-      this.mThumbDrawable.setBounds(i6, this.mSwitchTop, i7, this.mSwitchBottom);
+      this.mThumbDrawable.setBounds(i6, this.mSwitchTop, i5, this.mSwitchBottom);
       this.mThumbDrawable.draw(paramCanvas);
       if (this.mTextOnThumb)
       {
-        this.mTextPaint.setAlpha(i2);
+        this.mTextPaint.setAlpha(i1);
         if (!getTargetCheckedState()) {
-          break label2532;
+          break label2547;
         }
       }
     }
-    label1195:
-    label1500:
-    label1797:
-    label1811:
+    label1189:
+    label1503:
+    label1796:
+    label1810:
     label1819:
     label1830:
-    label1850:
-    label2532:
+    label1849:
+    label2547:
     for (Object localObject = this.mOnLayout;; localObject = this.mOffLayout)
     {
       paramCanvas.save();
-      paramCanvas.translate((i6 + i7) / 2 - ((Layout)localObject).getWidth() / 2, (k + m) / 2 - ((Layout)localObject).getHeight() / 2);
+      paramCanvas.translate((i6 + i5) / 2 - ((Layout)localObject).getWidth() / 2, (i2 + k) / 2 - ((Layout)localObject).getHeight() / 2);
       ((Layout)localObject).draw(paramCanvas);
       paramCanvas.restore();
       return;
@@ -771,12 +783,12 @@ public class CustomSwitch
           if (this.mOrientation == 1)
           {
             localObject = this.canvasClipBounds;
-            ((Rect)localObject).left += this.mThumbWidth / 2 + i1;
+            ((Rect)localObject).left += this.mThumbWidth / 2 + n;
           }
           if (this.mOrientation == 0)
           {
             localObject = this.canvasClipBounds;
-            ((Rect)localObject).top += this.mThumbHeight / 2 + i1;
+            ((Rect)localObject).top += this.mThumbHeight / 2 + n;
           }
           paramCanvas.clipRect(this.canvasClipBounds);
         }
@@ -791,10 +803,10 @@ public class CustomSwitch
           if (this.mOrientation == 1)
           {
             localObject = this.canvasClipBounds;
-            ((Rect)localObject).right -= n - i1 + this.mThumbWidth / 2;
+            ((Rect)localObject).right -= m - n + this.mThumbWidth / 2;
           }
           if (this.mOrientation == 0) {
-            this.canvasClipBounds.bottom = (this.canvasClipBounds.top + i1 + this.mThumbHeight / 2);
+            this.canvasClipBounds.bottom = (this.canvasClipBounds.top + n + this.mThumbHeight / 2);
           }
           paramCanvas.clipRect(this.canvasClipBounds);
         }
@@ -809,12 +821,12 @@ public class CustomSwitch
       }
       if ((getTargetCheckedState() ^ this.mTextOnThumb))
       {
-        this.mTextPaint.setAlpha(i2 / 4);
-        i = getThumbScrollRange() * 1 + k - this.mThumbExtraMovement;
-        j = this.mThumbHeight;
+        this.mTextPaint.setAlpha(i1 / 4);
+        j = getThumbScrollRange() * 1 + i2 - this.mThumbExtraMovement;
+        i = this.mThumbHeight;
         paramCanvas.save();
-        paramCanvas.translate(0.0F, (i + (i + j)) / 2 - this.mOnLayout.getHeight() / 2);
-        if ((this.mDrawableOn != null) && (this.mTextPaint.getAlpha() == i2)) {
+        paramCanvas.translate(0.0F, (j + (j + i)) / 2 - this.mOnLayout.getHeight() / 2);
+        if ((this.mDrawableOn != null) && (this.mTextPaint.getAlpha() == i1)) {
           this.mDrawableOn.draw(paramCanvas);
         }
         paramCanvas.translate((this.mSwitchLeft + this.mSwitchRight) / 2 - this.mOnLayout.getWidth() / 2, 0.0F);
@@ -824,17 +836,17 @@ public class CustomSwitch
           this.mTextPaint.setColor(this.mTextColors.getColorForState(getDrawableState(), this.mTextColors.getDefaultColor()));
         }
         if (!(getTargetCheckedState() ^ this.mTextOnThumb)) {
-          break label1797;
+          break label1796;
         }
-        this.mTextPaint.setAlpha(i2);
+        this.mTextPaint.setAlpha(i1);
       }
       for (;;)
       {
-        i = k - this.mThumbExtraMovement;
-        j = this.mThumbHeight;
+        j = i2 - this.mThumbExtraMovement;
+        i = this.mThumbHeight;
         paramCanvas.save();
-        paramCanvas.translate(0.0F, (i + (i + j)) / 2 - this.mOffLayout.getHeight() / 2);
-        if ((this.mDrawableOff != null) && (this.mTextPaint.getAlpha() == i2)) {
+        paramCanvas.translate(0.0F, (j + (j + i)) / 2 - this.mOffLayout.getHeight() / 2);
+        if ((this.mDrawableOff != null) && (this.mTextPaint.getAlpha() == i1)) {
           this.mDrawableOff.draw(paramCanvas);
         }
         paramCanvas.translate((this.mSwitchLeft + this.mSwitchRight) / 2 - this.mOffLayout.getWidth() / 2, 0.0F);
@@ -842,16 +854,16 @@ public class CustomSwitch
         paramCanvas.restore();
         paramCanvas.restore();
         break;
-        this.mTextPaint.setAlpha(i2);
-        break label1500;
-        this.mTextPaint.setAlpha(i2 / 4);
+        this.mTextPaint.setAlpha(i1);
+        break label1503;
+        this.mTextPaint.setAlpha(i1 / 4);
       }
       localObject = this.mOffLayout;
-      break label575;
+      break label567;
       i = i3 + this.mTrackTextPadding;
-      break label678;
+      break label670;
       j = i4 - this.mOnLayout.getWidth() - this.mTrackTextPadding;
-      break label710;
+      break label700;
       if (this.rightBitmap != null)
       {
         paramCanvas.save();
@@ -870,7 +882,7 @@ public class CustomSwitch
         if (paramCanvas.getClipBounds(this.canvasClipBounds))
         {
           localObject = this.canvasClipBounds;
-          ((Rect)localObject).right = ((int)(((Rect)localObject).right - (n - this.mThumbPosition + this.mThumbWidth / 2)));
+          ((Rect)localObject).right = ((int)(((Rect)localObject).right - (m - this.mThumbPosition + this.mThumbWidth / 2)));
           paramCanvas.clipRect(this.canvasClipBounds);
         }
         paramCanvas.drawBitmap(this.leftBitmap, 0.0F, 0.0F, null);
@@ -882,11 +894,11 @@ public class CustomSwitch
       if (this.mTextColors != null) {
         this.mTextPaint.setColor(this.mTextColors.getColorForState(getDrawableState(), this.mTextColors.getDefaultColor()));
       }
-      this.mTextPaint.setAlpha(i2 / 4);
+      this.mTextPaint.setAlpha(i1 / 4);
       if (getTargetCheckedState())
       {
         paramCanvas.save();
-        paramCanvas.translate(j, i5 - this.mOnLayout.getHeight() / 2);
+        paramCanvas.translate(j, i7 - this.mOnLayout.getHeight() / 2);
         if (paramCanvas.getClipBounds(this.canvasClipBounds))
         {
           localObject = this.canvasClipBounds;
@@ -899,14 +911,14 @@ public class CustomSwitch
         }
         paramCanvas.restore();
         if (!this.mTextOnThumb) {
-          this.mTextPaint.setAlpha(i2);
+          this.mTextPaint.setAlpha(i1);
         }
         paramCanvas.save();
-        paramCanvas.translate(i, i5 - this.mOffLayout.getHeight() / 2);
+        paramCanvas.translate(i, i7 - this.mOffLayout.getHeight() / 2);
         if (paramCanvas.getClipBounds(this.canvasClipBounds))
         {
           localObject = this.canvasClipBounds;
-          ((Rect)localObject).right = ((int)(((Rect)localObject).right - (n - this.mThumbPosition + this.mThumbWidth / 2)));
+          ((Rect)localObject).right = ((int)(((Rect)localObject).right - (m - this.mThumbPosition + this.mThumbWidth / 2)));
           paramCanvas.clipRect(this.canvasClipBounds);
         }
         this.mOffLayout.draw(paramCanvas);
@@ -920,11 +932,11 @@ public class CustomSwitch
         paramCanvas.restore();
         break;
         paramCanvas.save();
-        paramCanvas.translate(i, i5 - this.mOffLayout.getHeight() / 2);
+        paramCanvas.translate(i, i7 - this.mOffLayout.getHeight() / 2);
         if (paramCanvas.getClipBounds(this.canvasClipBounds))
         {
           localObject = this.canvasClipBounds;
-          ((Rect)localObject).right = ((int)(((Rect)localObject).right - (n - this.mThumbPosition + this.mThumbWidth / 2)));
+          ((Rect)localObject).right = ((int)(((Rect)localObject).right - (m - this.mThumbPosition + this.mThumbWidth / 2)));
           paramCanvas.clipRect(this.canvasClipBounds);
         }
         this.mOffLayout.draw(paramCanvas);
@@ -933,10 +945,10 @@ public class CustomSwitch
         }
         paramCanvas.restore();
         if (!this.mTextOnThumb) {
-          this.mTextPaint.setAlpha(i2);
+          this.mTextPaint.setAlpha(i1);
         }
         paramCanvas.save();
-        paramCanvas.translate(j, i5 - this.mOnLayout.getHeight() / 2);
+        paramCanvas.translate(j, i7 - this.mOnLayout.getHeight() / 2);
         if (paramCanvas.getClipBounds(this.canvasClipBounds))
         {
           localObject = this.canvasClipBounds;
@@ -985,32 +997,31 @@ public class CustomSwitch
             this.mRightBackground.setBounds(this.mSwitchLeft, this.mSwitchTop, this.mSwitchRight, this.mSwitchBottom);
           }
           if (this.mMaskDrawable == null) {
-            break label650;
+            break label648;
           }
           this.tempBitmap = Bitmap.createBitmap(this.mSwitchRight - this.mSwitchLeft, this.mSwitchBottom - this.mSwitchTop, Bitmap.Config.ARGB_8888);
           this.backingLayer = new Canvas(this.tempBitmap);
           this.mMaskDrawable.setBounds(this.mSwitchLeft, this.mSwitchTop, this.mSwitchRight, this.mSwitchBottom);
           this.mMaskDrawable.draw(this.backingLayer);
           this.maskBitmap = Bitmap.createBitmap(this.mSwitchRight - this.mSwitchLeft, this.mSwitchBottom - this.mSwitchTop, Bitmap.Config.ARGB_8888);
-          paramInt3 = this.tempBitmap.getWidth();
-          paramInt4 = this.tempBitmap.getHeight();
-          paramInt1 = 0;
+          paramInt4 = this.tempBitmap.getWidth();
+          paramInt3 = this.tempBitmap.getHeight();
         }
       }
       break;
     }
-    for (;;)
+    for (paramInt1 = 0;; paramInt1++)
     {
-      if (paramInt1 >= paramInt3) {
-        break label542;
+      if (paramInt1 >= paramInt4) {
+        break label540;
       }
       paramInt2 = 0;
       for (;;)
       {
-        if (paramInt2 < paramInt4)
+        if (paramInt2 < paramInt3)
         {
           this.maskBitmap.setPixel(paramInt1, paramInt2, this.tempBitmap.getPixel(paramInt1, paramInt2) & 0xFF000000);
-          paramInt2 += 1;
+          paramInt2++;
           continue;
           paramInt1 = (getPaddingTop() + getHeight() - getPaddingBottom()) / 2;
           paramInt1 = this.mSwitchHeight / 2;
@@ -1030,9 +1041,8 @@ public class CustomSwitch
           }
         }
       }
-      paramInt1 += 1;
     }
-    label542:
+    label540:
     if (this.mLeftBackground != null)
     {
       this.mLeftBackground.draw(this.backingLayer);
@@ -1045,20 +1055,20 @@ public class CustomSwitch
       this.backingLayer.drawBitmap(this.maskBitmap, 0.0F, 0.0F, this.xferPaint);
       this.rightBitmap = this.tempBitmap.copy(this.tempBitmap.getConfig(), true);
     }
-    label650:
+    label648:
     if (this.mPushStyle)
     {
       paramInt1 = (this.mSwitchTop + this.mTrackPaddingRect.top + (this.mSwitchBottom - this.mTrackPaddingRect.bottom)) / 2;
       paramInt1 = Math.max(this.mOnLayout.getWidth(), this.mOffLayout.getWidth());
       paramInt3 = Math.max(this.mOnLayout.getHeight(), this.mOffLayout.getHeight());
-      paramInt2 = paramInt1 * 2 + this.mTrackPaddingRect.left + this.mTrackPaddingRect.right + this.mThumbWidth + this.mTrackTextPadding * 4;
-      paramInt1 = this.mSwitchBottom - this.mSwitchTop;
+      paramInt1 = paramInt1 * 2 + this.mTrackPaddingRect.left + this.mTrackPaddingRect.right + this.mThumbWidth + this.mTrackTextPadding * 4;
+      paramInt2 = this.mSwitchBottom - this.mSwitchTop;
       if (this.mOrientation == 0)
       {
-        paramInt1 = this.mTrackPaddingRect.top + this.mTrackTextPadding + paramInt3 + this.mTrackTextPadding + this.mThumbHeight + this.mTrackTextPadding + paramInt3 + this.mTrackTextPadding + this.mTrackPaddingRect.bottom;
-        paramInt2 = this.mSwitchRight - this.mSwitchLeft;
+        paramInt2 = this.mTrackPaddingRect.top + this.mTrackTextPadding + paramInt3 + this.mTrackTextPadding + this.mThumbHeight + this.mTrackTextPadding + paramInt3 + this.mTrackTextPadding + this.mTrackPaddingRect.bottom;
+        paramInt1 = this.mSwitchRight - this.mSwitchLeft;
       }
-      this.pushBitmap = Bitmap.createBitmap(paramInt2, paramInt1, Bitmap.Config.ARGB_8888);
+      this.pushBitmap = Bitmap.createBitmap(paramInt1, paramInt2, Bitmap.Config.ARGB_8888);
       Canvas localCanvas = new Canvas(this.pushBitmap);
       this.mTextPaint.drawableState = getDrawableState();
       if (this.mTextColors != null) {
@@ -1073,12 +1083,12 @@ public class CustomSwitch
           if (this.mOrientation == 1)
           {
             localRect = this.canvasClipBounds;
-            localRect.right -= paramInt2 / 2;
+            localRect.right -= paramInt1 / 2;
           }
           if (this.mOrientation == 0)
           {
             localRect = this.canvasClipBounds;
-            localRect.bottom -= paramInt1 / 2;
+            localRect.bottom -= paramInt2 / 2;
           }
           localCanvas.clipRect(this.canvasClipBounds);
         }
@@ -1093,20 +1103,20 @@ public class CustomSwitch
           if (this.mOrientation == 1)
           {
             localRect = this.canvasClipBounds;
-            localRect.left += paramInt2 / 2;
+            localRect.left += paramInt1 / 2;
           }
           if (this.mOrientation == 0)
           {
             localRect = this.canvasClipBounds;
-            localRect.top += paramInt1 / 2;
+            localRect.top += paramInt2 / 2;
           }
           localCanvas.clipRect(this.canvasClipBounds);
         }
         if (this.mOrientation == 1) {
-          localCanvas.translate(paramInt2 / 2 - this.mTrackPaddingRect.right, 0.0F);
+          localCanvas.translate(paramInt1 / 2 - this.mTrackPaddingRect.right, 0.0F);
         }
         if (this.mOrientation == 0) {
-          localCanvas.translate(0.0F, paramInt1 / 2 - this.mTrackPaddingRect.bottom);
+          localCanvas.translate(0.0F, paramInt2 / 2 - this.mTrackPaddingRect.bottom);
         }
         localCanvas.drawBitmap(this.rightBitmap, 0.0F, 0.0F, null);
         localCanvas.restore();
@@ -1116,9 +1126,9 @@ public class CustomSwitch
   
   public void onMeasure(int paramInt1, int paramInt2)
   {
-    int j = View.MeasureSpec.getMode(paramInt1);
+    int m = View.MeasureSpec.getMode(paramInt1);
     int k = View.MeasureSpec.getMode(paramInt2);
-    int m = View.MeasureSpec.getSize(paramInt1);
+    int j = View.MeasureSpec.getSize(paramInt1);
     int n = View.MeasureSpec.getSize(paramInt2);
     if (this.mOnLayout == null) {
       this.mOnLayout = makeLayout(this.mTextOn);
@@ -1170,7 +1180,7 @@ public class CustomSwitch
           i = Math.max(this.mSwitchMinHeight, this.mThumbHeight + i1 + this.mTrackTextPadding + (this.mTrackPaddingRect.top + this.mTrackPaddingRect.bottom) / 2);
         }
       }
-      switch (j)
+      switch (m)
       {
       default: 
         label644:
@@ -1200,7 +1210,7 @@ public class CustomSwitch
       }
       i = Math.max(this.mTrackTextPadding * 2 + i2 + this.mTrackPaddingRect.left + this.mTrackPaddingRect.right, this.mThumbWidth);
       break;
-      Math.min(m, i2);
+      Math.min(j, i2);
       break label644;
       break label644;
       break label644;
@@ -1211,78 +1221,87 @@ public class CustomSwitch
   
   public boolean onTouchEvent(MotionEvent paramMotionEvent)
   {
-    boolean bool = true;
+    boolean bool2 = true;
     this.mVelocityTracker.addMovement(paramMotionEvent);
     switch (paramMotionEvent.getActionMasked())
     {
     }
     for (;;)
     {
-      bool = super.onTouchEvent(paramMotionEvent);
-      float f1;
-      float f2;
-      label279:
-      do
+      boolean bool1 = super.onTouchEvent(paramMotionEvent);
+      for (;;)
       {
-        do
+        return bool1;
+        float f1 = paramMotionEvent.getX();
+        float f2 = paramMotionEvent.getY();
+        if ((!isEnabled()) || (!hitThumb(f1, f2))) {
+          break;
+        }
+        this.mTouchMode = 1;
+        this.mTouchX = f1;
+        this.mTouchY = f2;
+        break;
+        switch (this.mTouchMode)
         {
-          return bool;
-          f1 = paramMotionEvent.getX();
-          f2 = paramMotionEvent.getY();
-          if ((!isEnabled()) || (!hitThumb(f1, f2))) {
+        case 0: 
+        default: 
+          break;
+        case 1: 
+          f2 = paramMotionEvent.getX();
+          f1 = paramMotionEvent.getY();
+          if ((Math.abs(f2 - this.mTouchX) <= this.mTouchSlop / 2) && (Math.abs(f1 - this.mTouchY) <= this.mTouchSlop / 2)) {
             break;
           }
-          this.mTouchMode = 1;
-          this.mTouchX = f1;
-          this.mTouchY = f2;
+          this.mTouchMode = 2;
+          if (getParent() != null) {
+            getParent().requestDisallowInterceptTouchEvent(true);
+          }
+          this.mTouchX = f2;
+          this.mTouchY = f1;
+          bool1 = bool2;
           break;
-          switch (this.mTouchMode)
+        case 2: 
+          if (this.mOrientation == 1)
           {
-          case 0: 
-          default: 
-            break;
-          case 1: 
-            f1 = paramMotionEvent.getX();
-            f2 = paramMotionEvent.getY();
-            if ((Math.abs(f1 - this.mTouchX) <= this.mTouchSlop / 2) && (Math.abs(f2 - this.mTouchY) <= this.mTouchSlop / 2)) {
-              break;
-            }
-            this.mTouchMode = 2;
-            if (getParent() != null) {
-              getParent().requestDisallowInterceptTouchEvent(true);
-            }
-            this.mTouchX = f1;
-            this.mTouchY = f2;
-            return true;
-          case 2: 
-            if (this.mOrientation != 1) {
-              break label279;
-            }
             f1 = paramMotionEvent.getX();
             f2 = this.mTouchX;
             f2 = Math.max(0.0F, Math.min(this.mThumbPosition + (f1 - f2), getThumbScrollRange()));
+            bool1 = bool2;
+            if (f2 != this.mThumbPosition)
+            {
+              this.mThumbPosition = f2;
+              this.mTouchX = f1;
+              invalidate();
+              bool1 = bool2;
+            }
           }
-        } while (f2 == this.mThumbPosition);
-        this.mThumbPosition = f2;
-        this.mTouchX = f1;
-        invalidate();
-        return true;
-        if (this.mOrientation != 0) {
+          else
+          {
+            if (this.mOrientation != 0) {
+              break;
+            }
+            f1 = paramMotionEvent.getY();
+            f2 = this.mTouchY;
+            f2 = Math.max(0.0F, Math.min(this.mThumbPosition + (f1 - f2), getThumbScrollRange()));
+            bool1 = bool2;
+            if (f2 != this.mThumbPosition)
+            {
+              this.mThumbPosition = f2;
+              this.mTouchY = f1;
+              invalidate();
+              bool1 = bool2;
+              continue;
+              if (this.mTouchMode != 2) {
+                break label385;
+              }
+              stopDrag(paramMotionEvent);
+              bool1 = bool2;
+            }
+          }
           break;
         }
-        f1 = paramMotionEvent.getY();
-        f2 = this.mTouchY;
-        f2 = Math.max(0.0F, Math.min(this.mThumbPosition + (f1 - f2), getThumbScrollRange()));
-      } while (f2 == this.mThumbPosition);
-      this.mThumbPosition = f2;
-      this.mTouchY = f1;
-      invalidate();
-      return true;
-      if (this.mTouchMode == 2)
-      {
-        stopDrag(paramMotionEvent);
-        return true;
       }
+      label385:
       this.mTouchMode = 0;
       this.mVelocityTracker.clear();
     }
@@ -1299,14 +1318,17 @@ public class CustomSwitch
       }
       bool1 = super.performClick();
     }
-    label25:
-    do
+    for (;;)
     {
       return bool1;
+      label25:
       bool1 = bool2;
-    } while (this.mOnChangeAttemptListener == null);
-    this.mOnChangeAttemptListener.onChangeAttempted(isChecked());
-    return false;
+      if (this.mOnChangeAttemptListener != null)
+      {
+        this.mOnChangeAttemptListener.onChangeAttempted(isChecked());
+        bool1 = bool2;
+      }
+    }
   }
   
   public void setChecked(boolean paramBoolean)
@@ -1339,19 +1361,19 @@ public class CustomSwitch
   
   public void setSwitchTextAppearance(Context paramContext, int paramInt)
   {
-    paramContext = paramContext.obtainStyledAttributes(paramInt, R.styleable.CustomSwitchTextAppearanceAttrib);
-    ColorStateList localColorStateList = paramContext.getColorStateList(0);
-    if (localColorStateList != null) {}
-    for (this.mTextColors = localColorStateList;; this.mTextColors = getTextColors())
+    TypedArray localTypedArray = paramContext.obtainStyledAttributes(paramInt, R.styleable.CustomSwitchTextAppearanceAttrib);
+    paramContext = localTypedArray.getColorStateList(0);
+    if (paramContext != null) {}
+    for (this.mTextColors = paramContext;; this.mTextColors = getTextColors())
     {
-      paramInt = paramContext.getDimensionPixelSize(1, 0);
+      paramInt = localTypedArray.getDimensionPixelSize(1, 0);
       if ((paramInt != 0) && (paramInt != this.mTextPaint.getTextSize()))
       {
         this.mTextPaint.setTextSize(paramInt);
         requestLayout();
       }
-      setSwitchTypefaceByIndex(paramContext.getInt(3, -1), paramContext.getInt(2, -1));
-      paramContext.recycle();
+      setSwitchTypefaceByIndex(localTypedArray.getInt(3, -1), localTypedArray.getInt(2, -1));
+      localTypedArray.recycle();
       return;
     }
   }
@@ -1369,9 +1391,10 @@ public class CustomSwitch
   public void setSwitchTypeface(Typeface paramTypeface, int paramInt)
   {
     boolean bool = false;
-    if (paramInt > 0)
-    {
-      int i;
+    int i;
+    label31:
+    float f;
+    if (paramInt > 0) {
       if (paramTypeface == null)
       {
         paramTypeface = Typeface.defaultFromStyle(paramInt);
@@ -1380,7 +1403,6 @@ public class CustomSwitch
           break label88;
         }
         i = paramTypeface.getStyle();
-        label31:
         paramInt &= (i ^ 0xFFFFFFFF);
         paramTypeface = this.mTextPaint;
         if ((paramInt & 0x1) != 0) {
@@ -1391,22 +1413,26 @@ public class CustomSwitch
         if ((paramInt & 0x2) == 0) {
           break label94;
         }
-      }
-      label88:
-      label94:
-      for (float f = -0.25F;; f = 0.0F)
-      {
+        f = -0.25F;
+        label73:
         paramTypeface.setTextSkewX(f);
-        return;
-        paramTypeface = Typeface.create(paramTypeface, paramInt);
-        break;
-        i = 0;
-        break label31;
       }
     }
-    this.mTextPaint.setFakeBoldText(false);
-    this.mTextPaint.setTextSkewX(0.0F);
-    setSwitchTypeface(paramTypeface);
+    for (;;)
+    {
+      return;
+      paramTypeface = Typeface.create(paramTypeface, paramInt);
+      break;
+      label88:
+      i = 0;
+      break label31;
+      label94:
+      f = 0.0F;
+      break label73;
+      this.mTextPaint.setFakeBoldText(false);
+      this.mTextPaint.setTextSkewX(0.0F);
+      setSwitchTypeface(paramTypeface);
+    }
   }
   
   public void setTextOff(CharSequence paramCharSequence)
@@ -1425,7 +1451,10 @@ public class CustomSwitch
   
   protected boolean verifyDrawable(Drawable paramDrawable)
   {
-    return (super.verifyDrawable(paramDrawable)) || (paramDrawable == this.mThumbDrawable) || (paramDrawable == this.mTrackDrawable);
+    if ((super.verifyDrawable(paramDrawable)) || (paramDrawable == this.mThumbDrawable) || (paramDrawable == this.mTrackDrawable)) {}
+    for (boolean bool = true;; bool = false) {
+      return bool;
+    }
   }
   
   public static abstract interface OnChangeAttemptListener
@@ -1435,7 +1464,7 @@ public class CustomSwitch
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/utils/CustomSwitch.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/utils/CustomSwitch.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

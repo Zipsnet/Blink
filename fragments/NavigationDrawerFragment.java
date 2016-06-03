@@ -74,17 +74,20 @@ public class NavigationDrawerFragment
   
   public boolean closeDrawer()
   {
-    if ((isDrawerOpen()) && (this.mDrawerLayout != null))
-    {
+    if ((isDrawerOpen()) && (this.mDrawerLayout != null)) {
       this.mDrawerLayout.closeDrawer(this.mFragmentContainerView);
-      return true;
     }
-    return false;
+    for (boolean bool = true;; bool = false) {
+      return bool;
+    }
   }
   
   public boolean isDrawerOpen()
   {
-    return (this.mDrawerLayout != null) && (this.mDrawerLayout.isDrawerOpen(this.mFragmentContainerView));
+    if ((this.mDrawerLayout != null) && (this.mDrawerLayout.isDrawerOpen(this.mFragmentContainerView))) {}
+    for (boolean bool = true;; bool = false) {
+      return bool;
+    }
   }
   
   public boolean isSignedIn()
@@ -129,7 +132,7 @@ public class NavigationDrawerFragment
   
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
-    this.mDrawerListView = ((ListView)paramLayoutInflater.inflate(2130903107, paramViewGroup, false));
+    this.mDrawerListView = ((ListView)paramLayoutInflater.inflate(2130903111, paramViewGroup, false));
     this.mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
     {
       public void onItemClick(AdapterView<?> paramAnonymousAdapterView, View paramAnonymousView, int paramAnonymousInt, long paramAnonymousLong)
@@ -148,10 +151,10 @@ public class NavigationDrawerFragment
   
   public boolean onOptionsItemSelected(MenuItem paramMenuItem)
   {
-    if (this.mDrawerToggle.onOptionsItemSelected(paramMenuItem)) {
-      return true;
+    if (this.mDrawerToggle.onOptionsItemSelected(paramMenuItem)) {}
+    for (boolean bool = true;; bool = super.onOptionsItemSelected(paramMenuItem)) {
+      return bool;
     }
-    return super.onOptionsItemSelected(paramMenuItem);
   }
   
   public void onSaveInstanceState(Bundle paramBundle)
@@ -163,12 +166,12 @@ public class NavigationDrawerFragment
   
   public boolean openDrawer()
   {
-    if ((!isDrawerOpen()) && (this.mDrawerLayout != null))
-    {
+    if ((!isDrawerOpen()) && (this.mDrawerLayout != null)) {
       this.mDrawerLayout.openDrawer(this.mFragmentContainerView);
-      return true;
     }
-    return false;
+    for (boolean bool = true;; bool = false) {
+      return bool;
+    }
   }
   
   public void setUp(int paramInt, DrawerLayout paramDrawerLayout)
@@ -180,34 +183,38 @@ public class NavigationDrawerFragment
     paramDrawerLayout.setDisplayHomeAsUpEnabled(true);
     paramDrawerLayout.setHomeButtonEnabled(true);
     paramDrawerLayout.setHomeAsUpIndicator(2130837785);
-    this.mDrawerToggle = new ActionBarDrawerToggle(getActivity(), this.mDrawerLayout, 2130837785, 2131099883, 2131099882)
+    this.mDrawerToggle = new ActionBarDrawerToggle(getActivity(), this.mDrawerLayout, 2130837785, 2131099884, 2131099883)
     {
       public void onDrawerClosed(View paramAnonymousView)
       {
         super.onDrawerClosed(paramAnonymousView);
-        if (!NavigationDrawerFragment.this.isAdded()) {
+        if (!NavigationDrawerFragment.this.isAdded()) {}
+        for (;;)
+        {
           return;
+          ((MainActivity)NavigationDrawerFragment.this.getActivity()).navigationDrawerDidClose();
+          paramAnonymousView = ((AppCompatActivity)NavigationDrawerFragment.this.getActivity()).getSupportActionBar();
+          paramAnonymousView.setDisplayHomeAsUpEnabled(true);
+          paramAnonymousView.setHomeAsUpIndicator(2130837785);
+          NavigationDrawerFragment.this.getActivity().supportInvalidateOptionsMenu();
         }
-        ((MainActivity)NavigationDrawerFragment.this.getActivity()).navigationDrawerDidClose();
-        paramAnonymousView = ((AppCompatActivity)NavigationDrawerFragment.this.getActivity()).getSupportActionBar();
-        paramAnonymousView.setDisplayHomeAsUpEnabled(true);
-        paramAnonymousView.setHomeAsUpIndicator(2130837785);
-        NavigationDrawerFragment.this.getActivity().supportInvalidateOptionsMenu();
       }
       
       public void onDrawerOpened(View paramAnonymousView)
       {
         super.onDrawerOpened(paramAnonymousView);
-        if (!NavigationDrawerFragment.this.isAdded()) {
-          return;
-        }
-        if (!NavigationDrawerFragment.this.mUserLearnedDrawer)
+        if (!NavigationDrawerFragment.this.isAdded()) {}
+        for (;;)
         {
-          NavigationDrawerFragment.access$102(NavigationDrawerFragment.this, true);
-          PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext()).edit().putBoolean("navigation_drawer_learned", true).commit();
+          return;
+          if (!NavigationDrawerFragment.this.mUserLearnedDrawer)
+          {
+            NavigationDrawerFragment.access$102(NavigationDrawerFragment.this, true);
+            PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext()).edit().putBoolean("navigation_drawer_learned", true).commit();
+          }
+          ((AppCompatActivity)NavigationDrawerFragment.this.getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+          NavigationDrawerFragment.this.getActivity().supportInvalidateOptionsMenu();
         }
-        ((AppCompatActivity)NavigationDrawerFragment.this.getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        NavigationDrawerFragment.this.getActivity().supportInvalidateOptionsMenu();
       }
     };
     this.mDrawerLayout.post(new Runnable()
@@ -243,15 +250,12 @@ public class NavigationDrawerFragment
     }
     for (int[] arrayOfInt = drawer_signed_in_icons;; arrayOfInt = drawer_signed_out_icons)
     {
-      int i = 0;
-      while (i < arrayOfInt.length)
-      {
+      for (int i = 0; i < arrayOfInt.length; i++) {
         Log.i("tag", "[" + i + "] " + arrayOfInt[i]);
-        i += 1;
       }
       arrayOfString = getResources().getStringArray(2131427329);
     }
-    this.mDrawerListView.setAdapter(new DrawerArrayAdapter(getActionBar().getThemedContext(), 2130903123, 16908308, arrayOfString, arrayOfInt));
+    this.mDrawerListView.setAdapter(new DrawerArrayAdapter(getActionBar().getThemedContext(), 2130903127, 16908308, arrayOfString, arrayOfInt));
     if (!BlinkApp.getApp().getLoggedIn()) {
       this.mDrawerLayout.openDrawer(this.mFragmentContainerView);
     }
@@ -309,7 +313,7 @@ public class NavigationDrawerFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/NavigationDrawerFragment.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/fragments/NavigationDrawerFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

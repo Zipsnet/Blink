@@ -40,7 +40,10 @@ public class Onboard_2_Wait_For_Blue_Light_Fragment
   private boolean needsWifiWatchdogDisabled()
   {
     String str = Settings.Global.getString(getContext().getContentResolver(), "wifi_watchdog_poor_network_test_enabled");
-    return (str != null) && (str.equals("1"));
+    if ((str != null) && (str.equals("1"))) {}
+    for (boolean bool = true;; bool = false) {
+      return bool;
+    }
   }
   
   public static Onboard_2_Wait_For_Blue_Light_Fragment newInstance(int paramInt)
@@ -55,7 +58,7 @@ public class Onboard_2_Wait_For_Blue_Light_Fragment
   private void showWifiWatchdogDialog()
   {
     if (!this.mAdvancedWifiSettingsDisplayed) {}
-    for (String str = getString(2131100018);; str = getString(2131100019))
+    for (String str = getString(2131100021);; str = getString(2131100022))
     {
       new AlertDialog.Builder(getContext()).setMessage(str).setPositiveButton("Go to Settings", new DialogInterface.OnClickListener()
       {
@@ -73,7 +76,7 @@ public class Onboard_2_Wait_For_Blue_Light_Fragment
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099987));
+    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099990));
   }
   
   public void onCreate(Bundle paramBundle)
@@ -87,16 +90,18 @@ public class Onboard_2_Wait_For_Blue_Light_Fragment
   
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
-    this.mView = paramLayoutInflater.inflate(2130903078, paramViewGroup, false);
-    ((Button)this.mView.findViewById(2131558540)).setOnClickListener(new View.OnClickListener()
+    this.mView = paramLayoutInflater.inflate(2130903082, paramViewGroup, false);
+    ((Button)this.mView.findViewById(2131558543)).setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
-        if (!OnClick.ok()) {
+        if (!OnClick.ok()) {}
+        for (;;)
+        {
           return;
+          paramAnonymousView = Onboard_3_Connect_To_Blink_Fragment.newInstance(3);
+          Onboard_2_Wait_For_Blue_Light_Fragment.this.mListener.onFragmentInteraction(Onboard_2_Wait_For_Blue_Light_Fragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymousView);
         }
-        paramAnonymousView = Onboard_3_Connect_To_Blink_Fragment.newInstance(3);
-        Onboard_2_Wait_For_Blue_Light_Fragment.this.mListener.onFragmentInteraction(Onboard_2_Wait_For_Blue_Light_Fragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymousView);
       }
     });
     if (BlinkApp.getApp().getLastSyncModuleId().length() > 0) {
@@ -126,7 +131,7 @@ public class Onboard_2_Wait_For_Blue_Light_Fragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/Onboard_2_Wait_For_Blue_Light_Fragment.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/fragments/Onboard_2_Wait_For_Blue_Light_Fragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

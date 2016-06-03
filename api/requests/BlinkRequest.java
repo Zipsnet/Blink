@@ -25,32 +25,32 @@ public abstract class BlinkRequest
     Field[] arrayOfField = getClass().getDeclaredFields();
     int j = arrayOfField.length;
     int i = 0;
-    for (;;)
+    if (i < j)
     {
-      if (i < j)
+      Field localField = arrayOfField[i];
+      int k = localField.getModifiers();
+      if ((!Modifier.isAbstract(k)) && (!Modifier.isFinal(k)) && (!Modifier.isStatic(k)) && (!Modifier.isInterface(k)) && ((Modifier.isPrivate(k)) || (Modifier.isPublic(k)) || (Modifier.isProtected(k)))) {}
+      for (;;)
       {
-        Field localField = arrayOfField[i];
-        int k = localField.getModifiers();
-        if ((!Modifier.isAbstract(k)) && (!Modifier.isFinal(k)) && (!Modifier.isStatic(k)) && (!Modifier.isInterface(k)) && ((Modifier.isPrivate(k)) || (Modifier.isPublic(k)) || (Modifier.isProtected(k)))) {
-          try
-          {
-            localField.setAccessible(true);
-            Object localObject = localField.get(this);
-            if ((!paramBoolean) && (localObject == null)) {
-              break label152;
-            }
-            localHashMap.put(localField.getName(), String.valueOf(localObject));
+        try
+        {
+          localField.setAccessible(true);
+          localObject = localField.get(this);
+          if ((paramBoolean) || (localObject != null)) {
+            continue;
           }
-          catch (Exception localException) {}
+          i++;
         }
+        catch (Exception localException)
+        {
+          Object localObject;
+          continue;
+        }
+        break;
+        localHashMap.put(localField.getName(), String.valueOf(localObject));
       }
-      else
-      {
-        return localHashMap;
-      }
-      label152:
-      i += 1;
     }
+    return localHashMap;
   }
   
   public abstract int getRequestType();
@@ -62,7 +62,7 @@ public abstract class BlinkRequest
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/api/requests/BlinkRequest.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/api/requests/BlinkRequest.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

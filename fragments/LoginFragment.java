@@ -40,6 +40,8 @@ import com.immediasemi.blink.utils.LiveViewWhiteList;
 import com.immediasemi.blink.utils.OnClick;
 import com.immediasemi.blink.utils.Validation;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 public class LoginFragment
   extends BaseFragment
@@ -66,9 +68,9 @@ public class LoginFragment
       }
     }
     label62:
-    for (paramBlinkError = (String)paramBlinkError.response.get("message");; paramBlinkError = "")
+    for (paramBlinkError = (String)paramBlinkError.response.get("message");; paramBlinkError = "Could not log in")
     {
-      new AlertDialog.Builder(getActivity()).setMessage(paramBlinkError).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
+      new AlertDialog.Builder(getActivity()).setMessage(paramBlinkError).setPositiveButton(2131099891, new DialogInterface.OnClickListener()
       {
         public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt) {}
       }).create().show();
@@ -87,28 +89,27 @@ public class LoginFragment
   
   private boolean validateInputs()
   {
-    if (!Validation.validateEmail(this.mUserName.getText().toString()))
-    {
-      this.mErrorString = getString(2131099859);
-      return false;
+    boolean bool = false;
+    if (!Validation.validateEmail(this.mUserName.getText().toString())) {
+      this.mErrorString = getString(2131099860);
     }
-    if (this.mPassword.getText().length() == 0)
+    for (;;)
     {
-      this.mErrorString = getString(2131099861);
-      return false;
+      return bool;
+      if (this.mPassword.getText().length() == 0) {
+        this.mErrorString = getString(2131099862);
+      } else if (this.mPassword.getText().length() > 128) {
+        this.mErrorString = getString(2131099862);
+      } else {
+        bool = true;
+      }
     }
-    if (this.mPassword.getText().length() > 128)
-    {
-      this.mErrorString = getString(2131099861);
-      return false;
-    }
-    return true;
   }
   
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099984));
+    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099987));
   }
   
   public void onCreate(Bundle paramBundle)
@@ -121,8 +122,8 @@ public class LoginFragment
   
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
-    this.mView = paramLayoutInflater.inflate(2130903103, paramViewGroup, false);
-    this.mUserName = ((EditText)this.mView.findViewById(2131558649));
+    this.mView = paramLayoutInflater.inflate(2130903107, paramViewGroup, false);
+    this.mUserName = ((EditText)this.mView.findViewById(2131558651));
     this.mUserName.addTextChangedListener(new TextWatcher()
     {
       public void afterTextChanged(Editable paramAnonymousEditable)
@@ -135,21 +136,23 @@ public class LoginFragment
           if (LoginFragment.this.mPassword.getText().length() <= 0) {
             break label54;
           }
-        }
-        for (;;)
-        {
+          label31:
           if ((i & j) == 0) {
             break label59;
           }
           LoginFragment.this.mLoginButton.setVisibility(0);
+        }
+        for (;;)
+        {
           return;
           i = 0;
           break;
           label54:
           j = 0;
+          break label31;
+          label59:
+          LoginFragment.this.mLoginButton.setVisibility(4);
         }
-        label59:
-        LoginFragment.this.mLoginButton.setVisibility(4);
       }
       
       public void beforeTextChanged(CharSequence paramAnonymousCharSequence, int paramAnonymousInt1, int paramAnonymousInt2, int paramAnonymousInt3) {}
@@ -167,7 +170,7 @@ public class LoginFragment
         }
       }
     });
-    this.mPassword = ((EditText)this.mView.findViewById(2131558651));
+    this.mPassword = ((EditText)this.mView.findViewById(2131558653));
     this.mPassword.addTextChangedListener(new TextWatcher()
     {
       public void afterTextChanged(Editable paramAnonymousEditable)
@@ -180,80 +183,86 @@ public class LoginFragment
           if (LoginFragment.this.mUserName.getText().length() <= 0) {
             break label54;
           }
-        }
-        for (;;)
-        {
+          label31:
           if ((i & j) == 0) {
             break label59;
           }
           LoginFragment.this.mLoginButton.setVisibility(0);
+        }
+        for (;;)
+        {
           return;
           i = 0;
           break;
           label54:
           j = 0;
+          break label31;
+          label59:
+          LoginFragment.this.mLoginButton.setVisibility(4);
         }
-        label59:
-        LoginFragment.this.mLoginButton.setVisibility(4);
       }
       
       public void beforeTextChanged(CharSequence paramAnonymousCharSequence, int paramAnonymousInt1, int paramAnonymousInt2, int paramAnonymousInt3) {}
       
       public void onTextChanged(CharSequence paramAnonymousCharSequence, int paramAnonymousInt1, int paramAnonymousInt2, int paramAnonymousInt3) {}
     });
-    this.mShowPWSwitch = this.mView.findViewById(2131558653);
+    this.mShowPWSwitch = this.mView.findViewById(2131558655);
     this.mShowPWSwitch.setVisibility(8);
-    this.mForgotPassword = this.mView.findViewById(2131558652);
+    this.mForgotPassword = this.mView.findViewById(2131558654);
     this.mForgotPassword.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
-        if (!OnClick.ok()) {
-          return;
-        }
-        paramAnonymousView = LoginFragment.this.mUserName.getText().toString();
-        if ((paramAnonymousView.length() == 0) || (!Validation.validateEmail(paramAnonymousView)))
+        if (!OnClick.ok()) {}
+        for (;;)
         {
-          new AlertDialog.Builder(LoginFragment.this.getActivity()).setTitle(2131099879).setMessage(2131099814).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
-          {
-            public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
-          }).create().show();
           return;
-        }
-        ResetPasswordRequest localResetPasswordRequest = new ResetPasswordRequest();
-        localResetPasswordRequest.setEmail(paramAnonymousView);
-        BlinkAPI.BlinkAPIRequest(null, null, localResetPasswordRequest, new BlinkAPI.BlinkAPICallback()
-        {
-          public void onError(BlinkError paramAnonymous2BlinkError)
+          String str = LoginFragment.this.mUserName.getText().toString();
+          if ((str.length() == 0) || (!Validation.validateEmail(str)))
           {
-            LoginFragment.this.loginError(paramAnonymous2BlinkError);
+            new AlertDialog.Builder(LoginFragment.this.getActivity()).setTitle(2131099880).setMessage(2131099815).setPositiveButton(2131099891, new DialogInterface.OnClickListener()
+            {
+              public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
+            }).create().show();
           }
-          
-          public void onResult(BlinkData paramAnonymous2BlinkData)
+          else
           {
-            paramAnonymous2BlinkData = ((MessageResponse)paramAnonymous2BlinkData).getMessage();
-            if (LoginFragment.this.getActivity() != null) {
-              new AlertDialog.Builder(LoginFragment.this.getActivity()).setTitle("Password Reset").setMessage(paramAnonymous2BlinkData).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
+            paramAnonymousView = new ResetPasswordRequest();
+            paramAnonymousView.setEmail(str);
+            BlinkAPI.BlinkAPIRequest(null, null, paramAnonymousView, new BlinkAPI.BlinkAPICallback()
+            {
+              public void onError(BlinkError paramAnonymous2BlinkError)
               {
-                public void onClick(DialogInterface paramAnonymous3DialogInterface, int paramAnonymous3Int)
-                {
-                  LoginFragment.this.getActivity().finish();
+                LoginFragment.this.loginError(paramAnonymous2BlinkError);
+              }
+              
+              public void onResult(BlinkData paramAnonymous2BlinkData)
+              {
+                paramAnonymous2BlinkData = ((MessageResponse)paramAnonymous2BlinkData).getMessage();
+                if (LoginFragment.this.getActivity() != null) {
+                  new AlertDialog.Builder(LoginFragment.this.getActivity()).setTitle("Password Reset").setMessage(paramAnonymous2BlinkData).setPositiveButton(2131099891, new DialogInterface.OnClickListener()
+                  {
+                    public void onClick(DialogInterface paramAnonymous3DialogInterface, int paramAnonymous3Int)
+                    {
+                      LoginFragment.this.getActivity().finish();
+                    }
+                  }).create().show();
                 }
-              }).create().show();
-            }
+              }
+            }, false);
           }
-        }, false);
+        }
       }
     });
-    this.mTermsAndConditions = ((TextView)this.mView.findViewById(2131558656));
+    this.mTermsAndConditions = ((TextView)this.mView.findViewById(2131558658));
     this.mTermsAndConditions.setVisibility(4);
-    this.mLoginButton = ((Button)this.mView.findViewById(2131558655));
+    this.mLoginButton = ((Button)this.mView.findViewById(2131558657));
     this.mLoginButton.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
         if (!OnClick.ok()) {}
-        do
+        for (;;)
         {
           return;
           LoginRequest localLoginRequest;
@@ -298,32 +307,48 @@ public class LoginFragment
             
             public void onResult(BlinkData paramAnonymous2BlinkData)
             {
-              paramAnonymous2BlinkData = ((AuthToken)paramAnonymous2BlinkData).getAuthtoken().getAuthtoken();
-              if (paramAnonymous2BlinkData == null)
+              String str = ((AuthToken)paramAnonymous2BlinkData).getAuthtoken().getAuthtoken();
+              if (str == null)
               {
                 paramAnonymous2BlinkData = new BlinkError();
                 paramAnonymous2BlinkData.setErrorMessage(LoginFragment.this.getString(2131099721));
                 LoginFragment.this.loginError(paramAnonymous2BlinkData);
               }
-              do
+              for (;;)
               {
                 return;
-                BlinkApp.getApp().setLoginAuthToken(paramAnonymous2BlinkData);
+                BlinkApp.getApp().setLoginAuthToken(str);
                 BlinkApp.getApp().setUserName(LoginFragment.this.mUserName.getText().toString());
                 BlinkApp.getApp().setPassword(LoginFragment.this.mPassword.getText().toString());
                 BlinkApp.getApp().setLoggedIn(true);
                 BlinkApp.getApp().setLastNetworkId("");
                 BlinkApp.getApp().setLastCameraId("");
-              } while (LoginFragment.this.getActivity() == null);
-              LoginFragment.this.getActivity().finish();
+                HashMap localHashMap = ((AuthToken)paramAnonymous2BlinkData).getRegion();
+                if ((localHashMap != null) && (!localHashMap.keySet().isEmpty()))
+                {
+                  paramAnonymous2BlinkData = localHashMap.keySet().iterator();
+                  while (paramAnonymous2BlinkData.hasNext())
+                  {
+                    str = (String)paramAnonymous2BlinkData.next();
+                    BlinkApp.getApp().setServerUrlForDNSSubdomain(str);
+                    BlinkApp.getApp().setRegionFriendlyName((String)localHashMap.get(str));
+                  }
+                }
+                if (LoginFragment.this.getActivity() != null) {
+                  LoginFragment.this.getActivity().finish();
+                }
+              }
             }
           }, false);
-          return;
-        } while (LoginFragment.this.getActivity() == null);
-        if (LoginFragment.this.mErrorString == null) {
-          LoginFragment.access$502(LoginFragment.this, LoginFragment.this.getString(2131099860));
+          continue;
+          if (LoginFragment.this.getActivity() != null)
+          {
+            if (LoginFragment.this.mErrorString == null) {
+              LoginFragment.access$502(LoginFragment.this, LoginFragment.this.getString(2131099861));
+            }
+            new AlertDialog.Builder(LoginFragment.this.getActivity()).setTitle(LoginFragment.this.mErrorString).setMessage(LoginFragment.this.getString(2131100009)).setPositiveButton(2131099891, null).show();
+          }
         }
-        new AlertDialog.Builder(LoginFragment.this.getActivity()).setTitle(LoginFragment.this.mErrorString).setMessage(LoginFragment.this.getString(2131100006)).setPositiveButton(2131099890, null).show();
       }
     });
     this.mLoginButton.setVisibility(4);
@@ -344,7 +369,7 @@ public class LoginFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/LoginFragment.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/fragments/LoginFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

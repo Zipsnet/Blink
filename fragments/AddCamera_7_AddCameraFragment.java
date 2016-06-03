@@ -47,28 +47,32 @@ public class AddCamera_7_AddCameraFragment
   
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
-    this.mView = paramLayoutInflater.inflate(2130903092, paramViewGroup, false);
-    ((ImageView)this.mView.findViewById(2131558592)).setOnClickListener(new View.OnClickListener()
+    this.mView = paramLayoutInflater.inflate(2130903096, paramViewGroup, false);
+    ((ImageView)this.mView.findViewById(2131558595)).setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
-        if (!OnClick.ok()) {
+        if (!OnClick.ok()) {}
+        for (;;)
+        {
           return;
+          paramAnonymousView = AddCamera_1_Explanation.newInstance(-1);
+          AddCamera_7_AddCameraFragment.this.mListener.onFragmentInteraction(AddCamera_7_AddCameraFragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymousView);
         }
-        paramAnonymousView = AddCamera_1_Explanation.newInstance(-1);
-        AddCamera_7_AddCameraFragment.this.mListener.onFragmentInteraction(AddCamera_7_AddCameraFragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymousView);
       }
     });
-    ((Button)this.mView.findViewById(2131558551)).setOnClickListener(new View.OnClickListener()
+    ((Button)this.mView.findViewById(2131558554)).setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
-        if (!OnClick.ok()) {
+        if (!OnClick.ok()) {}
+        for (;;)
+        {
           return;
+          PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext()).edit().remove("add_camera_sequence").commit();
+          AddCamera_7_AddCameraFragment.this.getActivity().setResult(-1);
+          AddCamera_7_AddCameraFragment.this.getActivity().finish();
         }
-        PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext()).edit().remove("add_camera_sequence").commit();
-        AddCamera_7_AddCameraFragment.this.getActivity().setResult(-1);
-        AddCamera_7_AddCameraFragment.this.getActivity().finish();
       }
     });
     return this.mView;
@@ -81,7 +85,7 @@ public class AddCamera_7_AddCameraFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/AddCamera_7_AddCameraFragment.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/fragments/AddCamera_7_AddCameraFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

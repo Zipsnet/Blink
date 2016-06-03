@@ -49,7 +49,7 @@ public class ManagePasswordFragment
     label75:
     for (paramBlinkError = (String)paramBlinkError.response.get("message");; paramBlinkError = "")
     {
-      new AlertDialog.Builder(getActivity()).setMessage(paramBlinkError).setPositiveButton(2131099926, new DialogInterface.OnClickListener()
+      new AlertDialog.Builder(getActivity()).setMessage(paramBlinkError).setPositiveButton(2131099928, new DialogInterface.OnClickListener()
       {
         public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt) {}
       }).setNegativeButton(2131099778, new DialogInterface.OnClickListener()
@@ -82,9 +82,9 @@ public class ManagePasswordFragment
   
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
-    this.mView = paramLayoutInflater.inflate(2130903106, paramViewGroup, false);
-    this.mNewPassword = ((EditText)this.mView.findViewById(2131558661));
-    this.mChangePasswordButton = ((Button)this.mView.findViewById(2131558663));
+    this.mView = paramLayoutInflater.inflate(2130903110, paramViewGroup, false);
+    this.mNewPassword = ((EditText)this.mView.findViewById(2131558667));
+    this.mChangePasswordButton = ((Button)this.mView.findViewById(2131558669));
     this.mNewPassword.addTextChangedListener(new TextWatcher()
     {
       public void afterTextChanged(Editable paramAnonymousEditable)
@@ -97,21 +97,23 @@ public class ManagePasswordFragment
           if (ManagePasswordFragment.this.mNewPasswordConfirm.getText().length() <= 0) {
             break label54;
           }
-        }
-        for (;;)
-        {
+          label31:
           if ((i & j) == 0) {
             break label59;
           }
           ManagePasswordFragment.this.mChangePasswordButton.setVisibility(0);
+        }
+        for (;;)
+        {
           return;
           i = 0;
           break;
           label54:
           j = 0;
+          break label31;
+          label59:
+          ManagePasswordFragment.this.mChangePasswordButton.setVisibility(4);
         }
-        label59:
-        ManagePasswordFragment.this.mChangePasswordButton.setVisibility(4);
       }
       
       public void beforeTextChanged(CharSequence paramAnonymousCharSequence, int paramAnonymousInt1, int paramAnonymousInt2, int paramAnonymousInt3) {}
@@ -129,7 +131,7 @@ public class ManagePasswordFragment
         }
       }
     });
-    this.mNewPasswordConfirm = ((EditText)this.mView.findViewById(2131558662));
+    this.mNewPasswordConfirm = ((EditText)this.mView.findViewById(2131558668));
     this.mNewPasswordConfirm.addTextChangedListener(new TextWatcher()
     {
       public void afterTextChanged(Editable paramAnonymousEditable)
@@ -142,21 +144,23 @@ public class ManagePasswordFragment
           if (ManagePasswordFragment.this.mNewPassword.getText().length() <= 0) {
             break label54;
           }
-        }
-        for (;;)
-        {
+          label31:
           if ((i & j) == 0) {
             break label59;
           }
           ManagePasswordFragment.this.mChangePasswordButton.setVisibility(0);
+        }
+        for (;;)
+        {
           return;
           i = 0;
           break;
           label54:
           j = 0;
+          break label31;
+          label59:
+          ManagePasswordFragment.this.mChangePasswordButton.setVisibility(4);
         }
-        label59:
-        ManagePasswordFragment.this.mChangePasswordButton.setVisibility(4);
       }
       
       public void beforeTextChanged(CharSequence paramAnonymousCharSequence, int paramAnonymousInt1, int paramAnonymousInt2, int paramAnonymousInt3) {}
@@ -167,52 +171,55 @@ public class ManagePasswordFragment
     {
       public void onClick(final View paramAnonymousView)
       {
-        if (!OnClick.ok()) {
-          return;
-        }
-        paramAnonymousView = ManagePasswordFragment.this.mNewPassword.getText().toString();
-        String str = ManagePasswordFragment.this.mNewPasswordConfirm.getText().toString();
-        if (paramAnonymousView.length() < 6)
+        if (!OnClick.ok()) {}
+        for (;;)
         {
-          new AlertDialog.Builder(ManagePasswordFragment.this.getActivity()).setMessage("Password must be at least 6 characters").setPositiveButton(2131099890, new DialogInterface.OnClickListener()
-          {
-            public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
-          }).create().show();
           return;
-        }
-        if (!paramAnonymousView.equals(str))
-        {
-          new AlertDialog.Builder(ManagePasswordFragment.this.getActivity()).setMessage("Password does not match").setPositiveButton(2131099890, new DialogInterface.OnClickListener()
+          paramAnonymousView = ManagePasswordFragment.this.mNewPassword.getText().toString();
+          String str = ManagePasswordFragment.this.mNewPasswordConfirm.getText().toString();
+          if (paramAnonymousView.length() < 6)
           {
-            public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
-          }).create().show();
-          return;
-        }
-        ChangePasswordRequest localChangePasswordRequest = new ChangePasswordRequest();
-        localChangePasswordRequest.setOld_password(BlinkApp.getApp().getPassword());
-        localChangePasswordRequest.setNew_password(paramAnonymousView);
-        localChangePasswordRequest.setNew_password_confirm(str);
-        BlinkAPI.BlinkAPIRequest(null, null, localChangePasswordRequest, new BlinkAPI.BlinkAPICallback()
-        {
-          public void onError(BlinkError paramAnonymous2BlinkError)
-          {
-            ManagePasswordFragment.this.loginError(paramAnonymous2BlinkError);
+            new AlertDialog.Builder(ManagePasswordFragment.this.getActivity()).setMessage("Password must be at least 6 characters").setPositiveButton(2131099891, new DialogInterface.OnClickListener()
+            {
+              public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
+            }).create().show();
           }
-          
-          public void onResult(BlinkData paramAnonymous2BlinkData)
+          else if (!paramAnonymousView.equals(str))
           {
-            BlinkApp.getApp().setUserName(paramAnonymousView);
-            if (ManagePasswordFragment.this.getActivity() != null) {
-              new AlertDialog.Builder(ManagePasswordFragment.this.getActivity()).setMessage("Password changed successfully").setPositiveButton(2131099890, new DialogInterface.OnClickListener()
+            new AlertDialog.Builder(ManagePasswordFragment.this.getActivity()).setMessage("Password does not match").setPositiveButton(2131099891, new DialogInterface.OnClickListener()
+            {
+              public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
+            }).create().show();
+          }
+          else
+          {
+            ChangePasswordRequest localChangePasswordRequest = new ChangePasswordRequest();
+            localChangePasswordRequest.setOld_password(BlinkApp.getApp().getPassword());
+            localChangePasswordRequest.setNew_password(paramAnonymousView);
+            localChangePasswordRequest.setNew_password_confirm(str);
+            BlinkAPI.BlinkAPIRequest(null, null, localChangePasswordRequest, new BlinkAPI.BlinkAPICallback()
+            {
+              public void onError(BlinkError paramAnonymous2BlinkError)
               {
-                public void onClick(DialogInterface paramAnonymous3DialogInterface, int paramAnonymous3Int)
-                {
-                  ManagePasswordFragment.this.getActivity().finish();
+                ManagePasswordFragment.this.loginError(paramAnonymous2BlinkError);
+              }
+              
+              public void onResult(BlinkData paramAnonymous2BlinkData)
+              {
+                BlinkApp.getApp().setUserName(paramAnonymousView);
+                if (ManagePasswordFragment.this.getActivity() != null) {
+                  new AlertDialog.Builder(ManagePasswordFragment.this.getActivity()).setMessage("Password changed successfully").setPositiveButton(2131099891, new DialogInterface.OnClickListener()
+                  {
+                    public void onClick(DialogInterface paramAnonymous3DialogInterface, int paramAnonymous3Int)
+                    {
+                      ManagePasswordFragment.this.getActivity().finish();
+                    }
+                  }).create().show();
                 }
-              }).create().show();
-            }
+              }
+            }, false);
           }
-        }, false);
+        }
       }
     });
     this.mNewPassword.setOnFocusChangeListener(new View.OnFocusChangeListener()
@@ -230,7 +237,7 @@ public class ManagePasswordFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/ManagePasswordFragment.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/fragments/ManagePasswordFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

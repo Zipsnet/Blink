@@ -48,35 +48,44 @@ public class AddCamera_6_TakeSnapshotFragment
     {
       public void onError(BlinkError paramAnonymousBlinkError)
       {
-        AddCamera_6_TakeSnapshotFragment.this.mView.findViewById(2131558538).setVisibility(4);
-        if ((AddCamera_6_TakeSnapshotFragment.this.getActivity() == null) || (AddCamera_6_TakeSnapshotFragment.this.mListener == null) || (AddCamera_6_TakeSnapshotFragment.this.isDetached())) {}
-        while (AddCamera_6_TakeSnapshotFragment.this.getActivity() == null) {
+        AddCamera_6_TakeSnapshotFragment.this.mView.findViewById(2131558541).setVisibility(4);
+        if ((AddCamera_6_TakeSnapshotFragment.this.getActivity() == null) || (AddCamera_6_TakeSnapshotFragment.this.mListener == null) || (AddCamera_6_TakeSnapshotFragment.this.isDetached())) {
           return;
         }
-        if (paramAnonymousBlinkError.response != null) {}
+        if (AddCamera_6_TakeSnapshotFragment.this.getActivity() != null) {
+          if (paramAnonymousBlinkError.response == null) {
+            break label110;
+          }
+        }
+        label110:
         for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = paramAnonymousBlinkError.getErrorMessage())
         {
-          new AlertDialog.Builder(AddCamera_6_TakeSnapshotFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, null).create().show();
-          return;
+          new AlertDialog.Builder(AddCamera_6_TakeSnapshotFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099891, null).create().show();
+          break;
+          break;
         }
       }
       
       public void onResult(BlinkData paramAnonymousBlinkData)
       {
-        if ((AddCamera_6_TakeSnapshotFragment.this.getActivity() == null) || (AddCamera_6_TakeSnapshotFragment.this.mListener == null) || (AddCamera_6_TakeSnapshotFragment.this.isDetached())) {
-          return;
-        }
-        paramAnonymousBlinkData = ((CameraStatus)paramAnonymousBlinkData).getCamera_status();
-        if ((paramAnonymousBlinkData.getThumbnail() != null) && (paramAnonymousBlinkData.getThumbnail().length() > 0))
+        if ((AddCamera_6_TakeSnapshotFragment.this.getActivity() == null) || (AddCamera_6_TakeSnapshotFragment.this.mListener == null) || (AddCamera_6_TakeSnapshotFragment.this.isDetached())) {}
+        for (;;)
         {
-          new ImageLoader(paramAnonymousBlinkData.getThumbnail(), AddCamera_6_TakeSnapshotFragment.this.mThumbnailImageView, true, 2);
-          AddCamera_6_TakeSnapshotFragment.this.mThumbnailImageView.invalidate();
-          AddCamera_6_TakeSnapshotFragment.this.mView.findViewById(2131558538).setVisibility(4);
-          AddCamera_6_TakeSnapshotFragment.this.mView.findViewById(2131558551).setVisibility(0);
           return;
+          paramAnonymousBlinkData = ((CameraStatus)paramAnonymousBlinkData).getCamera_status();
+          if ((paramAnonymousBlinkData.getThumbnail() != null) && (paramAnonymousBlinkData.getThumbnail().length() > 0))
+          {
+            new ImageLoader(paramAnonymousBlinkData.getThumbnail(), AddCamera_6_TakeSnapshotFragment.this.mThumbnailImageView, true, 2);
+            AddCamera_6_TakeSnapshotFragment.this.mThumbnailImageView.invalidate();
+            AddCamera_6_TakeSnapshotFragment.this.mView.findViewById(2131558541).setVisibility(4);
+            AddCamera_6_TakeSnapshotFragment.this.mView.findViewById(2131558554).setVisibility(0);
+          }
+          else
+          {
+            paramAnonymousBlinkData = AddCamera_6_TakeSnapshotFragment.handler.obtainMessage(1, AddCamera_6_TakeSnapshotFragment.this);
+            AddCamera_6_TakeSnapshotFragment.handler.sendMessageDelayed(paramAnonymousBlinkData, 1000L);
+          }
         }
-        paramAnonymousBlinkData = AddCamera_6_TakeSnapshotFragment.handler.obtainMessage(1, AddCamera_6_TakeSnapshotFragment.this);
-        AddCamera_6_TakeSnapshotFragment.handler.sendMessageDelayed(paramAnonymousBlinkData, 1000L);
       }
     }, false);
   }
@@ -90,10 +99,12 @@ public class AddCamera_6_TakeSnapshotFragment
   {
     switch (paramMessage.what)
     {
-    default: 
-      return;
     }
-    checkForThumbnailUpdated();
+    for (;;)
+    {
+      return;
+      checkForThumbnailUpdated();
+    }
   }
   
   public static AddCamera_6_TakeSnapshotFragment newInstance(int paramInt)
@@ -116,55 +127,59 @@ public class AddCamera_6_TakeSnapshotFragment
   
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
-    this.mView = paramLayoutInflater.inflate(2130903091, paramViewGroup, false);
-    this.mTakeSnapImage = ((ImageView)this.mView.findViewById(2131558590));
-    this.mThumbnailImageView = ((ImageView)this.mView.findViewById(2131558588));
+    this.mView = paramLayoutInflater.inflate(2130903095, paramViewGroup, false);
+    this.mTakeSnapImage = ((ImageView)this.mView.findViewById(2131558593));
+    this.mThumbnailImageView = ((ImageView)this.mView.findViewById(2131558591));
     this.mTakeSnapImage.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
-        if (!OnClick.ok()) {
-          return;
-        }
-        AddCamera_6_TakeSnapshotFragment.this.mView.findViewById(2131558538).setVisibility(0);
-        BlinkAPI.BlinkAPIRequest(null, null, new TakeSnapshotRequest(), new BlinkAPI.BlinkAPICallback()
+        if (!OnClick.ok()) {}
+        for (;;)
         {
-          public void onError(BlinkError paramAnonymous2BlinkError)
+          return;
+          AddCamera_6_TakeSnapshotFragment.this.mView.findViewById(2131558541).setVisibility(0);
+          BlinkAPI.BlinkAPIRequest(null, null, new TakeSnapshotRequest(), new BlinkAPI.BlinkAPICallback()
           {
-            AddCamera_6_TakeSnapshotFragment.this.mView.findViewById(2131558538).setVisibility(4);
-            if (AddCamera_6_TakeSnapshotFragment.this.getActivity() != null) {
-              if (paramAnonymous2BlinkError.response == null) {
-                break label86;
+            public void onError(BlinkError paramAnonymous2BlinkError)
+            {
+              AddCamera_6_TakeSnapshotFragment.this.mView.findViewById(2131558541).setVisibility(4);
+              if (AddCamera_6_TakeSnapshotFragment.this.getActivity() != null) {
+                if (paramAnonymous2BlinkError.response == null) {
+                  break label86;
+                }
+              }
+              label86:
+              for (paramAnonymous2BlinkError = (String)paramAnonymous2BlinkError.response.get("message");; paramAnonymous2BlinkError = paramAnonymous2BlinkError.getErrorMessage())
+              {
+                new AlertDialog.Builder(AddCamera_6_TakeSnapshotFragment.this.getActivity()).setMessage(paramAnonymous2BlinkError).setPositiveButton(2131099891, null).create().show();
+                return;
               }
             }
-            label86:
-            for (paramAnonymous2BlinkError = (String)paramAnonymous2BlinkError.response.get("message");; paramAnonymous2BlinkError = paramAnonymous2BlinkError.getErrorMessage())
+            
+            public void onResult(BlinkData paramAnonymous2BlinkData)
             {
-              new AlertDialog.Builder(AddCamera_6_TakeSnapshotFragment.this.getActivity()).setMessage(paramAnonymous2BlinkError).setPositiveButton(2131099890, null).create().show();
-              return;
+              AddCamera_6_TakeSnapshotFragment.access$102(AddCamera_6_TakeSnapshotFragment.this, (Command)paramAnonymous2BlinkData);
+              AddCamera_6_TakeSnapshotFragment.access$202(AddCamera_6_TakeSnapshotFragment.this, true);
+              paramAnonymous2BlinkData = AddCamera_6_TakeSnapshotFragment.handler.obtainMessage(1, AddCamera_6_TakeSnapshotFragment.this);
+              AddCamera_6_TakeSnapshotFragment.handler.sendMessageDelayed(paramAnonymous2BlinkData, 1000L);
             }
-          }
-          
-          public void onResult(BlinkData paramAnonymous2BlinkData)
-          {
-            AddCamera_6_TakeSnapshotFragment.access$102(AddCamera_6_TakeSnapshotFragment.this, (Command)paramAnonymous2BlinkData);
-            AddCamera_6_TakeSnapshotFragment.access$202(AddCamera_6_TakeSnapshotFragment.this, true);
-            paramAnonymous2BlinkData = AddCamera_6_TakeSnapshotFragment.handler.obtainMessage(1, AddCamera_6_TakeSnapshotFragment.this);
-            AddCamera_6_TakeSnapshotFragment.handler.sendMessageDelayed(paramAnonymous2BlinkData, 1000L);
-          }
-        }, false);
+          }, false);
+        }
       }
     });
-    ((Button)this.mView.findViewById(2131558551)).setOnClickListener(new View.OnClickListener()
+    ((Button)this.mView.findViewById(2131558554)).setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
-        if (!OnClick.ok()) {
+        if (!OnClick.ok()) {}
+        for (;;)
+        {
           return;
+          AddCamera_6_TakeSnapshotFragment.this.cleanupHandler();
+          paramAnonymousView = AddCamera_7_AddCameraFragment.newInstance(-1);
+          AddCamera_6_TakeSnapshotFragment.this.mListener.onFragmentInteraction(AddCamera_6_TakeSnapshotFragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymousView);
         }
-        AddCamera_6_TakeSnapshotFragment.this.cleanupHandler();
-        paramAnonymousView = AddCamera_7_AddCameraFragment.newInstance(-1);
-        AddCamera_6_TakeSnapshotFragment.this.mListener.onFragmentInteraction(AddCamera_6_TakeSnapshotFragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymousView);
       }
     });
     return this.mView;
@@ -189,7 +204,7 @@ public class AddCamera_6_TakeSnapshotFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/AddCamera_6_TakeSnapshotFragment.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/fragments/AddCamera_6_TakeSnapshotFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

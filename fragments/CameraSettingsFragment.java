@@ -111,15 +111,19 @@ public class CameraSettingsFragment
         {
           paramAnonymousBlinkError = CameraSettingsFragment.handler.obtainMessage(0, CameraSettingsFragment.this);
           CameraSettingsFragment.handler.sendMessageDelayed(paramAnonymousBlinkError, 100L);
-        }
-        while (CameraSettingsFragment.this.getActivity() == null) {
           return;
         }
-        if (paramAnonymousBlinkError.response != null) {}
+        if (CameraSettingsFragment.this.getActivity() != null) {
+          if (paramAnonymousBlinkError.response == null) {
+            break label101;
+          }
+        }
+        label101:
         for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = paramAnonymousBlinkError.getErrorMessage())
         {
-          new AlertDialog.Builder(CameraSettingsFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, null).create().show();
-          return;
+          new AlertDialog.Builder(CameraSettingsFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099891, null).create().show();
+          break;
+          break;
         }
       }
       
@@ -135,25 +139,28 @@ public class CameraSettingsFragment
             {
             }
           }
-          while (CameraSettingsFragment.this.getActivity() == null)
-          {
-            return;
-            CameraSettingsFragment.this.mRunnable.run();
-            return;
-            CameraSettingsFragment.this.loadStatus();
-            return;
-          }
-          new AlertDialog.Builder(CameraSettingsFragment.this.getActivity()).setTitle(CameraSettingsFragment.this.getString(2131099815)).setMessage("Command failed").setPositiveButton(2131099890, new DialogInterface.OnClickListener()
-          {
-            public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
-            {
-              CameraSettingsFragment.this.refresh();
-            }
-          }).create().show();
-          return;
         }
-        paramAnonymousBlinkData = CameraSettingsFragment.handler.obtainMessage(0, CameraSettingsFragment.this);
-        CameraSettingsFragment.handler.sendMessageDelayed(paramAnonymousBlinkData, 1000L);
+        for (;;)
+        {
+          return;
+          CameraSettingsFragment.this.mRunnable.run();
+          continue;
+          CameraSettingsFragment.this.loadStatus();
+          continue;
+          if (CameraSettingsFragment.this.getActivity() != null)
+          {
+            new AlertDialog.Builder(CameraSettingsFragment.this.getActivity()).setTitle(CameraSettingsFragment.this.getString(2131099816)).setMessage("Command failed").setPositiveButton(2131099891, new DialogInterface.OnClickListener()
+            {
+              public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
+              {
+                CameraSettingsFragment.this.refresh();
+              }
+            }).create().show();
+            continue;
+            paramAnonymousBlinkData = CameraSettingsFragment.handler.obtainMessage(0, CameraSettingsFragment.this);
+            CameraSettingsFragment.handler.sendMessageDelayed(paramAnonymousBlinkData, 1000L);
+          }
+        }
       }
     }, false);
   }
@@ -204,7 +211,7 @@ public class CameraSettingsFragment
         label68:
         for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = paramAnonymousBlinkError.getErrorMessage())
         {
-          new AlertDialog.Builder(CameraSettingsFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
+          new AlertDialog.Builder(CameraSettingsFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099891, new DialogInterface.OnClickListener()
           {
             public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
           }).create().show();
@@ -224,10 +231,12 @@ public class CameraSettingsFragment
   private void dispatchMessage(Message paramMessage)
   {
     handler.removeMessages(0);
-    if ((getActivity() == null) || (this.mListener == null) || (isDetached())) {
+    if ((getActivity() == null) || (this.mListener == null) || (isDetached())) {}
+    for (;;)
+    {
       return;
+      checkForCommandFinished();
     }
-    checkForCommandFinished();
   }
   
   private void loadSettings()
@@ -244,7 +253,7 @@ public class CameraSettingsFragment
         label68:
         for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = paramAnonymousBlinkError.getErrorMessage())
         {
-          new AlertDialog.Builder(CameraSettingsFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
+          new AlertDialog.Builder(CameraSettingsFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099891, new DialogInterface.OnClickListener()
           {
             public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
           }).create().show();
@@ -281,7 +290,7 @@ public class CameraSettingsFragment
         label68:
         for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = paramAnonymousBlinkError.getErrorMessage())
         {
-          new AlertDialog.Builder(CameraSettingsFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
+          new AlertDialog.Builder(CameraSettingsFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099891, new DialogInterface.OnClickListener()
           {
             public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
           }).create().show();
@@ -312,13 +321,13 @@ public class CameraSettingsFragment
   
   private void requestStatus()
   {
-    this.mView.findViewById(2131558619).setVisibility(4);
-    this.mView.findViewById(2131558618).setVisibility(4);
-    this.mView.findViewById(2131558621).setVisibility(4);
     this.mView.findViewById(2131558622).setVisibility(4);
-    this.mView.findViewById(2131558623).setVisibility(4);
+    this.mView.findViewById(2131558621).setVisibility(4);
     this.mView.findViewById(2131558624).setVisibility(4);
-    this.mView.findViewById(2131558620).setVisibility(0);
+    this.mView.findViewById(2131558625).setVisibility(4);
+    this.mView.findViewById(2131558626).setVisibility(4);
+    this.mView.findViewById(2131558627).setVisibility(4);
+    this.mView.findViewById(2131558623).setVisibility(0);
     BlinkAPI.BlinkAPIRequest(null, null, new RefreshCameraRequest(), new BlinkAPI.BlinkAPICallback()
     {
       public void onError(BlinkError paramAnonymousBlinkError)
@@ -333,7 +342,7 @@ public class CameraSettingsFragment
         label75:
         for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = paramAnonymousBlinkError.getErrorMessage())
         {
-          new AlertDialog.Builder(CameraSettingsFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
+          new AlertDialog.Builder(CameraSettingsFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099891, new DialogInterface.OnClickListener()
           {
             public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
           }).create().show();
@@ -401,20 +410,19 @@ public class CameraSettingsFragment
   
   private void updateStatus(SignalStrength paramSignalStrength)
   {
-    String str2 = paramSignalStrength.getUpdated_at();
-    Object localObject = new SimpleDateFormat("yyyy-MM-dd h:mm:ssZ", Locale.getDefault());
-    SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat("MMM dd h:mm:ss a", Locale.getDefault());
-    str2 = str2.replace('T', ' ');
+    String str1 = paramSignalStrength.getUpdated_at().replace('T', ' ');
+    SimpleDateFormat localSimpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ", Locale.getDefault());
+    SimpleDateFormat localSimpleDateFormat1 = new SimpleDateFormat("MMM dd h:mm:ss a", Locale.getDefault());
     try
     {
-      localObject = localSimpleDateFormat.format(((SimpleDateFormat)localObject).parse(str2));
-      this.mLastUpdatedTV.setText((CharSequence)localObject);
+      str1 = localSimpleDateFormat1.format(localSimpleDateFormat2.parse(str1));
+      this.mLastUpdatedTV.setText(str1);
       i = paramSignalStrength.getTemp();
       if (!BlinkApp.getApp().isTempUnits())
       {
         i = (i - 32) * 5 / 9;
-        localObject = String.valueOf(String.valueOf(i) + getString(2131099800));
-        this.mTemperatureTV.setText(String.valueOf(localObject));
+        str1 = String.valueOf(String.valueOf(i) + getString(2131099801));
+        this.mTemperatureTV.setText(String.valueOf(str1));
         switch (paramSignalStrength.getLfr())
         {
         default: 
@@ -427,13 +435,13 @@ public class CameraSettingsFragment
             {
             default: 
               this.mBatteryIV.setImageResource(2130837601);
-              this.mView.findViewById(2131558619).setVisibility(0);
-              this.mView.findViewById(2131558618).setVisibility(0);
-              this.mView.findViewById(2131558621).setVisibility(0);
               this.mView.findViewById(2131558622).setVisibility(0);
-              this.mView.findViewById(2131558623).setVisibility(0);
+              this.mView.findViewById(2131558621).setVisibility(0);
               this.mView.findViewById(2131558624).setVisibility(0);
-              this.mView.findViewById(2131558620).setVisibility(4);
+              this.mView.findViewById(2131558625).setVisibility(0);
+              this.mView.findViewById(2131558626).setVisibility(0);
+              this.mView.findViewById(2131558627).setVisibility(0);
+              this.mView.findViewById(2131558623).setVisibility(4);
               return;
             }
             break;
@@ -449,7 +457,7 @@ public class CameraSettingsFragment
         int i;
         localException.printStackTrace();
         continue;
-        String str1 = String.valueOf(String.valueOf(i) + getString(2131099801));
+        String str2 = String.valueOf(String.valueOf(i) + getString(2131099802));
         continue;
         this.mSyncModuleStrengthIV.setImageResource(2130837596);
         continue;
@@ -477,7 +485,7 @@ public class CameraSettingsFragment
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099995));
+    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099998));
   }
   
   public void onCreate(Bundle paramBundle)
@@ -493,10 +501,10 @@ public class CameraSettingsFragment
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
     this.mInflater = paramLayoutInflater;
-    this.mView = paramLayoutInflater.inflate(2130903097, paramViewGroup, false);
-    this.mNameET = ((EditText)this.mView.findViewById(2131558601));
-    this.mMotionEnabled = ((CustomSwitch)this.mView.findViewById(2131558602));
-    this.mMotionDelaySlider = ((SeekBar)this.mView.findViewById(2131558603));
+    this.mView = paramLayoutInflater.inflate(2130903101, paramViewGroup, false);
+    this.mNameET = ((EditText)this.mView.findViewById(2131558604));
+    this.mMotionEnabled = ((CustomSwitch)this.mView.findViewById(2131558605));
+    this.mMotionDelaySlider = ((SeekBar)this.mView.findViewById(2131558606));
     this.mMotionDelaySlider.setMax(50);
     this.mMotionDelaySlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
     {
@@ -510,8 +518,8 @@ public class CameraSettingsFragment
       
       public void onStopTrackingTouch(SeekBar paramAnonymousSeekBar) {}
     });
-    this.mMotionDelayValue = ((TextView)this.mView.findViewById(2131558604));
-    this.mMotionSensitivitySlider = ((SeekBar)this.mView.findViewById(2131558605));
+    this.mMotionDelayValue = ((TextView)this.mView.findViewById(2131558607));
+    this.mMotionSensitivitySlider = ((SeekBar)this.mView.findViewById(2131558608));
     this.mMotionSensitivitySlider.setMax(8);
     this.mMotionSensitivitySlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
     {
@@ -525,8 +533,8 @@ public class CameraSettingsFragment
       
       public void onStopTrackingTouch(SeekBar paramAnonymousSeekBar) {}
     });
-    this.mMotionSensitivityValue = ((TextView)this.mView.findViewById(2131558606));
-    this.mClipLengthSlider = ((SeekBar)this.mView.findViewById(2131558607));
+    this.mMotionSensitivityValue = ((TextView)this.mView.findViewById(2131558609));
+    this.mClipLengthSlider = ((SeekBar)this.mView.findViewById(2131558610));
     this.mClipLengthSlider.setMax(9);
     this.mClipLengthSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
     {
@@ -540,45 +548,47 @@ public class CameraSettingsFragment
       
       public void onStopTrackingTouch(SeekBar paramAnonymousSeekBar) {}
     });
-    this.mClipLengthValue = ((TextView)this.mView.findViewById(2131558608));
-    this.mIlluminatorControl = ((RadioGroup)this.mView.findViewById(2131558609));
-    this.mIlluminatorOff = ((RadioButton)this.mView.findViewById(2131558610));
-    this.mIlluminatorOn = ((RadioButton)this.mView.findViewById(2131558611));
-    this.mIlluminatorAuto = ((RadioButton)this.mView.findViewById(2131558612));
-    this.mIntensityGroup = ((RadioGroup)this.mView.findViewById(2131558613));
-    this.mIntensityLow = ((RadioButton)this.mView.findViewById(2131558614));
-    this.mIntensityMedium = ((RadioButton)this.mView.findViewById(2131558615));
-    this.mIntensityHigh = ((RadioButton)this.mView.findViewById(2131558616));
-    this.mAudioEnable = ((CustomSwitch)this.mView.findViewById(2131558617));
-    this.mLastUpdatedTV = ((TextView)this.mView.findViewById(2131558618));
-    this.mUpdateButton = ((Button)this.mView.findViewById(2131558619));
+    this.mClipLengthValue = ((TextView)this.mView.findViewById(2131558611));
+    this.mIlluminatorControl = ((RadioGroup)this.mView.findViewById(2131558612));
+    this.mIlluminatorOff = ((RadioButton)this.mView.findViewById(2131558613));
+    this.mIlluminatorOn = ((RadioButton)this.mView.findViewById(2131558614));
+    this.mIlluminatorAuto = ((RadioButton)this.mView.findViewById(2131558615));
+    this.mIntensityGroup = ((RadioGroup)this.mView.findViewById(2131558616));
+    this.mIntensityLow = ((RadioButton)this.mView.findViewById(2131558617));
+    this.mIntensityMedium = ((RadioButton)this.mView.findViewById(2131558618));
+    this.mIntensityHigh = ((RadioButton)this.mView.findViewById(2131558619));
+    this.mAudioEnable = ((CustomSwitch)this.mView.findViewById(2131558620));
+    this.mLastUpdatedTV = ((TextView)this.mView.findViewById(2131558621));
+    this.mUpdateButton = ((Button)this.mView.findViewById(2131558622));
     this.mUpdateButton.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
-        if (!OnClick.ok()) {
+        if (!OnClick.ok()) {}
+        for (;;)
+        {
           return;
+          CameraSettingsFragment.this.requestStatus();
         }
-        CameraSettingsFragment.this.requestStatus();
       }
     });
-    this.mTemperatureTV = ((TextView)this.mView.findViewById(2131558621));
-    this.mWifiSignalStrengthIV = ((ImageView)this.mView.findViewById(2131558622));
-    this.mSyncModuleStrengthIV = ((ImageView)this.mView.findViewById(2131558623));
-    this.mBatteryIV = ((ImageView)this.mView.findViewById(2131558624));
-    this.mDeleteCameraButton = ((Button)this.mView.findViewById(2131558625));
+    this.mTemperatureTV = ((TextView)this.mView.findViewById(2131558624));
+    this.mWifiSignalStrengthIV = ((ImageView)this.mView.findViewById(2131558625));
+    this.mSyncModuleStrengthIV = ((ImageView)this.mView.findViewById(2131558626));
+    this.mBatteryIV = ((ImageView)this.mView.findViewById(2131558627));
+    this.mDeleteCameraButton = ((Button)this.mView.findViewById(2131558628));
     this.mDeleteCameraButton.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
         if (CameraSettingsFragment.this.getActivity() != null) {
-          new AlertDialog.Builder(CameraSettingsFragment.this.getActivity()).setTitle("Delete Camera").setMessage("Do you wish to continue?").setPositiveButton(2131100021, new DialogInterface.OnClickListener()
+          new AlertDialog.Builder(CameraSettingsFragment.this.getActivity()).setTitle("Delete Camera").setMessage("Do you wish to continue?").setPositiveButton(2131100024, new DialogInterface.OnClickListener()
           {
             public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
             {
               CameraSettingsFragment.this.deleteCamera();
             }
-          }).setNegativeButton(2131099887, new DialogInterface.OnClickListener()
+          }).setNegativeButton(2131099888, new DialogInterface.OnClickListener()
           {
             public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
           }).create().show();
@@ -660,7 +670,7 @@ public class CameraSettingsFragment
           label68:
           for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = paramAnonymousBlinkError.getErrorMessage())
           {
-            new AlertDialog.Builder(CameraSettingsFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
+            new AlertDialog.Builder(CameraSettingsFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099891, new DialogInterface.OnClickListener()
             {
               public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
               {
@@ -676,15 +686,17 @@ public class CameraSettingsFragment
           if (CameraSettingsFragment.this.getActivity() != null)
           {
             CameraSettingsFragment.access$1002(CameraSettingsFragment.this, (Command)paramAnonymousBlinkData);
-            if (CameraSettingsFragment.this.mCommandResponse.getState_condition() == Command.CONDITION_TYPE.done) {
-              CameraSettingsFragment.this.mRunnable.run();
+            if (CameraSettingsFragment.this.mCommandResponse.getState_condition() != Command.CONDITION_TYPE.done) {
+              break label51;
             }
+            CameraSettingsFragment.this.mRunnable.run();
           }
-          else
+          for (;;)
           {
             return;
+            label51:
+            CameraSettingsFragment.this.startPollForCommandDone(1);
           }
-          CameraSettingsFragment.this.startPollForCommandDone(1);
         }
       }, false);
       return;
@@ -717,7 +729,7 @@ public class CameraSettingsFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/CameraSettingsFragment.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/fragments/CameraSettingsFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

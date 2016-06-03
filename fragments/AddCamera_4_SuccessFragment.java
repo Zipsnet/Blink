@@ -78,15 +78,19 @@ public class AddCamera_4_SuccessFragment
           paramAnonymousBlinkError = AddCamera_4_SuccessFragment.handler.obtainMessage(3, AddCamera_4_SuccessFragment.this);
           AddCamera_4_SuccessFragment.handler.sendMessageDelayed(paramAnonymousBlinkError, 100L);
         }
+        label108:
         for (;;)
         {
           return;
           AddCamera_4_SuccessFragment.this.hideSignalStrengthWidgets();
           if (paramAnonymousBlinkError.response != null) {}
-          for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message"); AddCamera_4_SuccessFragment.this.getActivity() != null; paramAnonymousBlinkError = "Command Failed")
+          for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = "Command Failed")
           {
-            new AlertDialog.Builder(AddCamera_4_SuccessFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, null).create().show();
-            return;
+            if (AddCamera_4_SuccessFragment.this.getActivity() == null) {
+              break label108;
+            }
+            new AlertDialog.Builder(AddCamera_4_SuccessFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099891, null).create().show();
+            break;
           }
         }
       }
@@ -102,7 +106,7 @@ public class AddCamera_4_SuccessFragment
           if (localMessage.getId() == j)
           {
             if (!localMessage.getState_condition().equals(Command.CONDITION_TYPE.done)) {
-              break label108;
+              break label110;
             }
             AddCamera_4_SuccessFragment.access$402(AddCamera_4_SuccessFragment.this, false);
             AddCamera_4_SuccessFragment.access$1602(AddCamera_4_SuccessFragment.this, 4);
@@ -111,9 +115,9 @@ public class AddCamera_4_SuccessFragment
           }
           for (;;)
           {
-            i += 1;
+            i++;
             break;
-            label108:
+            label110:
             AddCamera_4_SuccessFragment.access$1602(AddCamera_4_SuccessFragment.this, 3);
             localMessage = AddCamera_4_SuccessFragment.handler.obtainMessage(AddCamera_4_SuccessFragment.this.mState, AddCamera_4_SuccessFragment.this);
             AddCamera_4_SuccessFragment.handler.sendMessageDelayed(localMessage, 1000L);
@@ -146,8 +150,8 @@ public class AddCamera_4_SuccessFragment
         if (paramAnonymousBlinkError.response != null) {}
         for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = paramAnonymousBlinkError.getErrorMessage())
         {
-          new AlertDialog.Builder(AddCamera_4_SuccessFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, null).create().show();
-          return;
+          new AlertDialog.Builder(AddCamera_4_SuccessFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099891, null).create().show();
+          break;
         }
       }
       
@@ -162,7 +166,7 @@ public class AddCamera_4_SuccessFragment
           if (localMessage.getId() == j)
           {
             if (!localMessage.getState_condition().equals(Command.CONDITION_TYPE.done)) {
-              break label108;
+              break label110;
             }
             AddCamera_4_SuccessFragment.access$402(AddCamera_4_SuccessFragment.this, false);
             AddCamera_4_SuccessFragment.access$1602(AddCamera_4_SuccessFragment.this, 2);
@@ -171,9 +175,9 @@ public class AddCamera_4_SuccessFragment
           }
           for (;;)
           {
-            i += 1;
+            i++;
             break;
-            label108:
+            label110:
             AddCamera_4_SuccessFragment.access$1602(AddCamera_4_SuccessFragment.this, 1);
             localMessage = AddCamera_4_SuccessFragment.handler.obtainMessage(AddCamera_4_SuccessFragment.this.mState, AddCamera_4_SuccessFragment.this);
             AddCamera_4_SuccessFragment.handler.sendMessageDelayed(localMessage, 1000L);
@@ -201,20 +205,22 @@ public class AddCamera_4_SuccessFragment
           if (AddCamera_4_SuccessFragment.this.getActivity() == null) {
             break;
           }
-          new AlertDialog.Builder(AddCamera_4_SuccessFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, null).create().show();
-          return;
+          new AlertDialog.Builder(AddCamera_4_SuccessFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099891, null).create().show();
+          break;
         }
       }
       
       public void onResult(BlinkData paramAnonymousBlinkData)
       {
-        if ((AddCamera_4_SuccessFragment.this.getActivity() == null) || (AddCamera_4_SuccessFragment.this.mListener == null) || (AddCamera_4_SuccessFragment.this.isDetached())) {
+        if ((AddCamera_4_SuccessFragment.this.getActivity() == null) || (AddCamera_4_SuccessFragment.this.mListener == null) || (AddCamera_4_SuccessFragment.this.isDetached())) {}
+        for (;;)
+        {
           return;
+          new ImageLoader(((CameraStatus)paramAnonymousBlinkData).getCamera_status().getThumbnail(), AddCamera_4_SuccessFragment.this.mThumbnail, true, 2);
+          AddCamera_4_SuccessFragment.this.mThumbnail.invalidate();
+          AddCamera_4_SuccessFragment.this.mThumbnail.setVisibility(0);
+          AddCamera_4_SuccessFragment.this.mProgress.setVisibility(8);
         }
-        new ImageLoader(((CameraStatus)paramAnonymousBlinkData).getCamera_status().getThumbnail(), AddCamera_4_SuccessFragment.this.mThumbnail, true, 2);
-        AddCamera_4_SuccessFragment.this.mThumbnail.invalidate();
-        AddCamera_4_SuccessFragment.this.mThumbnail.setVisibility(0);
-        AddCamera_4_SuccessFragment.this.mProgress.setVisibility(8);
       }
     }, false);
   }
@@ -227,24 +233,27 @@ public class AddCamera_4_SuccessFragment
   private void dispatchMessage(Message paramMessage)
   {
     cleanUpHandler();
-    if ((getActivity() == null) || (this.mListener == null) || (isDetached())) {
-      return;
-    }
-    switch (paramMessage.what)
+    if ((getActivity() == null) || (this.mListener == null) || (isDetached())) {}
+    for (;;)
     {
-    default: 
       return;
-    case 1: 
-      checkForThumbnailFinished();
-      return;
-    case 2: 
-      checkForThumbnailUpdated();
-      return;
-    case 3: 
-      checkForRefresh();
-      return;
+      switch (paramMessage.what)
+      {
+      default: 
+        break;
+      case 1: 
+        checkForThumbnailFinished();
+        break;
+      case 2: 
+        checkForThumbnailUpdated();
+        break;
+      case 3: 
+        checkForRefresh();
+        break;
+      case 4: 
+        fetchSignalStrengths();
+      }
     }
-    fetchSignalStrengths();
   }
   
   private void fetchSignalStrengths()
@@ -261,7 +270,7 @@ public class AddCamera_4_SuccessFragment
         label61:
         for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = paramAnonymousBlinkError.getErrorMessage())
         {
-          new AlertDialog.Builder(AddCamera_4_SuccessFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, null).create().show();
+          new AlertDialog.Builder(AddCamera_4_SuccessFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099891, null).create().show();
           return;
         }
       }
@@ -380,7 +389,7 @@ public class AddCamera_4_SuccessFragment
         label84:
         for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = paramAnonymousBlinkError.getErrorMessage())
         {
-          new AlertDialog.Builder(AddCamera_4_SuccessFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, null).create().show();
+          new AlertDialog.Builder(AddCamera_4_SuccessFragment.this.getActivity()).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099891, null).create().show();
           return;
         }
       }
@@ -406,55 +415,63 @@ public class AddCamera_4_SuccessFragment
   
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
-    this.mView = paramLayoutInflater.inflate(2130903089, paramViewGroup, false);
-    this.mSignalStrengthLFRView = ((ImageView)this.mView.findViewById(2131558585));
-    this.mSignalStrengthWiFiView = ((ImageView)this.mView.findViewById(2131558583));
-    this.mSignalStrength = ((Button)this.mView.findViewById(2131558586));
-    this.mWiFiText = ((TextView)this.mView.findViewById(2131558582));
-    this.mLFRText = ((TextView)this.mView.findViewById(2131558584));
+    this.mView = paramLayoutInflater.inflate(2130903093, paramViewGroup, false);
+    this.mSignalStrengthLFRView = ((ImageView)this.mView.findViewById(2131558588));
+    this.mSignalStrengthWiFiView = ((ImageView)this.mView.findViewById(2131558586));
+    this.mSignalStrength = ((Button)this.mView.findViewById(2131558589));
+    this.mWiFiText = ((TextView)this.mView.findViewById(2131558585));
+    this.mLFRText = ((TextView)this.mView.findViewById(2131558587));
     this.mSignalStrength.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
-        if (!OnClick.ok()) {
+        if (!OnClick.ok()) {}
+        for (;;)
+        {
           return;
+          AddCamera_4_SuccessFragment.this.mProgress.setVisibility(0);
+          AddCamera_4_SuccessFragment.this.mSignalsStrengthText.setVisibility(4);
+          AddCamera_4_SuccessFragment.this.mSignalStrength.setVisibility(4);
+          AddCamera_4_SuccessFragment.this.fetchStatus();
         }
-        AddCamera_4_SuccessFragment.this.mProgress.setVisibility(0);
-        AddCamera_4_SuccessFragment.this.mSignalsStrengthText.setVisibility(4);
-        AddCamera_4_SuccessFragment.this.mSignalStrength.setVisibility(4);
-        AddCamera_4_SuccessFragment.this.fetchStatus();
       }
     });
-    this.mTapToSee = ((ImageButton)this.mView.findViewById(2131558587));
+    this.mTapToSee = ((ImageButton)this.mView.findViewById(2131558590));
     this.mTapToSee.setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
-        if (!OnClick.ok()) {
-          return;
-        }
-        AddCamera_4_SuccessFragment.access$402(AddCamera_4_SuccessFragment.this, false);
-        if ((0 != 0) && (Build.VERSION.SDK_INT == 19))
+        if (!OnClick.ok()) {}
+        for (;;)
         {
-          AddCamera_4_SuccessFragment.this.takeAPicture();
           return;
+          AddCamera_4_SuccessFragment.access$402(AddCamera_4_SuccessFragment.this, false);
+          if ((0 != 0) && (Build.VERSION.SDK_INT == 19))
+          {
+            AddCamera_4_SuccessFragment.this.takeAPicture();
+          }
+          else
+          {
+            paramAnonymousView = new Intent(AddCamera_4_SuccessFragment.this.getActivity(), VideoLiveViewActivity.class);
+            AddCamera_4_SuccessFragment.this.startActivityForResult(paramAnonymousView, 109);
+          }
         }
-        paramAnonymousView = new Intent(AddCamera_4_SuccessFragment.this.getActivity(), VideoLiveViewActivity.class);
-        AddCamera_4_SuccessFragment.this.startActivityForResult(paramAnonymousView, 109);
       }
     });
-    this.mThumbnail = ((ImageView)this.mView.findViewById(2131558588));
-    this.mProgress = ((ContentLoadingProgressBar)this.mView.findViewById(2131558538));
-    this.mSignalsStrengthText = ((TextView)this.mView.findViewById(2131558581));
-    ((Button)this.mView.findViewById(2131558551)).setOnClickListener(new View.OnClickListener()
+    this.mThumbnail = ((ImageView)this.mView.findViewById(2131558591));
+    this.mProgress = ((ContentLoadingProgressBar)this.mView.findViewById(2131558541));
+    this.mSignalsStrengthText = ((TextView)this.mView.findViewById(2131558584));
+    ((Button)this.mView.findViewById(2131558554)).setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
-        if (!OnClick.ok()) {
+        if (!OnClick.ok()) {}
+        for (;;)
+        {
           return;
+          paramAnonymousView = AddCamera_5_NameCameraFragment.newInstance(-1);
+          AddCamera_4_SuccessFragment.this.mListener.onFragmentInteraction(AddCamera_4_SuccessFragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymousView);
         }
-        paramAnonymousView = AddCamera_5_NameCameraFragment.newInstance(-1);
-        AddCamera_4_SuccessFragment.this.mListener.onFragmentInteraction(AddCamera_4_SuccessFragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymousView);
       }
     });
     return this.mView;
@@ -473,7 +490,7 @@ public class AddCamera_4_SuccessFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/AddCamera_4_SuccessFragment.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/fragments/AddCamera_4_SuccessFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

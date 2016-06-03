@@ -33,7 +33,7 @@ public class Onboard_1_Fragment
   public void onAttach(Activity paramActivity)
   {
     super.onAttach(paramActivity);
-    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099980));
+    ((BaseActivity)paramActivity).setActionBarTitle(getString(2131099983));
   }
   
   public void onCreate(Bundle paramBundle)
@@ -47,16 +47,18 @@ public class Onboard_1_Fragment
   
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
-    this.mView = paramLayoutInflater.inflate(2130903108, paramViewGroup, false);
-    ((Button)this.mView.findViewById(2131558664)).setOnClickListener(new View.OnClickListener()
+    this.mView = paramLayoutInflater.inflate(2130903112, paramViewGroup, false);
+    ((Button)this.mView.findViewById(2131558670)).setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
-        if (!OnClick.ok()) {
+        if (!OnClick.ok()) {}
+        for (;;)
+        {
           return;
+          paramAnonymousView = Onboard_2_Wait_For_Blue_Light_Fragment.newInstance(2);
+          Onboard_1_Fragment.this.mListener.onFragmentInteraction(Onboard_1_Fragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymousView);
         }
-        paramAnonymousView = Onboard_2_Wait_For_Blue_Light_Fragment.newInstance(2);
-        Onboard_1_Fragment.this.mListener.onFragmentInteraction(Onboard_1_Fragment.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymousView);
       }
     });
     return this.mView;
@@ -64,7 +66,7 @@ public class Onboard_1_Fragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/Onboard_1_Fragment.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/fragments/Onboard_1_Fragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

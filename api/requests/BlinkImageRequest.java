@@ -45,18 +45,20 @@ public class BlinkImageRequest
   public Map<String, String> getHeaders()
     throws AuthFailureError
   {
-    HashMap localHashMap = new HashMap();
-    if (BlinkApp.getApp().getLoggedIn())
-    {
-      localHashMap.put("TOKEN_AUTH", BlinkApp.getApp().getLoginAuthToken());
-      return localHashMap;
+    Object localObject = new HashMap();
+    if (BlinkApp.getApp().getLoggedIn()) {
+      ((Map)localObject).put("TOKEN_AUTH", BlinkApp.getApp().getLoginAuthToken());
     }
-    return super.getHeaders();
+    for (;;)
+    {
+      return (Map<String, String>)localObject;
+      localObject = super.getHeaders();
+    }
   }
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/api/requests/BlinkImageRequest.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/api/requests/BlinkImageRequest.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

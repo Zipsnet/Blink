@@ -101,18 +101,17 @@ public class MainActivity
   private boolean checkPlayServices()
   {
     int i = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-    if (i != 0)
-    {
+    if (i != 0) {
       if (GooglePlayServicesUtil.isUserRecoverableError(i)) {
         GooglePlayServicesUtil.getErrorDialog(i, this, 9000).show();
       }
-      for (;;)
-      {
-        return false;
-        Log.i("BlinkApp", "This device is not supported for Google Play Services");
-      }
     }
-    return true;
+    for (boolean bool = false;; bool = true)
+    {
+      return bool;
+      Log.i("BlinkApp", "This device is not supported for Google Play Services");
+      break;
+    }
   }
   
   private void logout()
@@ -171,7 +170,7 @@ public class MainActivity
       }
     }
     localObject1 = "Android " + Build.VERSION.RELEASE + " - API " + String.valueOf(Build.VERSION.SDK_INT);
-    str2 = getString(2131099931).replace("$1", BlinkApp.getApp().getUserName()).replace("$2", (CharSequence)localObject2).replace("$3", (CharSequence)localObject1);
+    str2 = getString(2131099933).replace("$1", BlinkApp.getApp().getUserName()).replace("$2", (CharSequence)localObject2).replace("$3", (CharSequence)localObject1);
     localObject2 = "";
     str1 = "";
     localObject1 = localObject2;
@@ -202,11 +201,28 @@ public class MainActivity
   
   private boolean validateInputs(String paramString1, String paramString2)
   {
-    if ((paramString1 == null) || (paramString1.length() == 0)) {}
-    while ((paramString2 == null) || (paramString2.length() == 0)) {
-      return false;
+    boolean bool2 = false;
+    boolean bool1 = bool2;
+    if (paramString1 != null)
+    {
+      if (paramString1.length() != 0) {
+        break label22;
+      }
+      bool1 = bool2;
     }
-    return true;
+    for (;;)
+    {
+      return bool1;
+      label22:
+      bool1 = bool2;
+      if (paramString2 != null)
+      {
+        bool1 = bool2;
+        if (paramString2.length() != 0) {
+          bool1 = true;
+        }
+      }
+    }
   }
   
   public void logMeOut()
@@ -224,10 +240,10 @@ public class MainActivity
   protected void manageAccount()
   {
     Bundle localBundle = new Bundle();
-    localBundle.putString("Title", getString(2131099914));
+    localBundle.putString("Title", getString(2131099915));
     localBundle.putStringArray("List", null);
-    localBundle.putInt("Layout_id_key", 2130903140);
-    localBundle.putString("Ok_Button_Label", getResources().getString(2131099942));
+    localBundle.putInt("Layout_id_key", 2130903144);
+    localBundle.putString("Ok_Button_Label", getResources().getString(2131099944));
     localBundle.putBoolean("Has_extra_button_key", true);
     ChooseDialog localChooseDialog = new ChooseDialog();
     localChooseDialog.setArguments(localBundle);
@@ -242,48 +258,52 @@ public class MainActivity
   protected void onActivityResult(int paramInt1, int paramInt2, Intent paramIntent)
   {
     super.onActivityResult(paramInt1, paramInt2, paramIntent);
-    if (BlinkApp.getApp().getLoggedIn())
+    if (BlinkApp.getApp().getLoggedIn()) {
+      switch (paramInt1 & 0xFFFF)
+      {
+      }
+    }
+    for (;;)
     {
+      return;
+      this.mNavigationDrawerFragment.updateListView();
+      getSupportFragmentManager().beginTransaction().replace(2131558643, HomeScreenFragment.newInstance(-1, this.mBooting)).commit();
+      this.mBooting = false;
+      continue;
       switch (paramInt1 & 0xFFFF)
       {
       case 104: 
-      case 105: 
+      case 108: 
       default: 
-        return;
+        break;
+      case 0: 
+        this.mNavigationDrawerFragment.updateListView();
+        getSupportFragmentManager().beginTransaction().replace(2131558643, HomeScreenFragment.newInstance(-1, this.mBooting)).commit();
+        this.mBooting = false;
       }
-      this.mNavigationDrawerFragment.updateListView();
-      getSupportFragmentManager().beginTransaction().replace(2131558641, HomeScreenFragment.newInstance(-1, this.mBooting)).commit();
-      this.mBooting = false;
-      return;
     }
-    switch (paramInt1 & 0xFFFF)
-    {
-    case 104: 
-    case 108: 
-    default: 
-      return;
-    }
-    this.mNavigationDrawerFragment.updateListView();
-    getSupportFragmentManager().beginTransaction().replace(2131558641, HomeScreenFragment.newInstance(-1, this.mBooting)).commit();
-    this.mBooting = false;
   }
   
   public void onBackPressed()
   {
-    if (this.mNavigationDrawerFragment.isDrawerOpen())
-    {
+    if (this.mNavigationDrawerFragment.isDrawerOpen()) {
       this.mNavigationDrawerFragment.closeDrawer();
-      return;
     }
-    FragmentManager localFragmentManager = getSupportFragmentManager();
-    if ((localFragmentManager.getFragments() != null) && (localFragmentManager.getFragments().size() > 1) && (localFragmentManager.getBackStackEntryCount() > 0))
+    for (;;)
     {
-      super.onBackPressed();
-      refreshScreen();
-      pickActionBar(0);
       return;
+      FragmentManager localFragmentManager = getSupportFragmentManager();
+      if ((localFragmentManager.getFragments() != null) && (localFragmentManager.getFragments().size() > 1) && (localFragmentManager.getBackStackEntryCount() > 0))
+      {
+        super.onBackPressed();
+        refreshScreen();
+        pickActionBar(0);
+      }
+      else
+      {
+        super.onBackPressed();
+      }
     }
-    super.onBackPressed();
   }
   
   public void onCancelClicked(View paramView)
@@ -296,12 +316,12 @@ public class MainActivity
   protected void onCreate(Bundle paramBundle)
   {
     super.onCreate(paramBundle);
-    setContentView(2130903116);
+    setContentView(2130903120);
     paramBundle = getIntent().getExtras();
     if (paramBundle != null) {
       this.mBooting = paramBundle.getBoolean("arg_app_is_bootin", false);
     }
-    this.mNavigationDrawerFragment = ((NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(2131558689));
+    this.mNavigationDrawerFragment = ((NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(2131558694));
     this.mTitle = getTitle();
     pickActionBar(0);
     refreshScreen();
@@ -313,10 +333,14 @@ public class MainActivity
     {
       this.mMenu = paramMenu;
       getMenuInflater().inflate(2131623937, paramMenu);
-      restoreActionBar();
-      return true;
+      ((HomeScreenFragment)getSupportFragmentManager().findFragmentByTag("home_screen_tag")).updateHomeScreenImmediately();
     }
-    return super.onCreateOptionsMenu(paramMenu);
+    for (;;)
+    {
+      return super.onCreateOptionsMenu(paramMenu);
+      restoreActionBar();
+      ((HomeScreenFragment)getSupportFragmentManager().findFragmentByTag("home_screen_tag")).cleanUpHandler();
+    }
   }
   
   public void onDialogExtraButtonClick(DialogFragment paramDialogFragment)
@@ -330,7 +354,7 @@ public class MainActivity
         if (paramAnonymousBlinkError.response != null) {}
         for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = "Reset failed")
         {
-          new AlertDialog.Builder(MainActivity.this).setTitle("Password Reset").setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
+          new AlertDialog.Builder(MainActivity.this).setTitle("Password Reset").setMessage(paramAnonymousBlinkError).setPositiveButton(2131099891, new DialogInterface.OnClickListener()
           {
             public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
           }).create().show();
@@ -341,7 +365,7 @@ public class MainActivity
       public void onResult(BlinkData paramAnonymousBlinkData)
       {
         paramAnonymousBlinkData = ((MessageResponse)paramAnonymousBlinkData).getMessage();
-        new AlertDialog.Builder(MainActivity.this).setTitle("Password Reset").setMessage(paramAnonymousBlinkData).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
+        new AlertDialog.Builder(MainActivity.this).setTitle("Password Reset").setMessage(paramAnonymousBlinkData).setPositiveButton(2131099891, new DialogInterface.OnClickListener()
         {
           public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int)
           {
@@ -358,7 +382,7 @@ public class MainActivity
   
   public void onDialogPositiveClick(DialogFragment paramDialogFragment)
   {
-    paramDialogFragment = (TextView)((ChooseDialog)paramDialogFragment).getCustomView().findViewById(2131558747);
+    paramDialogFragment = (TextView)((ChooseDialog)paramDialogFragment).getCustomView().findViewById(2131558756);
     final String str2 = BlinkApp.getApp().getUserName();
     final String str3 = paramDialogFragment.getText().toString();
     LoginRequest localLoginRequest;
@@ -401,7 +425,7 @@ public class MainActivity
         if (paramAnonymousBlinkError.response != null) {}
         for (paramAnonymousBlinkError = (String)paramAnonymousBlinkError.response.get("message");; paramAnonymousBlinkError = "Login error")
         {
-          new AlertDialog.Builder(MainActivity.this).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099890, null).create().show();
+          new AlertDialog.Builder(MainActivity.this).setMessage(paramAnonymousBlinkError).setPositiveButton(2131099891, null).create().show();
           return;
         }
       }
@@ -418,8 +442,11 @@ public class MainActivity
         MainActivity.this.startActivityForResult(paramAnonymousBlinkData, 100);
       }
     }, false);
-    return;
-    new AlertDialog.Builder(this).setTitle(getString(2131099860)).setMessage(getString(2131100006)).setPositiveButton(2131099890, null).create().show();
+    for (;;)
+    {
+      return;
+      new AlertDialog.Builder(this).setTitle(getString(2131099861)).setMessage(getString(2131100009)).setPositiveButton(2131099891, null).create().show();
+    }
   }
   
   public void onDoneClicked(View paramView)
@@ -427,7 +454,7 @@ public class MainActivity
     final FragmentManager localFragmentManager = getSupportFragmentManager();
     final Fragment localFragment = localFragmentManager.findFragmentByTag("camera_settings_tag");
     paramView.setVisibility(4);
-    this.mActionBarView.findViewById(2131558538).setVisibility(0);
+    this.mActionBarView.findViewById(2131558541).setVisibility(0);
     ((CameraSettingsFragment)localFragment).saveCameraSettings(new Runnable()
     {
       public void run()
@@ -446,11 +473,14 @@ public class MainActivity
     {
     default: 
       super.onFragmentInteraction(paramInt, paramInteractionAction, paramObject);
-      return;
     }
-    this.mNavigationDrawerFragment.updateListView();
-    getSupportFragmentManager().beginTransaction().replace(2131558641, HomeScreenFragment.newInstance(-1, this.mBooting)).commit();
-    this.mBooting = false;
+    for (;;)
+    {
+      return;
+      this.mNavigationDrawerFragment.updateListView();
+      getSupportFragmentManager().beginTransaction().replace(2131558643, HomeScreenFragment.newInstance(-1, this.mBooting)).commit();
+      this.mBooting = false;
+    }
   }
   
   public void onLowMemory()
@@ -481,61 +511,64 @@ public class MainActivity
       {
       default: 
         if (!this.mBooting) {
-          ((FragmentManager)localObject).beginTransaction().replace(2131558641, HomeScreenFragment.newInstance(-1, this.mBooting), "home_screen_tag").commit();
+          ((FragmentManager)localObject).beginTransaction().replace(2131558643, HomeScreenFragment.newInstance(-1, this.mBooting), "home_screen_tag").commit();
         }
         break;
       }
     }
-    do
+    for (;;)
     {
-      do
-      {
-        return;
-        manageAccount();
-        return;
-        startActivityForResult(new Intent(this, ManageSystemsActivity.class), 101);
-        return;
-        startActivityForResult(new Intent(this, AboutBlinkActivity.class), 102);
-        return;
-        sendFeedback();
-        return;
-        localObject = new Intent("android.intent.action.VIEW", Uri.parse(getString(2131100014)));
-      } while (((Intent)localObject).resolveActivity(getPackageManager()) == null);
-      startActivity((Intent)localObject);
       return;
-      new AlertDialog.Builder(this).setTitle(getString(2131099874)).setMessage(getString(2131099746)).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
+      manageAccount();
+      continue;
+      startActivityForResult(new Intent(this, ManageSystemsActivity.class), 101);
+      continue;
+      startActivityForResult(new Intent(this, AboutBlinkActivity.class), 102);
+      continue;
+      sendFeedback();
+      continue;
+      localObject = new Intent("android.intent.action.VIEW", Uri.parse(getString(2131100017)));
+      if (((Intent)localObject).resolveActivity(getPackageManager()) != null)
       {
-        public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt)
+        startActivity((Intent)localObject);
+        continue;
+        new AlertDialog.Builder(this).setTitle(getString(2131099875)).setMessage(getString(2131099746)).setPositiveButton(2131099891, new DialogInterface.OnClickListener()
         {
-          MainActivity.this.logout();
+          public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt)
+          {
+            MainActivity.this.logout();
+          }
+        }).setNegativeButton(2131099778, null).create().show();
+        continue;
+        startActivityForResult(new Intent(this, APITestActivity.class), 114);
+        continue;
+        switch (paramInt)
+        {
+        default: 
+          break;
+        case 1: 
+          startActivityForResult(new Intent(this, LoginActivity.class), 106);
+          break;
+        case 2: 
+          startActivityForResult(new Intent(this, CreateAccountActivity.class), 110);
+          break;
+        case 3: 
+          startActivityForResult(new Intent(this, AboutBlinkActivity.class), 102);
+          break;
+        case 4: 
+          sendFeedback();
+          break;
+        case 5: 
+          localObject = new Intent("android.intent.action.VIEW", Uri.parse(getString(2131100017)));
+          if (((Intent)localObject).resolveActivity(getPackageManager()) != null) {
+            startActivity((Intent)localObject);
+          }
+          break;
+        case 6: 
+          startActivityForResult(new Intent(this, APITestActivity.class), 114);
         }
-      }).setNegativeButton(2131099778, null).create().show();
-      return;
-      startActivityForResult(new Intent(this, APITestActivity.class), 114);
-      return;
-      switch (paramInt)
-      {
-      default: 
-        break;
-      case 1: 
-        startActivityForResult(new Intent(this, LoginActivity.class), 106);
-        return;
-      case 2: 
-        startActivityForResult(new Intent(this, CreateAccountActivity.class), 110);
-        return;
-      case 3: 
-        startActivityForResult(new Intent(this, AboutBlinkActivity.class), 102);
-        return;
-      case 4: 
-        sendFeedback();
-        return;
-      case 5: 
-        localObject = new Intent("android.intent.action.VIEW", Uri.parse(getString(2131100014)));
       }
-    } while (((Intent)localObject).resolveActivity(getPackageManager()) == null);
-    startActivity((Intent)localObject);
-    return;
-    startActivityForResult(new Intent(this, APITestActivity.class), 114);
+    }
   }
   
   protected void onNewIntent(Intent paramIntent)
@@ -547,14 +580,15 @@ public class MainActivity
   {
     switch (paramMenuItem.getItemId())
     {
-    default: 
-      return super.onOptionsItemSelected(paramMenuItem);
     }
-    paramMenuItem = (HomeScreenFragment)getSupportFragmentManager().findFragmentByTag("home_screen_tag");
-    if (paramMenuItem != null) {
-      paramMenuItem.startClipList();
+    for (boolean bool = super.onOptionsItemSelected(paramMenuItem);; bool = true)
+    {
+      return bool;
+      paramMenuItem = (HomeScreenFragment)getSupportFragmentManager().findFragmentByTag("home_screen_tag");
+      if (paramMenuItem != null) {
+        paramMenuItem.startClipList();
+      }
     }
-    return true;
   }
   
   protected void onResume()
@@ -566,30 +600,33 @@ public class MainActivity
   
   public void onSectionAttached(int paramInt)
   {
-    if (paramInt < 1)
-    {
+    if (paramInt < 1) {
       this.mTitle = "";
-      return;
     }
-    paramInt -= 1;
-    if (this.mNavigationDrawerFragment.isSignedIn())
+    for (;;)
     {
-      arrayOfString = getResources().getStringArray(2131427328);
-      if (paramInt >= arrayOfString.length)
+      return;
+      paramInt--;
+      String[] arrayOfString;
+      if (this.mNavigationDrawerFragment.isSignedIn())
       {
-        this.mTitle = "";
-        return;
+        arrayOfString = getResources().getStringArray(2131427328);
+        if (paramInt >= arrayOfString.length) {
+          this.mTitle = "";
+        } else {
+          this.mTitle = arrayOfString[paramInt];
+        }
       }
-      this.mTitle = arrayOfString[paramInt];
-      return;
+      else
+      {
+        arrayOfString = getResources().getStringArray(2131427329);
+        if (paramInt >= arrayOfString.length) {
+          this.mTitle = "";
+        } else {
+          this.mTitle = arrayOfString[paramInt];
+        }
+      }
     }
-    String[] arrayOfString = getResources().getStringArray(2131427329);
-    if (paramInt >= arrayOfString.length)
-    {
-      this.mTitle = "";
-      return;
-    }
-    this.mTitle = arrayOfString[paramInt];
   }
   
   public void pickActionBar(int paramInt)
@@ -613,8 +650,8 @@ public class MainActivity
       }
       if (this.mActionBarView != null)
       {
-        localObject = (TextView)this.mActionBarView.findViewById(2131558536);
-        localTextView1 = (TextView)this.mActionBarView.findViewById(2131558535);
+        localObject = (TextView)this.mActionBarView.findViewById(2131558539);
+        localTextView1 = (TextView)this.mActionBarView.findViewById(2131558538);
         if (localObject != null) {
           ((TextView)localObject).setVisibility(8);
         }
@@ -623,58 +660,62 @@ public class MainActivity
         }
       }
       this.mActionBarView = null;
-      this.mNavigationDrawerFragment.setUp(2131558689, (DrawerLayout)findViewById(2131558688));
+      this.mNavigationDrawerFragment.setUp(2131558694, (DrawerLayout)findViewById(2131558693));
       restoreActionBar();
       if (this.mMenu != null)
       {
-        localObject = this.mMenu.findItem(2131558756);
+        localObject = this.mMenu.findItem(2131558771);
         if (localObject != null) {
           ((MenuItem)localObject).setVisible(true);
         }
       }
     }
-    label181:
-    do
+    for (;;)
     {
-      do
+      return;
+      if (paramInt == 0) {}
+      for (paramInt = 1;; paramInt = 0) {
+        break;
+      }
+      label181:
+      this.mNavigationDrawerFragment.tearDown();
+      this.mActionBarView = getLayoutInflater().inflate(2130903077, null);
+      localObject = getSupportActionBar();
+      ((ActionBar)localObject).setCustomView(this.mActionBarView);
+      ((ActionBar)localObject).setDisplayOptions(16);
+      this.mActionBarView.findViewById(2131558538).setOnClickListener(new View.OnClickListener()
       {
-        return;
-        if (paramInt == 0) {}
-        for (paramInt = 1;; paramInt = 0) {
-          break;
+        public void onClick(View paramAnonymousView)
+        {
+          MainActivity.this.onCancelClicked(paramAnonymousView);
         }
-        this.mNavigationDrawerFragment.tearDown();
-        this.mActionBarView = getLayoutInflater().inflate(2130903074, null);
-        localObject = getSupportActionBar();
-        ((ActionBar)localObject).setCustomView(this.mActionBarView);
-        ((ActionBar)localObject).setDisplayOptions(16);
-        this.mActionBarView.findViewById(2131558535).setOnClickListener(new View.OnClickListener()
+      });
+      this.mActionBarView.findViewById(2131558539).setOnClickListener(new View.OnClickListener()
+      {
+        public void onClick(View paramAnonymousView)
         {
-          public void onClick(View paramAnonymousView)
+          if (!OnClick.ok()) {}
+          for (;;)
           {
-            MainActivity.this.onCancelClicked(paramAnonymousView);
-          }
-        });
-        this.mActionBarView.findViewById(2131558536).setOnClickListener(new View.OnClickListener()
-        {
-          public void onClick(View paramAnonymousView)
-          {
-            if (!OnClick.ok()) {
-              return;
-            }
+            return;
             MainActivity.this.onDoneClicked(paramAnonymousView);
           }
-        });
-        localObject = (TextView)this.mActionBarView.findViewById(2131558536);
-        localTextView1 = (TextView)this.mActionBarView.findViewById(2131558535);
-        TextView localTextView2 = (TextView)this.mActionBarView.findViewById(2131558488);
-        ((TextView)localObject).setVisibility(0);
-        localTextView1.setVisibility(0);
-        localTextView2.setText(getString(2131099995));
-      } while (this.mMenu == null);
-      localObject = this.mMenu.findItem(2131558756);
-    } while (localObject == null);
-    ((MenuItem)localObject).setVisible(false);
+        }
+      });
+      localTextView1 = (TextView)this.mActionBarView.findViewById(2131558539);
+      TextView localTextView2 = (TextView)this.mActionBarView.findViewById(2131558538);
+      localObject = (TextView)this.mActionBarView.findViewById(2131558488);
+      localTextView1.setVisibility(0);
+      localTextView2.setVisibility(0);
+      ((TextView)localObject).setText(getString(2131099998));
+      if (this.mMenu != null)
+      {
+        localObject = this.mMenu.findItem(2131558771);
+        if (localObject != null) {
+          ((MenuItem)localObject).setVisible(false);
+        }
+      }
+    }
   }
   
   protected void refreshAllFragments()
@@ -684,26 +725,26 @@ public class MainActivity
     }
     FragmentManager localFragmentManager = getSupportFragmentManager();
     List localList = localFragmentManager.getFragments();
-    int j = 0;
+    int k = 0;
     int i = 0;
     while (i < localList.size())
     {
-      int k = j;
+      int j = k;
       if ((localList.get(i) instanceof BaseFragment))
       {
-        k = j;
+        j = k;
         if (!((BaseFragment)localList.get(i)).isDetached())
         {
           ((BaseFragment)localList.get(i)).refresh();
-          k = 1;
+          j = 1;
         }
       }
-      i += 1;
-      j = k;
+      i++;
+      k = j;
     }
-    if (j == 0)
+    if (k == 0)
     {
-      localFragmentManager.beginTransaction().replace(2131558641, HomeScreenFragment.newInstance(-1, this.mBooting), "home_screen_tag").commit();
+      localFragmentManager.beginTransaction().replace(2131558643, HomeScreenFragment.newInstance(-1, this.mBooting), "home_screen_tag").commit();
       this.mBooting = false;
     }
   }
@@ -712,61 +753,64 @@ public class MainActivity
   {
     Object localObject = BlinkApp.getApp().getUserName();
     String str = BlinkApp.getApp().getPassword();
-    if ((localObject == null) || (((String)localObject).isEmpty()) || (str == null) || (str.isEmpty()))
-    {
+    if ((localObject == null) || (((String)localObject).isEmpty()) || (str == null) || (str.isEmpty())) {
       logMeOut();
+    }
+    for (;;)
+    {
       return;
-    }
-    LoginRequest localLoginRequest;
-    int i;
-    if ((BlinkApp.getApp().getLoginAuthToken().isEmpty()) || (BlinkApp.getApp().hasLoginExpired()))
-    {
-      Log.i("MainActivity", "Auto logging in, login expired=" + BlinkApp.getApp().hasLoginExpired());
-      localLoginRequest = new LoginRequest();
-      localLoginRequest.setEmail((String)localObject);
-      localLoginRequest.setPassword(str);
-      str = "?";
-      i = 0;
-      localObject = str;
-    }
-    try
-    {
-      PackageInfo localPackageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-      localObject = str;
-      str = localPackageInfo.versionName;
-      localObject = str;
-      int j = localPackageInfo.versionCode;
-      localObject = str;
-      i = j;
-    }
-    catch (Exception localException)
-    {
-      for (;;) {}
-    }
-    localLoginRequest.setClient_specifier(Build.MANUFACTURER + " " + Build.MODEL + " | " + String.valueOf(Build.VERSION.SDK_INT) + " | " + (String)localObject + " | " + i);
-    localLoginRequest.setClient_version((String)localObject);
-    localLoginRequest.setClient_type("android");
-    localLoginRequest.setClient_name(Build.MANUFACTURER + " " + Build.MODEL);
-    if ((BlinkApp.getApp().getDeviceToken() != null) && (BlinkApp.getApp().getDeviceToken().length() > 0)) {
-      localLoginRequest.setNotification_key(BlinkApp.getApp().getDeviceToken());
-    }
-    BlinkAPI.BlinkAPIRequest(null, null, localLoginRequest, new BlinkAPI.BlinkAPICallback()
-    {
-      public void onError(BlinkError paramAnonymousBlinkError)
+      LoginRequest localLoginRequest;
+      if ((BlinkApp.getApp().getLoginAuthToken().isEmpty()) || (BlinkApp.getApp().hasLoginExpired()))
       {
-        BlinkApp.getApp().setLoginAuthToken("");
-        MainActivity.this.mNavigationDrawerFragment.updateListView();
-        MainActivity.this.finish();
+        Log.i("MainActivity", "Auto logging in, login expired=" + BlinkApp.getApp().hasLoginExpired());
+        localLoginRequest = new LoginRequest();
+        localLoginRequest.setEmail((String)localObject);
+        localLoginRequest.setPassword(str);
+        str = "?";
+        j = 0;
+        localObject = str;
       }
-      
-      public void onResult(BlinkData paramAnonymousBlinkData)
+      try
       {
-        BlinkApp.getApp().setLoginAuthToken(((AuthToken)paramAnonymousBlinkData).getAuthtoken().getAuthtoken());
-        MainActivity.this.refreshAllFragments();
+        PackageInfo localPackageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+        localObject = str;
+        str = localPackageInfo.versionName;
+        localObject = str;
+        i = localPackageInfo.versionCode;
+        localObject = str;
       }
-    }, false);
-    return;
-    refreshAllFragments();
+      catch (Exception localException)
+      {
+        for (;;)
+        {
+          int i = j;
+        }
+      }
+      localLoginRequest.setClient_specifier(Build.MANUFACTURER + " " + Build.MODEL + " | " + String.valueOf(Build.VERSION.SDK_INT) + " | " + (String)localObject + " | " + i);
+      localLoginRequest.setClient_version((String)localObject);
+      localLoginRequest.setClient_type("android");
+      localLoginRequest.setClient_name(Build.MANUFACTURER + " " + Build.MODEL);
+      if ((BlinkApp.getApp().getDeviceToken() != null) && (BlinkApp.getApp().getDeviceToken().length() > 0)) {
+        localLoginRequest.setNotification_key(BlinkApp.getApp().getDeviceToken());
+      }
+      BlinkAPI.BlinkAPIRequest(null, null, localLoginRequest, new BlinkAPI.BlinkAPICallback()
+      {
+        public void onError(BlinkError paramAnonymousBlinkError)
+        {
+          BlinkApp.getApp().setLoginAuthToken("");
+          MainActivity.this.mNavigationDrawerFragment.updateListView();
+          MainActivity.this.finish();
+        }
+        
+        public void onResult(BlinkData paramAnonymousBlinkData)
+        {
+          BlinkApp.getApp().setLoginAuthToken(((AuthToken)paramAnonymousBlinkData).getAuthtoken().getAuthtoken());
+          MainActivity.this.refreshAllFragments();
+        }
+      }, false);
+      continue;
+      refreshAllFragments();
+    }
   }
   
   public void restoreActionBar()
@@ -774,7 +818,7 @@ public class MainActivity
     ActionBar localActionBar = getSupportActionBar();
     localActionBar.setNavigationMode(0);
     localActionBar.setDisplayShowTitleEnabled(false);
-    localActionBar.setCustomView(2130903068);
+    localActionBar.setCustomView(2130903070);
     localActionBar.setHomeAsUpIndicator(2130837785);
     setActionBarTitle("");
   }
@@ -783,7 +827,7 @@ public class MainActivity
   {
     if (this.mMenu != null)
     {
-      MenuItem localMenuItem = this.mMenu.findItem(2131558756);
+      MenuItem localMenuItem = this.mMenu.findItem(2131558771);
       if (localMenuItem != null) {
         localMenuItem.setIcon(paramInt);
       }
@@ -792,13 +836,13 @@ public class MainActivity
   
   public void startCameraSettings(int paramInt)
   {
-    getSupportFragmentManager().beginTransaction().addToBackStack("camera_settings_tag").add(2131558641, CameraSettingsFragment.newInstance(-1, paramInt), "camera_settings_tag").commit();
+    getSupportFragmentManager().beginTransaction().addToBackStack("camera_settings_tag").add(2131558643, CameraSettingsFragment.newInstance(-1, paramInt), "camera_settings_tag").commit();
     pickActionBar(1);
   }
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/MainActivity.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/activities/MainActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

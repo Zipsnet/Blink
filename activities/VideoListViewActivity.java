@@ -23,26 +23,29 @@ public class VideoListViewActivity
   
   private void setMenuItemVisibilty(boolean paramBoolean)
   {
-    TextView localTextView1 = (TextView)this.mActionBarView.findViewById(2131558536);
-    TextView localTextView2 = (TextView)this.mActionBarView.findViewById(2131558535);
-    TextView localTextView3 = (TextView)this.mActionBarView.findViewById(2131558488);
+    TextView localTextView1 = (TextView)this.mActionBarView.findViewById(2131558539);
+    TextView localTextView3 = (TextView)this.mActionBarView.findViewById(2131558538);
+    TextView localTextView2 = (TextView)this.mActionBarView.findViewById(2131558488);
     if (paramBoolean)
     {
       localTextView1.setVisibility(0);
-      localTextView2.setVisibility(0);
-      localTextView3.setText(getString(2131099988));
-      return;
+      localTextView3.setVisibility(0);
+      localTextView2.setText(getString(2131099991));
     }
-    localTextView1.setVisibility(4);
-    localTextView2.setVisibility(4);
-    localTextView3.setText(getString(2131099989));
+    for (;;)
+    {
+      return;
+      localTextView1.setVisibility(4);
+      localTextView3.setVisibility(4);
+      localTextView2.setText(getString(2131099992));
+    }
   }
   
   public void onBackPressed()
   {
     super.onBackPressed();
-    getSupportActionBar().setTitle(2131099989);
-    setFragmentTitle(getString(2131099989));
+    getSupportActionBar().setTitle(2131099992);
+    setFragmentTitle(getString(2131099992));
   }
   
   public void onCancelClicked(View paramView)
@@ -53,15 +56,15 @@ public class VideoListViewActivity
   protected void onCreate(Bundle paramBundle)
   {
     super.onCreate(paramBundle);
-    setContentView(2130903071);
+    setContentView(2130903074);
     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-    this.mActionBarView = getLayoutInflater().inflate(2130903075, null);
+    this.mActionBarView = getLayoutInflater().inflate(2130903078, null);
     paramBundle = getSupportActionBar();
     paramBundle.setCustomView(this.mActionBarView);
     paramBundle.setDisplayOptions(16);
     setMenuItemVisibilty(false);
     getIntent().getExtras();
-    getSupportFragmentManager().beginTransaction().replace(2131558534, VideoListViewFragment.newInstance(-1)).commit();
+    getSupportFragmentManager().beginTransaction().replace(2131558537, VideoListViewFragment.newInstance(-1)).commit();
   }
   
   public boolean onCreateOptionsMenu(Menu paramMenu)
@@ -80,12 +83,14 @@ public class VideoListViewActivity
     {
     default: 
       super.onFragmentInteraction(paramInt, paramInteractionAction, paramObject);
-      return;
-    case ???: 
-      getSupportFragmentManager().beginTransaction().replace(2131558534, (Fragment)paramObject).commit();
-      return;
     }
-    getSupportFragmentManager().beginTransaction().add(2131558534, (Fragment)paramObject).addToBackStack(((Fragment)paramObject).getTag()).commit();
+    for (;;)
+    {
+      return;
+      getSupportFragmentManager().beginTransaction().replace(2131558537, (Fragment)paramObject).commit();
+      continue;
+      getSupportFragmentManager().beginTransaction().add(2131558537, (Fragment)paramObject).addToBackStack(((Fragment)paramObject).getTag()).commit();
+    }
   }
   
   public void setFragmentTitle(String paramString)
@@ -96,7 +101,7 @@ public class VideoListViewActivity
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/VideoListViewActivity.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/activities/VideoListViewActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

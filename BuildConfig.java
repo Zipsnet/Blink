@@ -6,12 +6,12 @@ public final class BuildConfig
   public static final String BUILD_TYPE = "release";
   public static final boolean DEBUG = false;
   public static final String FLAVOR = "";
-  public static final int VERSION_CODE = 1156;
-  public static final String VERSION_NAME = "1.1.20";
+  public static final int VERSION_CODE = 1202;
+  public static final String VERSION_NAME = "1.3.6";
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/BuildConfig.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/BuildConfig.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

@@ -35,26 +35,36 @@ public class GetVideosForCameraDates
   
   private String getDateRange()
   {
+    String str;
     switch (this.mDateRange.intValue())
     {
     default: 
-      return "past";
-    case 0: 
-      return "";
+      str = "past";
     }
-    return "yest";
+    for (;;)
+    {
+      return str;
+      str = "";
+      continue;
+      str = "yest";
+    }
   }
   
   private String getEndDate()
   {
+    String str;
     switch (this.mDateRange.intValue())
     {
     default: 
-      return getEndOfDay(-2);
-    case 0: 
-      return getEndOfDay(0);
+      str = getEndOfDay(-2);
     }
-    return getEndOfDay(-1);
+    for (;;)
+    {
+      return str;
+      str = getEndOfDay(0);
+      continue;
+      str = getEndOfDay(-1);
+    }
   }
   
   private String getEndOfDay(int paramInt)
@@ -70,14 +80,19 @@ public class GetVideosForCameraDates
   
   private String getStartDate()
   {
+    String str;
     switch (this.mDateRange.intValue())
     {
     default: 
-      return getStartOfDay(65171);
-    case 0: 
-      return getStartOfDay(0);
+      str = getStartOfDay(65171);
     }
-    return getStartOfDay(-1);
+    for (;;)
+    {
+      return str;
+      str = getStartOfDay(0);
+      continue;
+      str = getStartOfDay(-1);
+    }
   }
   
   private String getStartOfDay(int paramInt)
@@ -119,7 +134,7 @@ public class GetVideosForCameraDates
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/api/requests/Networks/GetVideosForCameraDates.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/api/requests/Networks/GetVideosForCameraDates.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

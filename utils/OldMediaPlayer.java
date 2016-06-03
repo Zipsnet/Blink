@@ -57,26 +57,26 @@ public class OldMediaPlayer
   
   public int getCurrentPosition()
   {
-    if (this.mMediaPlayer != null) {
-      return this.mMediaPlayer.getCurrentPosition();
+    if (this.mMediaPlayer != null) {}
+    for (int i = this.mMediaPlayer.getCurrentPosition();; i = 0) {
+      return i;
     }
-    return 0;
   }
   
   public int getDuration()
   {
-    if (this.mMediaPlayer != null) {
-      return this.mMediaPlayer.getDuration();
+    if (this.mMediaPlayer != null) {}
+    for (int i = this.mMediaPlayer.getDuration();; i = 0) {
+      return i;
     }
-    return 0;
   }
   
   public boolean isPlaying()
   {
-    if (this.mMediaPlayer != null) {
-      return this.mMediaPlayer.isPlaying();
+    if (this.mMediaPlayer != null) {}
+    for (boolean bool = this.mMediaPlayer.isPlaying();; bool = false) {
+      return bool;
     }
-    return false;
   }
   
   public void onBufferingUpdate(MediaPlayer paramMediaPlayer, int paramInt)
@@ -118,14 +118,16 @@ public class OldMediaPlayer
     if ((paramInt1 == 0) || (paramInt2 == 0)) {
       Log.e("OldMediaPlayer", "invalid video width(" + paramInt1 + ") or height(" + paramInt2 + ")");
     }
-    do
+    for (;;)
     {
       return;
       this.mIsVideoSizeKnown = true;
       this.mVideoWidth = paramInt1;
       this.mVideoHeight = paramInt2;
-    } while ((!this.mIsVideoReadyToBePlayed) || (!this.mIsVideoSizeKnown));
-    startVideoPlayback();
+      if ((this.mIsVideoReadyToBePlayed) && (this.mIsVideoSizeKnown)) {
+        startVideoPlayback();
+      }
+    }
   }
   
   public void pause()
@@ -142,7 +144,9 @@ public class OldMediaPlayer
     doCleanUp();
     try
     {
-      this.mMediaPlayer = new MediaPlayer();
+      paramContext = new android/media/MediaPlayer;
+      paramContext.<init>();
+      this.mMediaPlayer = paramContext;
       this.mMediaPlayer.setDataSource(paramString);
       this.mMediaPlayer.setDisplay(paramSurfaceHolder);
       this.mMediaPlayer.prepare();
@@ -155,7 +159,10 @@ public class OldMediaPlayer
     }
     catch (Exception paramContext)
     {
-      Log.e("OldMediaPlayer", "error: " + paramContext.getMessage(), paramContext);
+      for (;;)
+      {
+        Log.e("OldMediaPlayer", "error: " + paramContext.getMessage(), paramContext);
+      }
     }
   }
   
@@ -180,14 +187,17 @@ public class OldMediaPlayer
   {
     if (this.mMediaController != null)
     {
-      if ((((WindowManager)this.mContext.getSystemService("window")).getDefaultDisplay().getRotation() & 0x1) == 0) {
-        this.mMediaController.show(-1);
+      if ((((WindowManager)this.mContext.getSystemService("window")).getDefaultDisplay().getRotation() & 0x1) != 0) {
+        break label41;
       }
+      this.mMediaController.show(-1);
     }
-    else {
+    for (;;)
+    {
       return;
+      label41:
+      this.mMediaController.show(3000);
     }
-    this.mMediaController.show(3000);
   }
   
   public void start()
@@ -199,7 +209,7 @@ public class OldMediaPlayer
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/utils/OldMediaPlayer.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/utils/OldMediaPlayer.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

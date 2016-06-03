@@ -51,7 +51,7 @@ public class ManageEmailFragment
     label75:
     for (paramBlinkError = (String)paramBlinkError.response.get("message");; paramBlinkError = "")
     {
-      new AlertDialog.Builder(getActivity()).setMessage(paramBlinkError).setPositiveButton(2131099926, new DialogInterface.OnClickListener()
+      new AlertDialog.Builder(getActivity()).setMessage(paramBlinkError).setPositiveButton(2131099928, new DialogInterface.OnClickListener()
       {
         public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt) {}
       }).setNegativeButton(2131099778, new DialogInterface.OnClickListener()
@@ -84,9 +84,9 @@ public class ManageEmailFragment
   
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
-    this.mView = paramLayoutInflater.inflate(2130903105, paramViewGroup, false);
-    this.mNewEmail = ((EditText)this.mView.findViewById(2131558658));
-    this.mChangeEmailButton = ((Button)this.mView.findViewById(2131558660));
+    this.mView = paramLayoutInflater.inflate(2130903109, paramViewGroup, false);
+    this.mNewEmail = ((EditText)this.mView.findViewById(2131558664));
+    this.mChangeEmailButton = ((Button)this.mView.findViewById(2131558666));
     this.mNewEmail.addTextChangedListener(new TextWatcher()
     {
       public void afterTextChanged(Editable paramAnonymousEditable)
@@ -99,21 +99,23 @@ public class ManageEmailFragment
           if (ManageEmailFragment.this.mNewEmailConfirm.getText().length() <= 0) {
             break label54;
           }
-        }
-        for (;;)
-        {
+          label31:
           if ((i & j) == 0) {
             break label59;
           }
           ManageEmailFragment.this.mChangeEmailButton.setVisibility(0);
+        }
+        for (;;)
+        {
           return;
           i = 0;
           break;
           label54:
           j = 0;
+          break label31;
+          label59:
+          ManageEmailFragment.this.mChangeEmailButton.setVisibility(4);
         }
-        label59:
-        ManageEmailFragment.this.mChangeEmailButton.setVisibility(4);
       }
       
       public void beforeTextChanged(CharSequence paramAnonymousCharSequence, int paramAnonymousInt1, int paramAnonymousInt2, int paramAnonymousInt3) {}
@@ -131,7 +133,7 @@ public class ManageEmailFragment
         }
       }
     });
-    this.mNewEmailConfirm = ((EditText)this.mView.findViewById(2131558659));
+    this.mNewEmailConfirm = ((EditText)this.mView.findViewById(2131558665));
     this.mNewEmailConfirm.addTextChangedListener(new TextWatcher()
     {
       public void afterTextChanged(Editable paramAnonymousEditable)
@@ -144,21 +146,23 @@ public class ManageEmailFragment
           if (ManageEmailFragment.this.mNewEmail.getText().length() <= 0) {
             break label54;
           }
-        }
-        for (;;)
-        {
+          label31:
           if ((i & j) == 0) {
             break label59;
           }
           ManageEmailFragment.this.mChangeEmailButton.setVisibility(0);
+        }
+        for (;;)
+        {
           return;
           i = 0;
           break;
           label54:
           j = 0;
+          break label31;
+          label59:
+          ManageEmailFragment.this.mChangeEmailButton.setVisibility(4);
         }
-        label59:
-        ManageEmailFragment.this.mChangeEmailButton.setVisibility(4);
       }
       
       public void beforeTextChanged(CharSequence paramAnonymousCharSequence, int paramAnonymousInt1, int paramAnonymousInt2, int paramAnonymousInt3) {}
@@ -169,51 +173,54 @@ public class ManageEmailFragment
     {
       public void onClick(final View paramAnonymousView)
       {
-        if (!OnClick.ok()) {
-          return;
-        }
-        paramAnonymousView = ManageEmailFragment.this.mNewEmail.getText().toString();
-        Object localObject = ManageEmailFragment.this.mNewEmailConfirm.getText().toString();
-        if (!Validation.validateEmail(paramAnonymousView))
+        if (!OnClick.ok()) {}
+        for (;;)
         {
-          new AlertDialog.Builder(ManageEmailFragment.this.getActivity()).setMessage(2131099814).setPositiveButton(2131099890, new DialogInterface.OnClickListener()
-          {
-            public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
-          }).create().show();
           return;
-        }
-        if (!paramAnonymousView.equals(localObject))
-        {
-          new AlertDialog.Builder(ManageEmailFragment.this.getActivity()).setMessage("Email does not match").setPositiveButton(2131099890, new DialogInterface.OnClickListener()
+          paramAnonymousView = ManageEmailFragment.this.mNewEmail.getText().toString();
+          Object localObject = ManageEmailFragment.this.mNewEmailConfirm.getText().toString();
+          if (!Validation.validateEmail(paramAnonymousView))
           {
-            public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
-          }).create().show();
-          return;
-        }
-        localObject = new UpdateAccountRequest();
-        ((UpdateAccountRequest)localObject).setEmail(paramAnonymousView);
-        ((UpdateAccountRequest)localObject).setPassword(BlinkApp.getApp().getPassword());
-        BlinkAPI.BlinkAPIRequest(null, null, (BlinkRequest)localObject, new BlinkAPI.BlinkAPICallback()
-        {
-          public void onError(BlinkError paramAnonymous2BlinkError)
-          {
-            ManageEmailFragment.this.loginError(paramAnonymous2BlinkError);
+            new AlertDialog.Builder(ManageEmailFragment.this.getActivity()).setMessage(2131099815).setPositiveButton(2131099891, new DialogInterface.OnClickListener()
+            {
+              public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
+            }).create().show();
           }
-          
-          public void onResult(BlinkData paramAnonymous2BlinkData)
+          else if (!paramAnonymousView.equals(localObject))
           {
-            BlinkApp.getApp().setUserName(paramAnonymousView);
-            if (ManageEmailFragment.this.getActivity() != null) {
-              new AlertDialog.Builder(ManageEmailFragment.this.getActivity()).setMessage("Email changed successfully").setPositiveButton(2131099890, new DialogInterface.OnClickListener()
+            new AlertDialog.Builder(ManageEmailFragment.this.getActivity()).setMessage("Email does not match").setPositiveButton(2131099891, new DialogInterface.OnClickListener()
+            {
+              public void onClick(DialogInterface paramAnonymous2DialogInterface, int paramAnonymous2Int) {}
+            }).create().show();
+          }
+          else
+          {
+            localObject = new UpdateAccountRequest();
+            ((UpdateAccountRequest)localObject).setEmail(paramAnonymousView);
+            ((UpdateAccountRequest)localObject).setPassword(BlinkApp.getApp().getPassword());
+            BlinkAPI.BlinkAPIRequest(null, null, (BlinkRequest)localObject, new BlinkAPI.BlinkAPICallback()
+            {
+              public void onError(BlinkError paramAnonymous2BlinkError)
               {
-                public void onClick(DialogInterface paramAnonymous3DialogInterface, int paramAnonymous3Int)
-                {
-                  ManageEmailFragment.this.getActivity().finish();
+                ManageEmailFragment.this.loginError(paramAnonymous2BlinkError);
+              }
+              
+              public void onResult(BlinkData paramAnonymous2BlinkData)
+              {
+                BlinkApp.getApp().setUserName(paramAnonymousView);
+                if (ManageEmailFragment.this.getActivity() != null) {
+                  new AlertDialog.Builder(ManageEmailFragment.this.getActivity()).setMessage("Email changed successfully").setPositiveButton(2131099891, new DialogInterface.OnClickListener()
+                  {
+                    public void onClick(DialogInterface paramAnonymous3DialogInterface, int paramAnonymous3Int)
+                    {
+                      ManageEmailFragment.this.getActivity().finish();
+                    }
+                  }).create().show();
                 }
-              }).create().show();
-            }
+              }
+            }, false);
           }
-        }, false);
+        }
       }
     });
     this.mNewEmail.setOnFocusChangeListener(new View.OnFocusChangeListener()
@@ -231,7 +238,7 @@ public class ManageEmailFragment
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/ManageEmailFragment.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/fragments/ManageEmailFragment.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

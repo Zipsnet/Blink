@@ -37,14 +37,19 @@ public abstract class SectionAdapter
   public final Object getItem(int paramInt)
   {
     int i = getSection(paramInt);
-    if (isSectionHeader(paramInt))
-    {
+    Object localObject;
+    if (isSectionHeader(paramInt)) {
       if (hasSectionHeaderView(i)) {
-        return getSectionHeaderItem(i);
+        localObject = getSectionHeaderItem(i);
       }
-      return null;
     }
-    return getRowItem(i, getRowInSection(paramInt));
+    for (;;)
+    {
+      return localObject;
+      localObject = null;
+      continue;
+      localObject = getRowItem(i, getRowInSection(paramInt));
+    }
   }
   
   public long getItemId(int paramInt)
@@ -55,10 +60,10 @@ public abstract class SectionAdapter
   public final int getItemViewType(int paramInt)
   {
     int i = getSection(paramInt);
-    if (isSectionHeader(paramInt)) {
-      return getRowViewTypeCount() + getSectionHeaderItemViewType(i);
+    if (isSectionHeader(paramInt)) {}
+    for (paramInt = getRowViewTypeCount() + getSectionHeaderItemViewType(i);; paramInt = getRowItemViewType(i, getRowInSection(paramInt))) {
+      return paramInt;
     }
-    return getRowItemViewType(i, getRowInSection(paramInt));
   }
   
   protected int getRowInSection(int paramInt)
@@ -93,7 +98,7 @@ public abstract class SectionAdapter
     while ((j <= paramInt) && (i <= numberOfSections()))
     {
       j += numberOfCellsInSection(i);
-      i += 1;
+      i++;
     }
     return i - 1;
   }
@@ -121,14 +126,18 @@ public abstract class SectionAdapter
   public final View getView(int paramInt, View paramView, ViewGroup paramViewGroup)
   {
     int i = getSection(paramInt);
-    if (isSectionHeader(paramInt))
-    {
+    if (isSectionHeader(paramInt)) {
       if (hasSectionHeaderView(i)) {
-        return getSectionHeaderView(i, paramView, paramViewGroup);
+        paramView = getSectionHeaderView(i, paramView, paramViewGroup);
       }
-      return null;
     }
-    return getRowView(i, getRowInSection(paramInt), paramView, paramViewGroup);
+    for (;;)
+    {
+      return paramView;
+      paramView = null;
+      continue;
+      paramView = getRowView(i, getRowInSection(paramInt), paramView, paramViewGroup);
+    }
   }
   
   public final int getViewTypeCount()
@@ -143,12 +152,18 @@ public abstract class SectionAdapter
   
   public boolean isEmpty()
   {
-    return getCount() == 0;
+    if (getCount() == 0) {}
+    for (boolean bool = true;; bool = false) {
+      return bool;
+    }
   }
   
   public boolean isEnabled(int paramInt)
   {
-    return ((disableHeaders()) || (!isSectionHeader(paramInt))) && (isRowEnabled(getSection(paramInt), getRowInSection(paramInt)));
+    if (((disableHeaders()) || (!isSectionHeader(paramInt))) && (isRowEnabled(getSection(paramInt), getRowInSection(paramInt)))) {}
+    for (boolean bool = true;; bool = false) {
+      return bool;
+    }
   }
   
   public boolean isRowEnabled(int paramInt1, int paramInt2)
@@ -159,7 +174,10 @@ public abstract class SectionAdapter
   protected boolean isSectionHeader(int paramInt)
   {
     int i = getSection(paramInt);
-    return (hasSectionHeaderView(i)) && (numberOfCellsBeforeSection(i) == paramInt);
+    if ((hasSectionHeaderView(i)) && (numberOfCellsBeforeSection(i) == paramInt)) {}
+    for (boolean bool = true;; bool = false) {
+      return bool;
+    }
   }
   
   public void notifyDataSetChanged()
@@ -177,11 +195,8 @@ public abstract class SectionAdapter
   protected int numberOfCellsBeforeSection(int paramInt)
   {
     int j = 0;
-    int i = 0;
-    while (i < Math.min(numberOfSections(), paramInt))
-    {
+    for (int i = 0; i < Math.min(numberOfSections(), paramInt); i++) {
       j += numberOfCellsInSection(i);
-      i += 1;
     }
     return j;
   }
@@ -199,7 +214,7 @@ public abstract class SectionAdapter
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/utils/SectionAdapter.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/utils/SectionAdapter.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

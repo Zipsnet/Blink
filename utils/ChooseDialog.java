@@ -62,30 +62,28 @@ public class ChooseDialog
   
   public Dialog onCreateDialog(Bundle paramBundle)
   {
-    paramBundle = getArguments();
+    Object localObject = getArguments();
     int i;
-    if (paramBundle != null)
+    if (localObject != null)
     {
-      this.mTitle = paramBundle.getString("Title");
-      this.mRawItems = paramBundle.getStringArray("List");
+      this.mTitle = ((Bundle)localObject).getString("Title");
+      this.mRawItems = ((Bundle)localObject).getStringArray("List");
       if ((this.mRawItems != null) && (this.mRawItems.length > 0))
       {
         this.mItems = new CharSequence[this.mRawItems.length];
-        i = 0;
-        while (i < this.mRawItems.length)
+        for (i = 0; i < this.mRawItems.length; i++)
         {
-          localObject = this.mRawItems[i];
-          this.mItems[i] = ((String)localObject).subSequence(0, ((String)localObject).length());
-          i += 1;
+          paramBundle = this.mRawItems[i];
+          this.mItems[i] = paramBundle.subSequence(0, paramBundle.length());
         }
       }
-      this.mLayoutId = paramBundle.getInt("Layout_id_key", 0);
-      this.mOKButton = paramBundle.getString("Ok_Button_Label");
-      this.mHasExtraButton = paramBundle.getBoolean("Has_extra_button_key", false);
-      this.mCurSelection = paramBundle.getInt("Current_selection", -1);
+      this.mLayoutId = ((Bundle)localObject).getInt("Layout_id_key", 0);
+      this.mOKButton = ((Bundle)localObject).getString("Ok_Button_Label");
+      this.mHasExtraButton = ((Bundle)localObject).getBoolean("Has_extra_button_key", false);
+      this.mCurSelection = ((Bundle)localObject).getInt("Current_selection", -1);
     }
     paramBundle = new AlertDialog.Builder(getActivity());
-    Object localObject = getActivity().getLayoutInflater();
+    localObject = getActivity().getLayoutInflater();
     if (this.mLayoutId > 0) {
       this.mCustomView = ((LayoutInflater)localObject).inflate(this.mLayoutId, null);
     }
@@ -104,14 +102,14 @@ public class ChooseDialog
         }
       }
     }
-    label483:
-    label493:
+    label481:
+    label491:
     for (;;)
     {
       paramBundle.setView(this.mCustomView);
       if (this.mHasExtraButton)
       {
-        localObject = (TextView)this.mCustomView.findViewById(2131558748);
+        localObject = (TextView)this.mCustomView.findViewById(2131558757);
         if (localObject != null) {
           ((TextView)localObject).setOnClickListener(new View.OnClickListener()
           {
@@ -147,17 +145,16 @@ public class ChooseDialog
       if (this.mTitle != null)
       {
         if ((this.mCustomView == null) || (this.mCustomView.findViewById(2131558488) == null)) {
-          break label483;
+          break label481;
         }
         ((TextView)this.mCustomView.findViewById(2131558488)).setText(this.mTitle);
       }
       for (;;)
       {
         if (this.mCustomView == null) {
-          break label493;
+          break label491;
         }
-        i = 0;
-        while (i < ((ViewGroup)this.mCustomView).getChildCount())
+        for (i = 0; i < ((ViewGroup)this.mCustomView).getChildCount(); i++)
         {
           localObject = ((ViewGroup)this.mCustomView).getChildAt(i);
           if (EditText.class.isAssignableFrom(localObject.getClass()))
@@ -167,7 +164,6 @@ public class ChooseDialog
             localObject = this.handler.obtainMessage(0, localObject);
             this.handler.sendMessageDelayed((Message)localObject, 250L);
           }
-          i += 1;
         }
         break;
         paramBundle.setTitle(this.mTitle);
@@ -201,7 +197,7 @@ public class ChooseDialog
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/utils/ChooseDialog.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/utils/ChooseDialog.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

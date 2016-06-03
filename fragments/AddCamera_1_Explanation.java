@@ -39,16 +39,18 @@ public class AddCamera_1_Explanation
   
   public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
   {
-    this.mView = paramLayoutInflater.inflate(2130903086, paramViewGroup, false);
-    ((Button)this.mView.findViewById(2131558556)).setOnClickListener(new View.OnClickListener()
+    this.mView = paramLayoutInflater.inflate(2130903090, paramViewGroup, false);
+    ((Button)this.mView.findViewById(2131558559)).setOnClickListener(new View.OnClickListener()
     {
       public void onClick(View paramAnonymousView)
       {
-        if (!OnClick.ok()) {
+        if (!OnClick.ok()) {}
+        for (;;)
+        {
           return;
+          paramAnonymousView = AddCamera_2_Fragment.newInstance(-1);
+          AddCamera_1_Explanation.this.mListener.onFragmentInteraction(AddCamera_1_Explanation.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymousView);
         }
-        paramAnonymousView = AddCamera_2_Fragment.newInstance(-1);
-        AddCamera_1_Explanation.this.mListener.onFragmentInteraction(AddCamera_1_Explanation.this.mSectionNumber, BaseFragment.OnFragmentInteractionListener.InteractionAction.REPLACE_FRAGMENT, paramAnonymousView);
       }
     });
     return this.mView;
@@ -56,7 +58,7 @@ public class AddCamera_1_Explanation
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/fragments/AddCamera_1_Explanation.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/fragments/AddCamera_1_Explanation.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

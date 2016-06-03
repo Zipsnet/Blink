@@ -17,12 +17,15 @@ public class LiveViewWhiteList
     localHashMap = new HashMap();
     try
     {
-      Scanner localScanner = new Scanner(new File("/proc/cpuinfo"));
+      Scanner localScanner = new java/util/Scanner;
+      Object localObject = new java/io/File;
+      ((File)localObject).<init>("/proc/cpuinfo");
+      localScanner.<init>((File)localObject);
       while (localScanner.hasNextLine())
       {
-        String[] arrayOfString = localScanner.nextLine().split(": ");
-        if (arrayOfString.length > 1) {
-          localHashMap.put(arrayOfString[0].trim(), arrayOfString[1].trim());
+        localObject = localScanner.nextLine().split(": ");
+        if (localObject.length > 1) {
+          localHashMap.put(localObject[0].trim(), localObject[1].trim());
         }
       }
       return localHashMap;
@@ -40,27 +43,33 @@ public class LiveViewWhiteList
   
   public static boolean requiresLibAV()
   {
-    if ((Build.VERSION.SDK_INT >= 21) && (Build.VERSION.SDK_INT >= 22)) {}
-    for (;;)
+    boolean bool2 = true;
+    boolean bool1;
+    if ((Build.VERSION.SDK_INT >= 21) && (Build.VERSION.SDK_INT >= 22))
     {
-      return true;
-      String[] arrayOfString = BlinkApp.getApp().getApplicationContext().getResources().getStringArray(2131427330);
-      String str1 = getProcCPUInfoHardware();
-      int i = 0;
-      while (i < arrayOfString.length)
+      bool1 = bool2;
+      return bool1;
+    }
+    String[] arrayOfString = BlinkApp.getApp().getApplicationContext().getResources().getStringArray(2131427330);
+    String str2 = getProcCPUInfoHardware();
+    for (int i = 0;; i++)
+    {
+      bool1 = bool2;
+      if (i >= arrayOfString.length) {
+        break;
+      }
+      String str1 = arrayOfString[i];
+      if ((str2.length() > 0) && (str2.equals(str1)))
       {
-        String str2 = arrayOfString[i];
-        if ((str1.length() > 0) && (str1.equals(str2))) {
-          return false;
-        }
-        i += 1;
+        bool1 = false;
+        break;
       }
     }
   }
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/utils/LiveViewWhiteList.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/utils/LiveViewWhiteList.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

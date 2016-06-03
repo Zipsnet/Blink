@@ -154,17 +154,16 @@ public class HeaderListView
     
     private int getRealFirstVisibleItem(int paramInt1, int paramInt2)
     {
-      if (paramInt2 == 0) {
-        return -1;
-      }
-      int j = HeaderListView.this.mListView.getChildAt(0).getTop();
-      int i = 0;
-      while ((i < paramInt2) && (j < HeaderListView.this.mHeader.getHeight()))
+      if (paramInt2 == 0) {}
+      int j;
+      for (paramInt1 = -1;; paramInt1 = Math.max(paramInt1, paramInt1 + j - 1))
       {
-        j += HeaderListView.this.mListView.getChildAt(i).getHeight();
-        i += 1;
+        return paramInt1;
+        int i = HeaderListView.this.mListView.getChildAt(0).getTop();
+        for (j = 0; (j < paramInt2) && (i < HeaderListView.this.mHeader.getHeight()); j++) {
+          i += HeaderListView.this.mListView.getChildAt(j).getHeight();
+        }
       }
-      return Math.max(paramInt1, paramInt1 + i - 1);
     }
     
     private void resetHeader(int paramInt)
@@ -243,37 +242,38 @@ public class HeaderListView
     
     private void updateScrollBar()
     {
-      int k;
       int m;
+      int k;
       FrameLayout localFrameLayout;
       if ((HeaderListView.this.mHeader != null) && (HeaderListView.this.mListView != null) && (HeaderListView.this.mScrollView != null))
       {
-        j = HeaderListView.this.mListView.computeVerticalScrollOffset();
-        k = HeaderListView.this.mListView.computeVerticalScrollRange();
-        m = HeaderListView.this.mListView.computeVerticalScrollExtent();
+        m = HeaderListView.this.mListView.computeVerticalScrollOffset();
+        j = HeaderListView.this.mListView.computeVerticalScrollRange();
+        k = HeaderListView.this.mListView.computeVerticalScrollExtent();
         localFrameLayout = HeaderListView.this.mScrollView;
-        if (m < k) {
-          break label95;
+        if (k < j) {
+          break label92;
         }
       }
-      label95:
+      label92:
       for (int i = 4;; i = 0)
       {
         localFrameLayout.setVisibility(i);
-        if (m < k) {
+        if (k < j) {
           break;
         }
         return;
       }
-      if (k == 0)
+      if (j == 0)
       {
         i = HeaderListView.this.mListView.getHeight();
-        if (k != 0) {
-          break label224;
+        label112:
+        if (j != 0) {
+          break label221;
         }
       }
-      label224:
-      for (int j = 0;; j = HeaderListView.this.mListView.getHeight() - HeaderListView.this.mListView.getHeight() * (j + m) / k)
+      label221:
+      for (int j = 0;; j = HeaderListView.this.mListView.getHeight() - HeaderListView.this.mListView.getHeight() * (m + k) / j)
       {
         HeaderListView.this.mScrollView.setPadding(0, i, 0, j);
         this.fadeOut.reset();
@@ -283,9 +283,9 @@ public class HeaderListView
         this.fadeOut.setDuration(2000L);
         HeaderListView.this.mScrollView.clearAnimation();
         HeaderListView.this.mScrollView.startAnimation(this.fadeOut);
-        return;
-        i = HeaderListView.this.mListView.getHeight() * j / k;
         break;
+        i = HeaderListView.this.mListView.getHeight() * m / j;
+        break label112;
       }
     }
     
@@ -294,14 +294,16 @@ public class HeaderListView
       if (HeaderListView.this.mExternalOnScrollListener != null) {
         HeaderListView.this.mExternalOnScrollListener.onScroll(paramAbsListView, paramInt1, paramInt2, paramInt3);
       }
-      if (!this.didScroll) {
-        return;
-      }
-      int i = paramInt1 - HeaderListView.this.mListView.getHeaderViewsCount();
-      if (i < 0)
+      if (!this.didScroll) {}
+      int i;
+      for (;;)
       {
-        HeaderListView.this.mHeader.removeAllViews();
         return;
+        i = paramInt1 - HeaderListView.this.mListView.getHeaderViewsCount();
+        if (i >= 0) {
+          break;
+        }
+        HeaderListView.this.mHeader.removeAllViews();
       }
       updateScrollBar();
       if ((paramInt2 > 0) && (i == 0) && (HeaderListView.this.mHeader.getChildAt(0) == null))
@@ -310,101 +312,101 @@ public class HeaderListView
         this.lastResetSection = 0;
       }
       int j = getRealFirstVisibleItem(i, paramInt2);
-      boolean bool1;
+      boolean bool2;
       if ((paramInt3 > 0) && (this.previousFirstVisibleItem != j))
       {
         this.direction = (j - this.previousFirstVisibleItem);
         this.actualSection = HeaderListView.this.mAdapter.getSection(j);
-        bool1 = HeaderListView.this.mAdapter.isSectionHeader(j);
-        boolean bool2 = HeaderListView.this.mAdapter.hasSectionHeaderView(this.actualSection - 1);
-        boolean bool3 = HeaderListView.this.mAdapter.hasSectionHeaderView(this.actualSection + 1);
-        boolean bool4 = HeaderListView.this.mAdapter.hasSectionHeaderView(this.actualSection);
+        bool2 = HeaderListView.this.mAdapter.isSectionHeader(j);
+        boolean bool4 = HeaderListView.this.mAdapter.hasSectionHeaderView(this.actualSection - 1);
+        boolean bool1 = HeaderListView.this.mAdapter.hasSectionHeaderView(this.actualSection + 1);
+        boolean bool3 = HeaderListView.this.mAdapter.hasSectionHeaderView(this.actualSection);
         if (HeaderListView.this.mAdapter.getRowInSection(j) == HeaderListView.this.mAdapter.numberOfRows(this.actualSection) - 1)
         {
           paramInt2 = 1;
-          label251:
+          label253:
           if (HeaderListView.this.mAdapter.numberOfRows(this.actualSection - 1) <= 0) {
-            break label738;
+            break label742;
           }
           paramInt1 = 1;
-          label272:
+          label274:
           if (HeaderListView.this.mAdapter.getRowInSection(j) != 0) {
-            break label743;
+            break label747;
           }
           paramInt3 = 1;
-          label290:
-          if ((paramInt3 == 0) || (bool4) || (!bool2) || (j == i)) {
-            break label749;
+          label292:
+          if ((paramInt3 == 0) || (bool3) || (!bool4) || (j == i)) {
+            break label753;
           }
           paramInt3 = 1;
-          label315:
-          if ((paramInt2 == 0) || (!bool4) || (bool3) || (j != i) || (Math.abs(HeaderListView.this.mListView.getChildAt(0).getTop()) < HeaderListView.this.mListView.getChildAt(0).getHeight() / 2)) {
-            break label755;
+          label317:
+          if ((paramInt2 == 0) || (!bool3) || (bool1) || (j != i) || (Math.abs(HeaderListView.this.mListView.getChildAt(0).getTop()) < HeaderListView.this.mListView.getChildAt(0).getHeight() / 2)) {
+            break label759;
           }
           paramInt2 = 1;
-          label374:
+          label376:
           this.noHeaderUpToHeader = false;
-          if ((!bool1) || (bool2) || (i < 0)) {
-            break label768;
+          if ((!bool2) || (bool4) || (i < 0)) {
+            break label772;
           }
           if (this.direction >= 0) {
-            break label760;
+            break label764;
           }
           paramInt1 = this.actualSection - 1;
-          label408:
+          label410:
           resetHeader(paramInt1);
-          label413:
+          label415:
           this.previousFirstVisibleItem = j;
         }
       }
       else if (this.scrollingStart)
       {
         if (j < i) {
-          break label838;
+          break label842;
         }
         paramInt1 = HeaderListView.this.mListView.getChildAt(j - i).getTop();
-        label452:
+        label454:
         if (!this.doneMeasuring) {
           setMeasurements(j, i);
         }
         if (!this.doneMeasuring) {
-          break label859;
+          break label863;
         }
-        paramInt3 = this.prevH;
-        i = this.nextH;
-        j = this.direction;
-        int k = Math.abs(paramInt1);
+        int k = this.prevH;
+        j = this.nextH;
+        i = this.direction;
+        paramInt3 = Math.abs(paramInt1);
         if (this.direction >= 0) {
-          break label843;
+          break label847;
         }
         paramInt2 = this.nextH;
-        label510:
-        paramInt3 = k * ((paramInt3 - i) * j) / paramInt2;
+        label512:
+        paramInt3 = paramInt3 * ((k - j) * i) / paramInt2;
         if (this.direction <= 0) {
-          break label851;
+          break label855;
         }
         paramInt2 = this.nextH;
-        label537:
+        label539:
         paramInt2 = paramInt3 + paramInt2;
-        label542:
+        label544:
         HeaderListView.this.mHeader.scrollTo(0, -Math.min(0, paramInt1 - paramInt2));
         if ((this.doneMeasuring) && (paramInt2 != HeaderListView.this.mHeader.getLayoutParams().height)) {
           if (this.direction >= 0) {
-            break label864;
+            break label868;
           }
         }
       }
-      label738:
-      label743:
-      label749:
-      label755:
-      label760:
-      label768:
-      label838:
-      label843:
-      label851:
-      label859:
-      label864:
+      label742:
+      label747:
+      label753:
+      label759:
+      label764:
+      label772:
+      label842:
+      label847:
+      label855:
+      label863:
+      label868:
       for (paramAbsListView = this.next.getLayoutParams();; paramAbsListView = this.previous.getLayoutParams())
       {
         paramAbsListView = (RelativeLayout.LayoutParams)paramAbsListView;
@@ -420,45 +422,45 @@ public class HeaderListView
           this.lastResetSection = (this.actualSection + 1);
         }
         HeaderListView.this.mHeader.scrollTo(0, HeaderListView.this.mHeader.getLayoutParams().height - (HeaderListView.this.mListView.getChildAt(0).getHeight() + HeaderListView.this.mListView.getChildAt(0).getTop()));
-        return;
+        break;
         paramInt2 = 0;
-        break label251;
+        break label253;
         paramInt1 = 0;
-        break label272;
+        break label274;
         paramInt3 = 0;
-        break label290;
+        break label292;
         paramInt3 = 0;
-        break label315;
+        break label317;
         paramInt2 = 0;
-        break label374;
+        break label376;
         paramInt1 = this.actualSection;
-        break label408;
-        if (((bool1) && (i > 0)) || (paramInt3 != 0))
+        break label410;
+        if (((bool2) && (i > 0)) || (paramInt3 != 0))
         {
           if (paramInt1 == 0) {
             resetHeader(this.actualSection - 1);
           }
           startScrolling();
-          break label413;
+          break label415;
         }
         if (paramInt2 != 0)
         {
           this.noHeaderUpToHeader = true;
-          break label413;
+          break label415;
         }
         if (this.lastResetSection == this.actualSection) {
-          break label413;
+          break label415;
         }
         resetHeader(this.actualSection);
-        break label413;
+        break label415;
         paramInt1 = 0;
-        break label452;
+        break label454;
         paramInt2 = this.prevH;
-        break label510;
+        break label512;
         paramInt2 = this.prevH;
-        break label537;
+        break label539;
         paramInt2 = 0;
-        break label542;
+        break label544;
       }
     }
     
@@ -497,7 +499,7 @@ public class HeaderListView
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/utils/HeaderListView.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/utils/HeaderListView.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

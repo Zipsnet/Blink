@@ -31,17 +31,19 @@ public class AddCameraActivity
   
   public void onCancelClicked(View paramView)
   {
-    if (!OnClick.ok()) {
+    if (!OnClick.ok()) {}
+    for (;;)
+    {
       return;
+      PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext()).edit().remove("add_camera_sequence").commit();
+      finish();
     }
-    PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext()).edit().remove("add_camera_sequence").commit();
-    finish();
   }
   
   protected void onCreate(Bundle paramBundle)
   {
     super.onCreate(paramBundle);
-    setContentView(2130903071);
+    setContentView(2130903074);
     paramBundle = PreferenceManager.getDefaultSharedPreferences(BlinkApp.getApp().getApplicationContext());
     if (paramBundle.contains("add_camera_sequence")) {
       this.mAddCameraSequence = paramBundle.getInt("add_camera_sequence", 0);
@@ -50,16 +52,16 @@ public class AddCameraActivity
     switch (this.mAddCameraSequence)
     {
     default: 
-      paramBundle.beginTransaction().replace(2131558534, AddCamera_1_Explanation.newInstance(-1)).commit();
+      paramBundle.beginTransaction().replace(2131558537, AddCamera_1_Explanation.newInstance(-1)).commit();
     }
     for (;;)
     {
       paramBundle = getSupportActionBar();
       paramBundle.setDisplayHomeAsUpEnabled(false);
-      this.mActionBarView = getLayoutInflater().inflate(2130903072, null);
+      this.mActionBarView = getLayoutInflater().inflate(2130903075, null);
       paramBundle.setCustomView(this.mActionBarView);
       paramBundle.setDisplayOptions(16);
-      this.mActionBarView.findViewById(2131558535).setOnClickListener(new View.OnClickListener()
+      this.mActionBarView.findViewById(2131558538).setOnClickListener(new View.OnClickListener()
       {
         public void onClick(View paramAnonymousView)
         {
@@ -67,19 +69,19 @@ public class AddCameraActivity
         }
       });
       return;
-      paramBundle.beginTransaction().replace(2131558534, AddCamera_2_Fragment.newInstance(-1)).commit();
+      paramBundle.beginTransaction().replace(2131558537, AddCamera_2_Fragment.newInstance(-1)).commit();
       continue;
-      paramBundle.beginTransaction().replace(2131558534, AddCamera_3_WaitForCameraFragment.newInstance(-1)).commit();
+      paramBundle.beginTransaction().replace(2131558537, AddCamera_3_WaitForCameraFragment.newInstance(-1)).commit();
       continue;
-      paramBundle.beginTransaction().replace(2131558534, AddCamera_4_SuccessFragment.newInstance(-1)).commit();
+      paramBundle.beginTransaction().replace(2131558537, AddCamera_4_SuccessFragment.newInstance(-1)).commit();
       continue;
-      paramBundle.beginTransaction().replace(2131558534, AddCamera_5_NameCameraFragment.newInstance(-1)).commit();
+      paramBundle.beginTransaction().replace(2131558537, AddCamera_5_NameCameraFragment.newInstance(-1)).commit();
       continue;
-      paramBundle.beginTransaction().replace(2131558534, AddCamera_6_TakeSnapshotFragment.newInstance(-1)).commit();
+      paramBundle.beginTransaction().replace(2131558537, AddCamera_6_TakeSnapshotFragment.newInstance(-1)).commit();
       continue;
-      paramBundle.beginTransaction().replace(2131558534, AddCamera_7_AddCameraFragment.newInstance(-1)).commit();
+      paramBundle.beginTransaction().replace(2131558537, AddCamera_7_AddCameraFragment.newInstance(-1)).commit();
       continue;
-      paramBundle.beginTransaction().replace(2131558534, AddCamera_8_RetryFragment.newInstance(-1)).commit();
+      paramBundle.beginTransaction().replace(2131558537, AddCamera_8_RetryFragment.newInstance(-1)).commit();
     }
   }
   
@@ -96,7 +98,7 @@ public class AddCameraActivity
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/activities/AddCameraActivity.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/activities/AddCameraActivity.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

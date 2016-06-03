@@ -49,10 +49,12 @@ public class BlinkClipArray
   private int mMaxVideoID = 0;
   private int mMinVideoID = 0;
   private PollHandler mPollHandler = null;
+  private boolean mStopRequests = false;
   private List<Integer> mVideosToDelete;
   
   private void deleteVideoID(int paramInt)
   {
+    Object localObject;
     if (this.mBusy)
     {
       if (this.mPollHandler == null) {
@@ -60,26 +62,29 @@ public class BlinkClipArray
       }
       localObject = this.mPollHandler.obtainMessage(4, paramInt, 0, this);
       this.mPollHandler.sendMessageDelayed((Message)localObject, 100L);
-      return;
     }
-    this.mBusy = true;
-    BlinkApp.getApp().setLastVideoId(String.valueOf(paramInt));
-    Object localObject = new DeleteVideoByIdRequest_v2();
-    BlinkAPI.BlinkAPIRequest(((DeleteVideoByIdRequest_v2)localObject).getQuery(), null, (BlinkRequest)localObject, new BlinkAPI.BlinkAPICallback()
+    for (;;)
     {
-      public void onError(BlinkError paramAnonymousBlinkError)
+      return;
+      this.mBusy = true;
+      BlinkApp.getApp().setLastVideoId(String.valueOf(paramInt));
+      localObject = new DeleteVideoByIdRequest_v2();
+      BlinkAPI.BlinkAPIRequest(((DeleteVideoByIdRequest_v2)localObject).getQuery(), null, (BlinkRequest)localObject, new BlinkAPI.BlinkAPICallback()
       {
-        Toast.makeText(BlinkApp.getApp().getApplicationContext(), (CharSequence)paramAnonymousBlinkError.response.get("message"), 0).show();
-        BlinkClipArray.access$102(BlinkClipArray.this, false);
-        BlinkClipArray.this.deleteVideoIDs(BlinkClipArray.this.mVideosToDelete);
-      }
-      
-      public void onResult(BlinkData paramAnonymousBlinkData)
-      {
-        BlinkClipArray.access$102(BlinkClipArray.this, false);
-        BlinkClipArray.this.deleteVideoIDs(BlinkClipArray.this.mVideosToDelete);
-      }
-    }, false);
+        public void onError(BlinkError paramAnonymousBlinkError)
+        {
+          Toast.makeText(BlinkApp.getApp().getApplicationContext(), (CharSequence)paramAnonymousBlinkError.response.get("message"), 0).show();
+          BlinkClipArray.access$102(BlinkClipArray.this, false);
+          BlinkClipArray.this.deleteVideoIDs(BlinkClipArray.this.mVideosToDelete);
+        }
+        
+        public void onResult(BlinkData paramAnonymousBlinkData)
+        {
+          BlinkClipArray.access$102(BlinkClipArray.this, false);
+          BlinkClipArray.this.deleteVideoIDs(BlinkClipArray.this.mVideosToDelete);
+        }
+      }, false);
+    }
   }
   
   private void getVideoCount()
@@ -103,10 +108,13 @@ public class BlinkClipArray
         {
           BlinkClipArray.access$202(BlinkClipArray.this, i);
           BlinkClipArray.this.getVideoPage(1);
-          return;
         }
-        BlinkClipArray.this.postVideosWillProcessNotification();
-        BlinkClipArray.this.postVideosDidProcessNotification();
+        for (;;)
+        {
+          return;
+          BlinkClipArray.this.postVideosWillProcessNotification();
+          BlinkClipArray.this.postVideosDidProcessNotification();
+        }
       }
     }, false);
   }
@@ -115,25 +123,28 @@ public class BlinkClipArray
   {
     switch (paramMessage.what)
     {
-    default: 
-      return;
-    case 1: 
-      refresh();
-      return;
-    case 2: 
-      deleteAllVideos();
-      return;
-    case 3: 
-      getVideoPage(paramMessage.arg1);
-      return;
-    case 4: 
-      deleteVideoID(paramMessage.arg1);
-      return;
-    case 5: 
-      deleteVideoIDs(this.mVideosToDelete);
-      return;
     }
-    deleteVideoList(this.mVideosToDelete);
+    for (;;)
+    {
+      return;
+      if (!this.mStopRequests)
+      {
+        refresh();
+        continue;
+        deleteAllVideos();
+        continue;
+        if (!this.mStopRequests)
+        {
+          getVideoPage(paramMessage.arg1);
+          continue;
+          deleteVideoID(paramMessage.arg1);
+          continue;
+          deleteVideoIDs(this.mVideosToDelete);
+          continue;
+          deleteVideoList(this.mVideosToDelete);
+        }
+      }
+    }
   }
   
   public static BlinkClipArray instance()
@@ -164,12 +175,10 @@ public class BlinkClipArray
   public void addObjectsFromArray(Video[] paramArrayOfVideo)
   {
     int j = paramArrayOfVideo.length;
-    int i = 0;
-    while (i < j)
+    for (int i = 0; i < j; i++)
     {
       Video localVideo = paramArrayOfVideo[i];
       this.mBackingStore.add(localVideo);
-      i += 1;
     }
     this.mBackingStoreArray = this.mBackingStore.toArray();
     updateMinMaxIDs();
@@ -182,6 +191,7 @@ public class BlinkClipArray
   
   public void deleteAllVideos()
   {
+    Object localObject;
     if (this.mBusy)
     {
       if (this.mPollHandler == null) {
@@ -189,23 +199,26 @@ public class BlinkClipArray
       }
       localObject = this.mPollHandler.obtainMessage(2, this);
       this.mPollHandler.sendMessageDelayed((Message)localObject, 100L);
-      return;
     }
-    this.mBusy = true;
-    Object localObject = new DeleteAllVideosRequest_v2();
-    BlinkAPI.BlinkAPIRequest(((DeleteAllVideosRequest_v2)localObject).getQuery(), null, (BlinkRequest)localObject, new BlinkAPI.BlinkAPICallback()
+    for (;;)
     {
-      public void onError(BlinkError paramAnonymousBlinkError)
+      return;
+      this.mBusy = true;
+      localObject = new DeleteAllVideosRequest_v2();
+      BlinkAPI.BlinkAPIRequest(((DeleteAllVideosRequest_v2)localObject).getQuery(), null, (BlinkRequest)localObject, new BlinkAPI.BlinkAPICallback()
       {
-        Toast.makeText(BlinkApp.getApp().getApplicationContext(), "Couldn't delete all video clips", 0).show();
-        BlinkClipArray.this.reload();
-      }
-      
-      public void onResult(BlinkData paramAnonymousBlinkData)
-      {
-        BlinkClipArray.this.reload();
-      }
-    }, false);
+        public void onError(BlinkError paramAnonymousBlinkError)
+        {
+          Toast.makeText(BlinkApp.getApp().getApplicationContext(), "Couldn't delete all video clips", 0).show();
+          BlinkClipArray.this.reload();
+        }
+        
+        public void onResult(BlinkData paramAnonymousBlinkData)
+        {
+          BlinkClipArray.this.reload();
+        }
+      }, false);
+    }
   }
   
   public void deleteVideoIDs(List<Integer> paramList)
@@ -218,51 +231,60 @@ public class BlinkClipArray
       }
       paramList = this.mPollHandler.obtainMessage(5, this);
       this.mPollHandler.sendMessageDelayed(paramList, 100L);
-      return;
     }
-    if ((paramList == null) || (paramList.size() == 0))
+    for (;;)
     {
-      refresh();
       return;
+      if ((paramList == null) || (paramList.size() == 0))
+      {
+        refresh();
+      }
+      else
+      {
+        int i = ((Integer)paramList.get(0)).intValue();
+        removeObjectId(i);
+        paramList.remove(0);
+        this.mVideosToDelete = paramList;
+        deleteVideoID(i);
+      }
     }
-    int i = ((Integer)paramList.get(0)).intValue();
-    removeObjectId(i);
-    paramList.remove(0);
-    this.mVideosToDelete = paramList;
-    deleteVideoID(i);
   }
   
   public void deleteVideoList(List<Integer> paramList)
   {
-    if ((paramList == null) || (paramList.size() == 0))
-    {
+    if ((paramList == null) || (paramList.size() == 0)) {
       refresh();
-      return;
     }
-    if (this.mBusy)
+    for (;;)
     {
-      if (this.mPollHandler == null) {
-        this.mPollHandler = new PollHandler();
-      }
-      paramList = this.mPollHandler.obtainMessage(6);
-      this.mPollHandler.sendMessageDelayed(paramList, 100L);
       return;
+      if (this.mBusy)
+      {
+        if (this.mPollHandler == null) {
+          this.mPollHandler = new PollHandler();
+        }
+        paramList = this.mPollHandler.obtainMessage(6, this);
+        this.mPollHandler.sendMessageDelayed(paramList, 100L);
+      }
+      else
+      {
+        this.mBusy = true;
+        DeleteVideosByArray_v2 localDeleteVideosByArray_v2 = new DeleteVideosByArray_v2();
+        localDeleteVideosByArray_v2.setVideo_list(paramList);
+        BlinkAPI.BlinkAPIRequest(localDeleteVideosByArray_v2.getQuery(), null, localDeleteVideosByArray_v2, new BlinkAPI.BlinkAPICallback()
+        {
+          public void onError(BlinkError paramAnonymousBlinkError)
+          {
+            BlinkClipArray.this.reload();
+          }
+          
+          public void onResult(BlinkData paramAnonymousBlinkData)
+          {
+            BlinkClipArray.this.reload();
+          }
+        }, false);
+      }
     }
-    this.mBusy = true;
-    DeleteVideosByArray_v2 localDeleteVideosByArray_v2 = new DeleteVideosByArray_v2();
-    localDeleteVideosByArray_v2.setVideo_list(paramList);
-    BlinkAPI.BlinkAPIRequest(localDeleteVideosByArray_v2.getQuery(), null, localDeleteVideosByArray_v2, new BlinkAPI.BlinkAPICallback()
-    {
-      public void onError(BlinkError paramAnonymousBlinkError)
-      {
-        BlinkClipArray.this.reload();
-      }
-      
-      public void onResult(BlinkData paramAnonymousBlinkData)
-      {
-        BlinkClipArray.this.reload();
-      }
-    }, false);
   }
   
   public int getClipCount()
@@ -272,6 +294,7 @@ public class BlinkClipArray
   
   public void getVideoPage(final int paramInt)
   {
+    Object localObject;
     if (this.mBusy)
     {
       if (this.mPollHandler == null) {
@@ -279,77 +302,98 @@ public class BlinkClipArray
       }
       localObject = this.mPollHandler.obtainMessage(3, paramInt, 0, this);
       this.mPollHandler.sendMessageDelayed((Message)localObject, 100L);
-      return;
     }
-    this.mBusy = true;
-    Object localObject = new GetVideosRequest_v2();
-    BlinkApp.getApp().setLastPage(String.valueOf(paramInt));
-    BlinkAPI.BlinkAPIRequest(((GetVideosRequest_v2)localObject).getQuery(), null, (BlinkRequest)localObject, new BlinkAPI.BlinkAPICallback()
+    for (;;)
     {
-      public void onError(BlinkError paramAnonymousBlinkError)
+      return;
+      this.mBusy = true;
+      localObject = new GetVideosRequest_v2();
+      BlinkApp.getApp().setLastPage(String.valueOf(paramInt));
+      BlinkAPI.BlinkAPIRequest(((GetVideosRequest_v2)localObject).getQuery(), null, (BlinkRequest)localObject, new BlinkAPI.BlinkAPICallback()
       {
-        BlinkClipArray.access$102(BlinkClipArray.this, false);
-        BlinkClipArray.this.rePoll();
-      }
-      
-      public void onResult(BlinkData paramAnonymousBlinkData)
-      {
-        BlinkClipArray.access$102(BlinkClipArray.this, false);
-        if (paramAnonymousBlinkData != null)
+        public void onError(BlinkError paramAnonymousBlinkError)
         {
-          paramAnonymousBlinkData = ((Videos)paramAnonymousBlinkData).getVideos();
-          BlinkClipArray.this.processVideosForPage(paramAnonymousBlinkData, paramInt);
+          BlinkClipArray.access$102(BlinkClipArray.this, false);
+          BlinkClipArray.this.rePoll();
         }
-        BlinkClipArray.this.rePoll();
-      }
-    }, false);
+        
+        public void onResult(BlinkData paramAnonymousBlinkData)
+        {
+          BlinkClipArray.access$102(BlinkClipArray.this, false);
+          if (paramAnonymousBlinkData != null)
+          {
+            paramAnonymousBlinkData = ((Videos)paramAnonymousBlinkData).getVideos();
+            BlinkClipArray.this.processVideosForPage(paramAnonymousBlinkData, paramInt);
+          }
+          BlinkClipArray.this.rePoll();
+        }
+      }, false);
+    }
   }
   
   public boolean hasNext()
   {
-    return this.mCurrentIndex < count() - 1;
+    if (this.mCurrentIndex < count() - 1) {}
+    for (boolean bool = true;; bool = false) {
+      return bool;
+    }
   }
   
   public boolean hasPrevious()
   {
-    return this.mCurrentIndex > 0;
+    if (this.mCurrentIndex > 0) {}
+    for (boolean bool = true;; bool = false) {
+      return bool;
+    }
   }
   
   public int idForIndex(int paramInt)
   {
-    if (paramInt < count()) {
-      return objectAtIndex(paramInt).getId();
+    int j = 0;
+    int i = j;
+    Video localVideo;
+    if (paramInt < count())
+    {
+      localVideo = objectAtIndex(paramInt);
+      if (localVideo != null) {
+        break label28;
+      }
     }
-    return 0;
+    label28:
+    for (i = j;; i = localVideo.getId()) {
+      return i;
+    }
   }
   
   public int indexOfVideoID(int paramInt)
   {
     int j;
-    if (paramInt == 0)
-    {
+    if (paramInt == 0) {
       j = -1;
-      return j;
     }
-    int i = 0;
-    Object localObject = videoIDs();
-    if (localObject != null)
+    for (;;)
     {
-      localObject = ((List)localObject).iterator();
-      for (;;)
+      return j;
+      int i = 0;
+      Object localObject = videoIDs();
+      if (localObject != null)
       {
-        if (!((Iterator)localObject).hasNext()) {
-          break label63;
+        localObject = ((List)localObject).iterator();
+        for (;;)
+        {
+          if (!((Iterator)localObject).hasNext()) {
+            break label65;
+          }
+          j = i;
+          if (((Integer)((Iterator)localObject).next()).intValue() == paramInt) {
+            break;
+          }
+          i++;
         }
-        j = i;
-        if (((Integer)((Iterator)localObject).next()).intValue() == paramInt) {
-          break;
-        }
-        i += 1;
       }
+      label65:
+      j = -1;
     }
-    label63:
-    return -1;
   }
   
   public void insertObjectAtIndex(Video paramVideo, int paramInt)
@@ -367,7 +411,10 @@ public class BlinkClipArray
     if ((this.mBackingStoreArray == null) || (this.mBackingStore.size() != this.mBackingStoreArray.length)) {
       this.mBackingStoreArray = this.mBackingStore.toArray();
     }
-    return (Video)this.mBackingStoreArray[paramInt];
+    if ((paramInt < 0) || (paramInt >= this.mBackingStoreArray.length)) {}
+    for (Video localVideo = null;; localVideo = (Video)this.mBackingStoreArray[paramInt]) {
+      return localVideo;
+    }
   }
   
   public void postVideosDidProcessNotification()
@@ -390,25 +437,24 @@ public class BlinkClipArray
   public boolean processVideosForPage(Video[] paramArrayOfVideo, int paramInt)
   {
     postVideosWillProcessNotification();
-    if (paramArrayOfVideo.length == 0)
-    {
+    if (paramArrayOfVideo.length == 0) {
       postVideosDidProcessNotification();
-      return true;
     }
-    if ((paramArrayOfVideo[0].getId() == this.mMaxVideoID) && (this.mClipCount == count()))
+    for (;;)
     {
-      postVideosDidProcessNotification();
       return true;
+      if ((paramArrayOfVideo[0].getId() != this.mMaxVideoID) || (this.mClipCount != count())) {
+        break;
+      }
+      postVideosDidProcessNotification();
     }
     int j = paramArrayOfVideo.length;
-    final int i = 0;
-    while (i < j)
+    for (final int i = 0; i < j; i++)
     {
       Video localVideo = paramArrayOfVideo[i];
       if (indexOfVideoID(localVideo.getId()) < 0) {
         addObject(localVideo.mutableCopy());
       }
-      i += 1;
     }
     paramArrayOfVideo = new Handler();
     i = paramInt + 1;
@@ -417,19 +463,23 @@ public class BlinkClipArray
       {
         public void run()
         {
-          BlinkClipArray.this.getVideoPage(i);
+          if (!BlinkClipArray.this.mStopRequests) {
+            BlinkClipArray.this.getVideoPage(i);
+          }
         }
       }, 25L);
     }
     for (;;)
     {
       postVideosDidProcessNotification();
-      return true;
+      break;
       paramArrayOfVideo.postDelayed(new Runnable()
       {
         public void run()
         {
-          BlinkClipArray.this.getVideoPage(i);
+          if (!BlinkClipArray.this.mStopRequests) {
+            BlinkClipArray.this.getVideoPage(i);
+          }
         }
       }, 250L);
     }
@@ -437,17 +487,12 @@ public class BlinkClipArray
   
   public void refresh()
   {
-    if (this.mBusy)
+    if (!this.mBusy)
     {
-      rePoll();
-      return;
+      this.mBusy = true;
+      getVideoCount();
     }
-    if (this.mPollHandler == null) {
-      this.mPollHandler = new PollHandler();
-    }
-    this.mPollHandler.removeMessages(1);
-    this.mBusy = true;
-    getVideoCount();
+    this.mStopRequests = false;
   }
   
   public void reload()
@@ -475,16 +520,21 @@ public class BlinkClipArray
   public void removeObjectAtIndex(int paramInt)
   {
     Video localVideo = objectAtIndex(paramInt);
-    int i = localVideo.getId();
-    if ((i > 0) && (count() > paramInt))
+    if (localVideo == null) {}
+    for (;;)
     {
-      deleteVideoID(i);
-      this.mBackingStore.remove(localVideo);
-      this.mBackingStoreArray = this.mBackingStore.toArray();
-      if ((this.mCurrentIndex >= paramInt) && (paramInt != 0)) {
-        this.mCurrentIndex -= 1;
+      return;
+      int i = localVideo.getId();
+      if ((i > 0) && (count() > paramInt))
+      {
+        deleteVideoID(i);
+        this.mBackingStore.remove(localVideo);
+        this.mBackingStoreArray = this.mBackingStore.toArray();
+        if ((this.mCurrentIndex >= paramInt) && (paramInt != 0)) {
+          this.mCurrentIndex -= 1;
+        }
+        updateMinMaxIDs();
       }
-      updateMinMaxIDs();
     }
   }
   
@@ -513,17 +563,18 @@ public class BlinkClipArray
   
   public void setCurrentIndex(int paramInt)
   {
-    if (count() == 0)
-    {
+    if (count() == 0) {
       this.mCurrentIndex = 0;
-      return;
     }
-    if (paramInt >= count())
+    for (;;)
     {
-      this.mCurrentIndex = (count() - 1);
       return;
+      if (paramInt >= count()) {
+        this.mCurrentIndex = (count() - 1);
+      } else {
+        this.mCurrentIndex = paramInt;
+      }
     }
-    this.mCurrentIndex = paramInt;
   }
   
   public void stop()
@@ -537,6 +588,8 @@ public class BlinkClipArray
       this.mPollHandler.removeMessages(5);
     }
     this.mPollHandler = null;
+    this.mStopRequests = true;
+    this.mClipCount = count();
   }
   
   public void updateMinMaxIDs()
@@ -545,11 +598,14 @@ public class BlinkClipArray
     {
       this.mMinVideoID = idForIndex(0);
       this.mMaxVideoID = idForIndex(count() - 1);
-      return;
     }
-    this.mMinVideoID = 0;
-    this.mMaxVideoID = 0;
-    this.mCurrentIndex = 0;
+    for (;;)
+    {
+      return;
+      this.mMinVideoID = 0;
+      this.mMaxVideoID = 0;
+      this.mCurrentIndex = 0;
+    }
   }
   
   public List<Integer> videoIDs()
@@ -560,15 +616,13 @@ public class BlinkClipArray
         this.mBackingStoreArray = this.mBackingStore.toArray();
       }
       ArrayList localArrayList2 = new ArrayList();
-      int i = 0;
-      for (;;)
+      for (int i = 0;; i++)
       {
         localArrayList1 = localArrayList2;
         if (i >= this.mBackingStoreArray.length) {
           break;
         }
         localArrayList2.add(Integer.valueOf(((Video)this.mBackingStoreArray[i]).getId()));
-        i += 1;
       }
     }
     ArrayList localArrayList1 = null;
@@ -580,14 +634,16 @@ public class BlinkClipArray
   {
     public void handleMessage(Message paramMessage)
     {
-      ((BlinkClipArray)paramMessage.obj).handleMessage(paramMessage);
+      if (paramMessage.obj != null) {
+        ((BlinkClipArray)paramMessage.obj).handleMessage(paramMessage);
+      }
       super.handleMessage(paramMessage);
     }
   }
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/utils/BlinkClipArray.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/utils/BlinkClipArray.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */

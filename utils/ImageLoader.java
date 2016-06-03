@@ -46,41 +46,53 @@ public class ImageLoader
     Canvas localCanvas = new Canvas(localBitmap);
     paramInt3 = (int)TypedValue.applyDimension(1, paramInt3, paramContext.getResources().getDisplayMetrics());
     paramInt2 = (int)TypedValue.applyDimension(1, paramInt2, paramContext.getResources().getDisplayMetrics());
-    paramContext = new Paint();
+    Paint localPaint = new Paint();
     Rect localRect = new Rect(0, 0, paramBitmap.getWidth(), paramBitmap.getHeight());
-    RectF localRectF = new RectF(localRect);
-    paramContext.setAntiAlias(true);
-    paramContext.setColor(-1);
-    paramContext.setStyle(Paint.Style.FILL);
+    paramContext = new RectF(localRect);
+    localPaint.setAntiAlias(true);
+    localPaint.setColor(-1);
+    localPaint.setStyle(Paint.Style.FILL);
     localCanvas.drawARGB(0, 0, 0, 0);
-    localCanvas.drawRoundRect(localRectF, paramInt2, paramInt2, paramContext);
-    paramContext.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-    localCanvas.drawBitmap(paramBitmap, localRect, localRect, paramContext);
-    paramContext.setColor(paramInt1);
-    paramContext.setStyle(Paint.Style.STROKE);
-    paramContext.setStrokeWidth(paramInt3);
-    localCanvas.drawRoundRect(localRectF, paramInt2, paramInt2, paramContext);
+    localCanvas.drawRoundRect(paramContext, paramInt2, paramInt2, localPaint);
+    localPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+    localCanvas.drawBitmap(paramBitmap, localRect, localRect, localPaint);
+    localPaint.setColor(paramInt1);
+    localPaint.setStyle(Paint.Style.STROKE);
+    localPaint.setStrokeWidth(paramInt3);
+    localCanvas.drawRoundRect(paramContext, paramInt2, paramInt2, localPaint);
     return localBitmap;
   }
   
-  private void loadImage(final String paramString, ImageView paramImageView, int paramInt)
+  private void loadImage(String paramString, ImageView paramImageView, int paramInt)
   {
     switch (paramInt)
     {
     default: 
       this.borderWidth = 6;
     }
-    final String str;
     for (;;)
     {
       str = Integer.toHexString(paramString.hashCode());
       this.imgView = paramImageView;
       Object localObject = null;
-      try
+      for (;;)
       {
-        DiskLruCache.Snapshot localSnapshot = BlinkApp.getApp().getDiskLruCache().get(str);
-        paramImageView = (ImageView)localObject;
-        if (localSnapshot != null) {}
+        try
+        {
+          localSnapshot = BlinkApp.getApp().getDiskLruCache().get(str);
+          paramImageView = (ImageView)localObject;
+          if (localSnapshot == null) {}
+        }
+        catch (Exception paramString)
+        {
+          DiskLruCache.Snapshot localSnapshot;
+          paramString.printStackTrace();
+          continue;
+          paramImageView = new com/immediasemi/blink/utils/ImageLoader$1;
+          paramImageView.<init>(this, str, paramString);
+          new BlinkImageRequest(paramString, paramImageView, 0, 0, ImageView.ScaleType.FIT_CENTER, Bitmap.Config.ARGB_8888);
+          continue;
+        }
         try
         {
           paramImageView = BitmapFactory.decodeStream(localSnapshot.getInputStream(1));
@@ -91,58 +103,16 @@ public class ImageLoader
             return;
             paramString = paramString + "_s";
             this.borderWidth = 1;
-            continue;
+            break;
             paramString = paramString + "_m";
             this.borderWidth = 4;
           }
         }
         catch (Exception paramImageView)
         {
-          for (;;)
-          {
-            paramImageView.printStackTrace();
-            paramImageView = (ImageView)localObject;
-          }
+          paramImageView.printStackTrace();
+          paramImageView = (ImageView)localObject;
         }
-        new BlinkImageRequest(paramString, new BlinkAPI.BlinkAPICallback()
-        {
-          public void onError(BlinkError paramAnonymousBlinkError)
-          {
-            if (ImageLoader.this.closed) {}
-          }
-          
-          public void onResult(BlinkData paramAnonymousBlinkData)
-          {
-            paramAnonymousBlinkData = ((BlinkBitmap)paramAnonymousBlinkData).getBitmap();
-            if (ImageLoader.this.closed) {
-              return;
-            }
-            try
-            {
-              DiskLruCache.Editor localEditor = BlinkApp.getApp().getDiskLruCache().edit(str);
-              localEditor.set(0, paramString);
-              OutputStream localOutputStream = localEditor.newOutputStream(1);
-              paramAnonymousBlinkData.compress(Bitmap.CompressFormat.PNG, 100, localOutputStream);
-              localOutputStream.close();
-              localEditor.commit();
-              ImageLoader.this.imgView.setVisibility(0);
-              ImageLoader.this.setImageBitmap(ImageLoader.this.imgView, paramAnonymousBlinkData);
-              return;
-            }
-            catch (IOException localIOException)
-            {
-              for (;;)
-              {
-                localIOException.printStackTrace();
-              }
-            }
-          }
-        }, 0, 0, ImageView.ScaleType.FIT_CENTER, Bitmap.Config.ARGB_8888);
-      }
-      catch (Exception paramString)
-      {
-        paramString.printStackTrace();
-        return;
       }
     }
   }
@@ -154,9 +124,12 @@ public class ImageLoader
       paramBitmap = getRoundedCornerBitmap(paramBitmap, BlinkApp.getApp().getResources().getColor(2131492875), 8, this.borderWidth, BlinkApp.getApp().getApplicationContext());
       paramImageView.setAdjustViewBounds(true);
       paramImageView.setImageBitmap(paramBitmap);
-      return;
     }
-    paramImageView.setImageBitmap(paramBitmap);
+    for (;;)
+    {
+      return;
+      paramImageView.setImageBitmap(paramBitmap);
+    }
   }
   
   public void close()
@@ -167,7 +140,7 @@ public class ImageLoader
 }
 
 
-/* Location:              /home/hectorc/Android/Apktool/blink-home-monitor-for-android-1-1-20-apkplz.com.jar!/com/immediasemi/blink/utils/ImageLoader.class
+/* Location:              /home/zips/Android/Apktool/Blink4Home/Blink-136-dex2jar.jar!/com/immediasemi/blink/utils/ImageLoader.class
  * Java compiler version: 6 (50.0)
  * JD-Core Version:       0.7.1
  */
